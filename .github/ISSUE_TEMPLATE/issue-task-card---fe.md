@@ -1,5 +1,5 @@
 ---
-name: Issue Task Card
+name: Issue Task Card - FE
 about: Issue Task Card
 title: ''
 labels: ''
