@@ -17,13 +17,11 @@ import org.springframework.context.annotation.Profile;
 // Mock Data 를 위한 Bean 설정
 public class QuestionMockBeanConfig {
     @Bean
-    public QuestionService questionMockService() {
+    public MockQuestionService questionMockService() {
         return new MockQuestionService(this.questionMockRepository());
     }
     @Bean
-    public QuestionRepository questionMockRepository() {
+    public MockQuestionRepository questionMockRepository() {
         return new MockQuestionRepository();
     }
-
-
 }
