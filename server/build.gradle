@@ -50,6 +50,8 @@ dependencies {
     // mapper
     implementation 'org.mapstruct:mapstruct:1.5.1.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final'
+
+    implementation 'com.google.code.gson:gson'
 }
 
 tasks.named('test') {
