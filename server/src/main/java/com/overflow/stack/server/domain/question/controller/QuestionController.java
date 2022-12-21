@@ -22,7 +22,7 @@ import java.util.List;
 @Validated
 @RequestMapping("/api/v1/questions")
 public class QuestionController {
-   private final QuestionServiceImpl questionService;
+   private final QuestionService questionService;
    private final QuestionMapper mapper;
 
    public QuestionController(QuestionServiceImpl questionService, QuestionMapper mapper) {

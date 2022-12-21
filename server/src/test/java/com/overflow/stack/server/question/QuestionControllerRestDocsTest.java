@@ -24,9 +24,12 @@ import static com.overflow.stack.server.util.ApiDocumentUtils.getRequestPreProce
 import static com.overflow.stack.server.util.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -47,8 +50,8 @@ public class QuestionControllerRestDocsTest {
     private Gson gson;
 
     @Test
-    public void postMemberTest() throws Exception {
-        // given
+    public void postQuestionTest() throws Exception {
+
         QuestionDto.Post post = new QuestionDto.Post("title1", "content1", 0L);
         String content = gson.toJson(post);
 
@@ -95,6 +98,68 @@ public class QuestionControllerRestDocsTest {
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
                                         fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
+                                        fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
+                                        fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과")
+                                )
+                        )
+                ));
+    }
+
+    @Test
+    public void patchQuestionTest() throws Exception {
+        long questionId=1L;
+        QuestionDto.Patch patch = new QuestionDto.Patch(questionId, "title1", "content1", 0L);
+        String content = gson.toJson(patch);
+
+        QuestionDto.response responseDto =
+                new QuestionDto.response(1L,
+                        "title1",
+                        "content1",
+                        0L);
+
+
+        given(mapper.questionPatchDtoToQuestion(Mockito.any(QuestionDto.Patch.class))).willReturn(new Question());
+
+        given(questionService.updateQuestion(Mockito.any(Question.class))).willReturn(new Question());
+
+        given(mapper.questionToQuestionResponseDto(Mockito.any(Question.class))).willReturn(responseDto);
+
+
+        ResultActions actions =
+                mockMvc.perform(
+                        patch("/api/v1/questions/{question-id}", questionId)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(content)
+                );
+
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.questionId").value(patch.getQuestionId()))
+                .andExpect(jsonPath("$.data.title").value(patch.getTitle()))
+                .andExpect(jsonPath("$.data.content").value(patch.getContent()))
+                .andExpect(jsonPath("$.data.voteResult").value(patch.getVoteResult()))
+                .andDo(document("patch-question",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("question-id").description("질문 식별자")
+                        ),
+                        // request body
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 식별자").ignored(),
+                                        fieldWithPath("title").type(JsonFieldType.STRING).description("제목").optional(),
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("내용").optional(),
+                                        fieldWithPath("voteResult").type(JsonFieldType.NUMBER).description("투표 결과").optional()
+                                )
+                        ),
+                        // response body
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과")

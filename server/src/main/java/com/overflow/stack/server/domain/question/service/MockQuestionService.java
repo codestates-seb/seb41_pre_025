@@ -2,15 +2,16 @@ package com.overflow.stack.server.domain.question.service;
 
 import com.overflow.stack.server.domain.question.entity.Question;
 import com.overflow.stack.server.domain.question.repository.MockQuestionRepository;
+import com.overflow.stack.server.domain.question.repository.QuestionRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 public class MockQuestionService implements QuestionService {
 
-   private final MockQuestionRepository mockQuestionRepository;
+   private final QuestionRepository mockQuestionRepository;
 
-    public MockQuestionService(MockQuestionRepository mockQuestionRepository) {
+    public MockQuestionService(QuestionRepository mockQuestionRepository) {
         this.mockQuestionRepository = mockQuestionRepository;
     }
 

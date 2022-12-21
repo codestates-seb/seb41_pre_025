@@ -1,10 +1,10 @@
 package com.overflow.stack.server.domain.question.service;
 
 import com.overflow.stack.server.domain.question.entity.Question;
-import com.overflow.stack.server.domain.question.repository.JpaQuestionRepository;
 import com.overflow.stack.server.domain.question.repository.QuestionRepository;
 import com.overflow.stack.server.global.exception.CustomLogicException;
 import com.overflow.stack.server.global.exception.ExceptionCode;
+import com.overflow.stack.server.global.utils.CustomBeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +13,11 @@ import java.util.Optional;
 @Service
 public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepository questionRepository;
+    private final CustomBeanUtils<Question> beanUtils;
 
-    public QuestionServiceImpl(QuestionRepository questionRepository) {
+    public QuestionServiceImpl(QuestionRepository questionRepository, CustomBeanUtils<Question> beanUtils) {
         this.questionRepository = questionRepository;
+        this.beanUtils = beanUtils;
     }
 
     @Override
@@ -26,13 +28,13 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question updateQuestion(Question question) {
         Question findQuestion =findVerifiedQuestion(question.getQuestionId());
-
-        Optional.ofNullable(question.getTitle())
-                .ifPresent(title -> findQuestion.setTitle(title));
-        Optional.ofNullable(question.getContent())
-                .ifPresent(content -> findQuestion.setContent(content));
-        Optional.ofNullable(question.getVoteResult())
-                .ifPresent(vote -> findQuestion.setVoteResult(vote));
+        beanUtils.copyNonNullProperties(question, findQuestion);
+//        Optional.ofNullable(question.getTitle())
+//                .ifPresent(title -> findQuestion.setTitle(title));
+//        Optional.ofNullable(question.getContent())
+//                .ifPresent(content -> findQuestion.setContent(content));
+//        Optional.ofNullable(question.getVoteResult())
+//                .ifPresent(vote -> findQuestion.setVoteResult(vote));
         return questionRepository.save(findQuestion);
     }
 
