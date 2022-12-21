@@ -1,0 +1,58 @@
+.app {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(214, 238, 162);
+  background: linear-gradient(
+    309deg,
+    rgba(214, 238, 162, 1) 0%,
+    rgba(184, 217, 115, 1) 100%
+  );
+}
+
+.app > nav {
+  position: fixed;
+  left: 10px;
+  width: 250px;
+  background-color: #ccc;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.main-container {
+  width: 390px;
+  height: 844px;
+  position: relative;
+  overflow: hidden auto;
+  scrollbar-width: none;
+  background-color: #fff;
+}
+
+.main-container::-webkit-scrollbar{
+  display: none;
+  width: 15px;
+}
+
+/* .main-container::-webkit-scrollbar-thumb{
+  width: 1px;
+  border-radius: 3px;
+  background-clip: padding-box;
+  border: 3px solid transparent;
+  background-color: #295907;
+}
+
+.main-container::-webkit-scrollbar-track{
+  background-color: transparent;
+}
+
+.main-container::-webkit-scrollbar-button{
+  display: none;
+} */
+
+.main-container > nav {
+  position: absolute;
+  z-index: 1;
+  bottom: 60px;
+}
