@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 
 const ButtonTemplate = styled.button`
-	width: 59.46px;
+	width: ${(props) => props.width || "59.46px"};
 	height: 33px;
 	padding: 7px;
-	margin-left: ${(props) => props.marginLeft || "4px"};
+	margin: ${(props) => props.margin || "0 0 0 4px"};
 	color: ${(props) => props.color || "#487299"};
 	background-color: ${(props) => props.bgColor || "#E3ECF3"};
 	align-items: center;
@@ -25,16 +25,25 @@ const ButtonTemplate = styled.button`
 `;
 
 export default function Button(props) {
-	const { text, marginLeft, color, border, bgColor, hoverColor, activeColor } =
-		props;
+	const {
+		text,
+		width,
+		margin,
+		color,
+		border,
+		bgColor,
+		hoverColor,
+		activeColor,
+	} = props;
 	return (
 		<ButtonTemplate
-			marginLeft={marginLeft}
+			margin={margin}
 			color={color}
 			bgColor={bgColor}
 			border={border}
 			hoverColor={hoverColor}
-			activeColor={activeColor}>
+			activeColor={activeColor}
+			width={width}>
 			{text}
 		</ButtonTemplate>
 	);
