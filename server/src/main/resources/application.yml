@@ -3,3 +3,4 @@ spring:
     active: ${PROFILE}
   main:
     allow-bean-definition-overriding: true
+
