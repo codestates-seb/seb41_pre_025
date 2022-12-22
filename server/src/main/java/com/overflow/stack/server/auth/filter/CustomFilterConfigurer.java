@@ -20,7 +20,7 @@ public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterC
     public void configure(HttpSecurity builder) throws Exception {
         AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authTokenProvider, authenticationManager);
-        jwtAuthenticationFilter.setFilterProcessesUrl("/v1/auth/login");
+        jwtAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");
         jwtAuthenticationFilter.setAuthenticationSuccessHandler(new CustomAuthenticationSuccessHandler());
         jwtAuthenticationFilter.setAuthenticationFailureHandler(new CustomAuthenticationFailureHandler());
         JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(authTokenProvider);
