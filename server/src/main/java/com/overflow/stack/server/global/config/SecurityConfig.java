@@ -35,7 +35,12 @@ public class SecurityConfig {
                 .and().apply(customFilterConfigurer)
                 .and().exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler())
-                .authenticationEntryPoint(authenticationEntryPoint());
+                .authenticationEntryPoint(authenticationEntryPoint())
+                .and().authorizeRequests(
+                        authorize -> authorize
+                                .antMatchers("/api/v1/members").permitAll()
+                                .anyRequest().permitAll()
+                );
         return http.build();
     }
 
