@@ -3,10 +3,13 @@ package com.overflow.stack.server.domain.member.utils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class AuthoritiesUtils {
@@ -27,6 +30,12 @@ public class AuthoritiesUtils {
         }
 
         return List.of(ROLE_USER);
+    }
+    public static List<GrantedAuthority> getAuthorities(List<String> roles) {
+        List<GrantedAuthority> authorities = roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toList());
+        return authorities;
     }
 
 }

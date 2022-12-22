@@ -1,17 +1,22 @@
 package com.overflow.stack.server.domain.member.controller;
 
 import com.google.gson.Gson;
+import com.overflow.stack.server.auth.token.AuthTokenProvider;
 import com.overflow.stack.server.common.abstractControllerTest;
 import com.overflow.stack.server.domain.member.dto.MemberDto;
 import com.overflow.stack.server.domain.member.mapper.MemberMapper;
 import com.overflow.stack.server.domain.member.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.payload.RequestFieldsSnippet;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static com.overflow.stack.server.domain.member.factory.MemberFactory.createMemberPostDto;
@@ -20,6 +25,7 @@ import static com.overflow.stack.server.util.ApiDocumentUtils.getResponsePreProc
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,7 +34,7 @@ class MemberControllerTest extends abstractControllerTest {
 
     private final String BASE_URL = "/api/v1/members";
     @MockBean
-    private  MemberService memberService;
+    private MemberService memberService;
     @MockBean
     private MemberMapper mapper;
 
@@ -37,14 +43,16 @@ class MemberControllerTest extends abstractControllerTest {
 
     @Test
     @DisplayName("회원가입")
+    @WithMockUser(username = "test@gmail.com", roles = "USER")
     void createMember() throws Exception {
         // given
         MemberDto.Post post = createMemberPostDto();
         String json = gson.toJson(post);
         // when
         ResultActions resultActions = mockMvc.perform(post(BASE_URL)
-                .contentType("application/json")
-                .content(json))
+                        .contentType("application/json")
+                        .with(csrf())
+                        .content(json))
                 .andExpect(status().isCreated());
         // then
         resultActions.andDo(document("member-create",
@@ -53,8 +61,10 @@ class MemberControllerTest extends abstractControllerTest {
                 getRequestFieldsSnippet()
         ));
     }
+
     @Test
     @DisplayName("회원 가입 실패 - 데이터 양식 오류")
+    @WithMockUser(username = "test@gmail.com", roles = "USER")
     void createMemberFail() throws Exception {
         // given
         MemberDto.Post post = createMemberPostDto();
@@ -62,8 +72,9 @@ class MemberControllerTest extends abstractControllerTest {
         String json = gson.toJson(post);
         // when
         ResultActions resultActions = mockMvc.perform(post(BASE_URL)
-                .contentType("application/json")
-                .content(json))
+                        .contentType("application/json")
+                        .content(json)
+                        .with(csrf()))
                 .andExpect(jsonPath("message").value("bad-request"))
                 .andExpect(jsonPath("status").value(400))
                 .andExpect(jsonPath("fieldErrors").isArray())

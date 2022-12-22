@@ -2,9 +2,9 @@ package com.overflow.stack.server.domain.member.service;
 
 import com.overflow.stack.server.domain.member.entity.Member;
 import com.overflow.stack.server.domain.member.repository.JpaMemberRepository;
-import com.overflow.stack.server.domain.member.utils.AuthoritiesUtils;
 import com.overflow.stack.server.global.exception.CustomLogicException;
 import com.overflow.stack.server.global.exception.ExceptionCode;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,9 +16,10 @@ import static com.overflow.stack.server.domain.member.utils.AuthoritiesUtils.cre
 @Transactional
 public class MemberServiceImpl implements MemberService {
     private final JpaMemberRepository memberRepository;
-
-    public MemberServiceImpl(JpaMemberRepository memberRepository) {
+    private final PasswordEncoder passwordEncoder;
+    public MemberServiceImpl(JpaMemberRepository memberRepository, PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -26,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
         findByEmail(member.getEmail()).ifPresent(m -> {
             throw new CustomLogicException(ExceptionCode.MEMBER_DUPLICATE);
         });
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
         member.setRoles(createRoles(member.getEmail()));
         return memberRepository.save(member);
     }

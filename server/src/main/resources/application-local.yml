@@ -21,5 +21,3 @@ logging:
         orm:
           jpa: DEBUG
 
-admin:
-  email : test@gmail.com,test1@gmail.com

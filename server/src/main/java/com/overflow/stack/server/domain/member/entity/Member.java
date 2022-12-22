@@ -1,18 +1,18 @@
 package com.overflow.stack.server.domain.member.entity;
 
 import com.overflow.stack.server.global.audit.Auditable;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class Member extends Auditable {
     @Id
@@ -21,7 +21,7 @@ public class Member extends Auditable {
     private Long memberId;
     @Column(nullable = false, unique = true, length = 20)
     private String email;
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 100)
     private String password;
     @Column(nullable = false, length = 20)
     private String fullName;
@@ -56,6 +56,8 @@ public class Member extends Auditable {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
+
+
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),
         MEMBER_SLEEP("휴면 상태"),
