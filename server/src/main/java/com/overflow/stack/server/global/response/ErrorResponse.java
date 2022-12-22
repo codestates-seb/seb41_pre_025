@@ -34,7 +34,7 @@ public class ErrorResponse {
    }
 
    public static ErrorResponse of(BindingResult bindingResult) {
-        return new ErrorResponse(FieldError.of(bindingResult), null);
+        return new ErrorResponse(400,"bad-request",FieldError.of(bindingResult), null);
    }
    public static ErrorResponse of(Set<ConstraintViolation<?>> violations) {
       return new ErrorResponse(null, ConstraintViolationError.of(violations));

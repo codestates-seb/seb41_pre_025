@@ -13,3 +13,6 @@ spring:
       hibernate:
         format_sql: true  # (3) SQL pretty print
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+admin:
+  email: ${ADMIN1_EMAIL},${ADMIN2_EMAIL}
