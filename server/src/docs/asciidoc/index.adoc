@@ -19,6 +19,7 @@ v1.0.0, 2022.12.20
 
 ***
 == QuestionController
+
 === 질문 등록
 .curl-request
 include::{snippets}/post-question/curl-request.adoc[]
