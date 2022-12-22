@@ -1,8 +1,8 @@
 package com.overflow.stack.server.domain.member.controller;
 
 import com.google.gson.Gson;
-import com.overflow.stack.server.auth.token.AuthTokenProvider;
 import com.overflow.stack.server.common.abstractControllerTest;
+import com.overflow.stack.server.common.token.GeneratedToken;
 import com.overflow.stack.server.domain.member.dto.MemberDto;
 import com.overflow.stack.server.domain.member.entity.Member;
 import com.overflow.stack.server.domain.member.factory.MemberFactory;
@@ -10,7 +10,6 @@ import com.overflow.stack.server.domain.member.mapper.MemberMapper;
 import com.overflow.stack.server.domain.member.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -18,8 +17,6 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.payload.RequestFieldsSnippet;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static com.overflow.stack.server.domain.member.factory.MemberFactory.createMemberPostDto;
@@ -28,6 +25,8 @@ import static com.overflow.stack.server.util.ApiDocumentUtils.getResponsePreProc
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -118,8 +117,10 @@ class MemberControllerTest extends abstractControllerTest {
 
         ResultActions resultActions = mockMvc.perform(get(BASE_URL)
                         .contentType("application/json")
+                        .headers(GeneratedToken.getMockHeaderToken())
                         .with(csrf()))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("data.memberId").value(response.getMemberId()))
                 .andExpect(jsonPath("data.email").value(response.getEmail()))
                 .andExpect(jsonPath("data.fullName").value(response.getFullName()))
                 .andExpect(jsonPath("data.displayName").value(response.getDisplayName()))
@@ -134,6 +135,9 @@ class MemberControllerTest extends abstractControllerTest {
         resultActions.andDo(document("member-get",
                 getRequestPreProcessor(),
                 getResponsePreProcessor(),
+                requestHeaders(
+                        headerWithName("Authorization").description("JWT 토큰")
+                ),
                 getResponseFieldsSnippet()
         ));
 
@@ -143,6 +147,7 @@ class MemberControllerTest extends abstractControllerTest {
     private static ResponseFieldsSnippet getResponseFieldsSnippet() {
         return responseFields(
                 fieldWithPath("data").type(JsonFieldType.OBJECT).description("회원 정보"),
+                fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("회원 ID"),
                 fieldWithPath("data.email").type(JsonFieldType.STRING).description("이메일"),
                 fieldWithPath("data.fullName").type(JsonFieldType.STRING).description("이름"),
                 fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("닉네임"),
