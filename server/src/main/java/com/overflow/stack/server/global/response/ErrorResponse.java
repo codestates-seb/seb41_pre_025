@@ -4,6 +4,7 @@ package com.overflow.stack.server.global.response;
 import com.overflow.stack.server.global.exception.CustomLogicException;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 
 import javax.validation.ConstraintViolation;
@@ -41,6 +42,9 @@ public class ErrorResponse {
    }
    public static ErrorResponse of(CustomLogicException e) {
       return new ErrorResponse(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage(), null, null);
+   }
+   public static ErrorResponse of(HttpStatus status, String message) {
+      return new ErrorResponse(status.value(), message, null, null);
    }
 
 

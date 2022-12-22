@@ -16,3 +16,9 @@ spring:
 
 admin:
   email: ${ADMIN1_EMAIL},${ADMIN2_EMAIL}
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION}
+  refresh:
+    expiration: ${JWT_REFRESH_EXPIRATION}
