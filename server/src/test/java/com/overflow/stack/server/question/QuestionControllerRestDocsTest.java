@@ -18,14 +18,15 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.overflow.stack.server.util.ApiDocumentUtils.getRequestPreProcessor;
 import static com.overflow.stack.server.util.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -48,6 +49,7 @@ public class QuestionControllerRestDocsTest {
 
     @Autowired
     private Gson gson;
+    private static final String url = "/api/v1/questions";
 
     @Test
     public void postQuestionTest() throws Exception {
@@ -71,7 +73,7 @@ public class QuestionControllerRestDocsTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        post("/api/v1/questions")
+                        post(url)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
@@ -128,7 +130,7 @@ public class QuestionControllerRestDocsTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        patch("/api/v1/questions/{question-id}", questionId)
+                        patch(url+"/{question-id}", questionId)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
@@ -167,4 +169,126 @@ public class QuestionControllerRestDocsTest {
                         )
                 ));
     }
+
+    @Test
+    public void getQuestionTest() throws Exception {
+        long questionId=1L;
+
+        QuestionDto.response responseDto =
+                new QuestionDto.response(1L,
+                        "title1",
+                        "content1",
+                        0L);
+
+        given(questionService.findQuestion(Mockito.anyLong())).willReturn(new Question());
+
+        given(mapper.questionToQuestionResponseDto(Mockito.any(Question.class))).willReturn(responseDto);
+
+
+        ResultActions actions =
+                mockMvc.perform(
+                        get(url+"/{question-id}", questionId)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                );
+
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.questionId").value(responseDto.getQuestionId()))
+                .andExpect(jsonPath("$.data.title").value(responseDto.getTitle()))
+                .andExpect(jsonPath("$.data.content").value(responseDto.getContent()))
+                .andExpect(jsonPath("$.data.voteResult").value(responseDto.getVoteResult()))
+                .andDo(document("get-question",
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("question-id").description("질문 식별자")
+                        ),
+                        // response body
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
+                                        fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
+                                        fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
+                                        fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과")
+                                )
+                        )
+                ));
+    }
+
+    @Test
+    public void getQuestionsTest() throws Exception {
+
+        QuestionDto.response responseDto =
+                new QuestionDto.response(1L,
+                        "title1",
+                        "content1",
+                        0L);
+
+        QuestionDto.response responseDto2 =
+                new QuestionDto.response(2L,
+                        "title2",
+                        "content2",
+                        0L);
+        List<QuestionDto.response> responseList=new ArrayList<>();
+        responseList.add(responseDto);
+        responseList.add(responseDto2);
+
+        List<Question> list =new ArrayList<>();
+        list.add(new Question());
+        list.add(new Question());
+
+        given(questionService.findQuestions()).willReturn(list);
+
+        given(mapper.questionsToQuestionResponseDtos(Mockito.anyList())).willReturn(responseList);
+
+
+        ResultActions actions =
+                mockMvc.perform(
+                        get(url)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                );
+
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").isArray())
+                .andDo(document("get-questions",
+                        getResponsePreProcessor(),
+                        // response body
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
+                                        fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
+                                        fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("제목"),
+                                        fieldWithPath("data.[].content").type(JsonFieldType.STRING).description("내용"),
+                                        fieldWithPath("data.[].voteResult").type(JsonFieldType.NUMBER).description("투표 결과")
+                                )
+                        )
+                ));
+    }
+
+    @Test
+    public void deleteQuestionTest() throws Exception {
+        long questionId=1L;
+
+
+        doNothing().when(questionService).deleteQuestion(Mockito.anyLong());
+
+        ResultActions actions =
+                mockMvc.perform(
+                        delete(url+"/{question-id}", questionId)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                );
+
+        actions
+                .andExpect(status().isNoContent())
+                .andDo(document("delete-question",
+                        pathParameters(
+                                parameterWithName("question-id").description("질문 식별자")
+                        )
+                ));
+    }
+
 }
