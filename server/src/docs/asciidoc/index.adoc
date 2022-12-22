@@ -34,6 +34,7 @@ include::{snippets}/post-answer/response-fields.adoc[]
 
 ***
 == QuestionController
+
 === 질문 등록
 .curl-request
 include::{snippets}/post-question/curl-request.adoc[]
@@ -49,6 +50,58 @@ include::{snippets}/post-question/http-response.adoc[]
 
 .response-fields
 include::{snippets}/post-question/response-fields.adoc[]
+
+=== 질문 수정
+.curl-request
+include::{snippets}/patch-question/curl-request.adoc[]
+
+.http-request
+include::{snippets}/patch-question/http-request.adoc[]
+
+.request-fields
+include::{snippets}/patch-question/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-question/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-question/response-fields.adoc[]
+
+=== 질문 조회
+.curl-request
+include::{snippets}/get-question/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-question/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-question/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-questions/response-fields.adoc[]
+
+=== 모든 질문 조회
+.curl-request
+include::{snippets}/get-questions/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-questions/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-questions/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-questions/response-fields.adoc[]
+
+=== 질문 삭제
+.curl-request
+include::{snippets}/delete-question/curl-request.adoc[]
+
+.http-request
+include::{snippets}/delete-question/http-request.adoc[]
+
+.http-response
+include::{snippets}/delete-question/http-response.adoc[]
 
 ***
 == MemberController
