@@ -22,6 +22,11 @@ const GlobalStyle = createGlobalStyle`
   body {
     background: #e9ecef;
   }
+
+  ol, ul, li {
+	list-style: none;
+  }
+  
 `;
 
 function App() {
