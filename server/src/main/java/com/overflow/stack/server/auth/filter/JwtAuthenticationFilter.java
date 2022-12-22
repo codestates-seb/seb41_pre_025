@@ -41,8 +41,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, javax.servlet.FilterChain chain, Authentication authResult) throws IOException, ServletException {
         Member member = (Member) authResult.getPrincipal();
-        AuthToken accessToken = authTokenProvider.createAccessToken(member.getMemberId().toString());
-        AuthToken refreshToken = authTokenProvider.createRefreshToken(member.getMemberId().toString());
+        AuthToken accessToken = authTokenProvider.createAccessToken(member.getEmail() , member.getRoles());
+        AuthToken refreshToken = authTokenProvider.createRefreshToken(member.getEmail());
         response.addHeader("Authorization", "Bearer " + accessToken.getToken());
         response.addHeader("RefreshToken", "Bearer " + refreshToken.getToken());
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
