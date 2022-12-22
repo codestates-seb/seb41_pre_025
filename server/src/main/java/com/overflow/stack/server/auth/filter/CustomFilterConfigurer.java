@@ -15,7 +15,7 @@ public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterC
     public CustomFilterConfigurer(AuthTokenProvider authTokenProvider) {
         this.authTokenProvider = authTokenProvider;
     }
-
+    // 로그인 필터 구현 내용 추가
     @Override
     public void configure(HttpSecurity builder) throws Exception {
         AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);

@@ -8,6 +8,7 @@ import java.security.Key;
 import java.util.Date;
 
 @Slf4j
+// 토큰 데이터 클래스
 public class AuthToken {
 
     @Getter

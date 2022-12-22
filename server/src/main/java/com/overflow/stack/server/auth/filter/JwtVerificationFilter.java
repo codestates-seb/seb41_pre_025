@@ -12,7 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+// 권한이 필요한 요청이 들어오면, 해당 요청을 처리하기 전에 JwtVerificationFilter를 거쳐서
+// 토큰의 유효성을 검증하고, 유효한 토큰이라면 SecurityContext에 인증 정보를 저장합니다.
 public class JwtVerificationFilter extends OncePerRequestFilter {
    private final AuthTokenProvider tokenProvider;
 

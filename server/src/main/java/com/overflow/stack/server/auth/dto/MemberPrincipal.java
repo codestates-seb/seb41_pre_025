@@ -6,7 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-
+// 인증 정보를 담을 클래스
 public class MemberPrincipal extends Member implements UserDetails {
     public MemberPrincipal(Member member) {
         setMemberId(member.getMemberId());

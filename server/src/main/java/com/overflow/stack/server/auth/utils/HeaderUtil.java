@@ -2,6 +2,8 @@ package com.overflow.stack.server.auth.utils;
 
 import javax.servlet.http.HttpServletRequest;
 
+// Header 정보를 가져오는 유틸 클래스
+// Auth header 가져옴
 public class HeaderUtil {
 
     private final static String HEADER_AUTHORIZATION = "Authorization";

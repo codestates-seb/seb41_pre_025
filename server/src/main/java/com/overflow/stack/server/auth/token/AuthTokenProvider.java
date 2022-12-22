@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 @Slf4j
+// 토큰을 생성하고 검증하는 클래스
 public class AuthTokenProvider {
 
     private final Key key;
