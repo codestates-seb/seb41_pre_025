@@ -8,16 +8,18 @@ function Sidebar() {
   return <>
     <SidebarContainer>
       <ul>
-			<Link to="/" >
-        <li>Home</li>
-			</Link>
-        <li>PUBLIC</li>
-		  <Link to="/QuestiosList">
         <li>
+			<Link to="/" >
+			Home
+			</Link>
+		  </li>
+        <li>PUBLIC</li>
+        <li>
+		  <Link to="/QuestiosList">
 			<FontAwesomeIcon icon={faEarthAmericas} className="icon" />
           Questions
-        </li>
 		  </Link>
+        </li>
         <li>
           Tags
         </li>
@@ -42,33 +44,46 @@ const SidebarContainer = styled.div`
 	ul{
    	padding-left:0px;
 		color: #525960;
+		
 }
+	
 	li:nth-child(1) {
 		font-size: 13px;
 		font-weight: 500;
-		padding: 4px 4px 4px 8px;
+		&:hover {
+			color: black;
+		}
 	}
-
+	
 	li:nth-child(2) {
 		font-size: 11px;
-		margin: 20px 0px 4px 8px;
+		margin: 25px 0px 15px 8px;
 	}
-
+	
 	a {
+		color: #525960;
+		text-decoration: none;
 		font-weight: 500;
-		padding: 8px 6px 8px 8px;
-		
+		padding: 4px 4px 4px 8px;
 		>.icon {
 			font-size: 16px;
+			margin: -1px 4px 0px 0px;
 			
+		}
+		&:hover {
+			color: black;
 		}
 	}
 	li:nth-child(n+4) {
 		font-weight: 500;
-		padding: 13px 4px 4px 30px;
+		padding: 20px 4px 4px 30px;
 
+		&:hover {
+			color: black;
+		}
 	}
   `;
 
 
 export default Sidebar;
+
