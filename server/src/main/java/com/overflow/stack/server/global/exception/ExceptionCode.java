@@ -7,7 +7,9 @@ public enum ExceptionCode {
    TITLE_NONE(400, "TITLE_NONE"),
    TODO_NONE(404, "MEMBER_NONE"),
    QUESTION_NOT_FOUND(409, "Question not found"),
-   ANSWER_NOT_FOUND(404, "Answer not found");
+   ANSWER_NOT_FOUND(404, "Answer not found"),
+   MEMBER_NONE(404, "MEMBER_NONE"),
+   MEMBER_DUPLICATE(409, "MEMBER_DUPLICATE");
 
 
    @Getter

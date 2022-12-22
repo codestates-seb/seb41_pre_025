@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 spring:
   profiles:
     active: ${PROFILE}
