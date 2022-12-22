@@ -2,12 +2,15 @@ package com.overflow.stack.server.domain.member.service;
 
 import com.overflow.stack.server.domain.member.entity.Member;
 import com.overflow.stack.server.domain.member.repository.JpaMemberRepository;
+import com.overflow.stack.server.domain.member.utils.AuthoritiesUtils;
 import com.overflow.stack.server.global.exception.CustomLogicException;
 import com.overflow.stack.server.global.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+
+import static com.overflow.stack.server.domain.member.utils.AuthoritiesUtils.createRoles;
 
 @Service
 @Transactional
@@ -23,6 +26,7 @@ public class MemberServiceImpl implements MemberService {
         findByEmail(member.getEmail()).ifPresent(m -> {
             throw new CustomLogicException(ExceptionCode.MEMBER_DUPLICATE);
         });
+        member.setRoles(createRoles(member.getEmail()));
         return memberRepository.save(member);
     }
     // read only
