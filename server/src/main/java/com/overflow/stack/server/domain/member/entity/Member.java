@@ -7,7 +7,6 @@ import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,7 +20,7 @@ public class Member extends Auditable {
     private Long memberId;
     @Column(nullable = false, unique = true, length = 20)
     private String email;
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 100)
     private String password;
     @Column(nullable = false, length = 20)
     private String fullName;
