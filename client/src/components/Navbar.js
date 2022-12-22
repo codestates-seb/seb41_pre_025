@@ -48,6 +48,7 @@ function Navbar() {
 			</NavbarContainer>
 		</>
 	);
+
 }
 const NavbarContainer = styled.div`
 	position: sticky;
