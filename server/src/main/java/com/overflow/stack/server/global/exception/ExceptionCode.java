@@ -8,7 +8,8 @@ public enum ExceptionCode {
    MEMBER_NONE(404, "MEMBER_NONE"),
 
    MEMBER_DUPLICATE(409, "MEMBER_DUPLICATE"),
-   QUESTION_NOT_FOUND(409, "Question not found"),
+
+   QUESTION_NOT_FOUND(404, "Question not found");
 
    TOKEN_INVALID(401 , "TOKEN_INVALID");
 

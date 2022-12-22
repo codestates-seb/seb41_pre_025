@@ -21,7 +21,7 @@ function Navbar() {
 						<SearchBarInput placeholder="Search..." />
 					</SearchBarContainer>
 					<ButtonContainer>
-						{/* <Link to="/login">
+						<Link to="/login">
 							<Button
 								text="Log In"
 								marginLeft="0px"
@@ -36,19 +36,18 @@ function Navbar() {
 								hoverColor="#2D75C6"
 								activeColor="#1859A3"
 							/>
-						</Link> */}
-						<Link to="/mypage">
+						</Link>
+						{/* <Link to="/mypage">
 							<MdAccountCircle />
 						</Link>
 						<Link to="/logout">
 							<Button text="Log Out" />
-						</Link>
+						</Link> */}
 					</ButtonContainer>
 				</NavbarContents>
 			</NavbarContainer>
 		</>
 	);
-
 }
 const NavbarContainer = styled.div`
 	position: sticky;
