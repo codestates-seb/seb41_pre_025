@@ -34,33 +34,33 @@ function App() {
 		<BrowserRouter>
 			<GlobalStyle />
 			<Navbar />
-			<Template>
-				<Sidebar />
-				<Section>
-					<Routes>
-						<Route
-							path="/"
-							element={<TopQuestions />}></Route>
-						<Route
-							path="/login"
-							element={<Login />}></Route>
-						<Route
-							path="/signup"
-							element={<SignUp />}></Route>
-						<Route
-							path="/questions"
-							element={<QuestionsList />}></Route>
-						<Route
-							path="/askquestions"
-							element={<AskQuestion />}></Route>
-						<Route
-							path="/mypage"
-							element={<Mypage />}></Route>
-					</Routes>
-				</Section>
-				<Ad />
-			</Template>
-			<Footer />
+			{/* <Template> */}
+			{/* <Sidebar /> */}
+			<Section>
+				<Routes>
+					<Route
+						path="/"
+						element={<TopQuestions />}></Route>
+					<Route
+						path="/login"
+						element={<Login />}></Route>
+					<Route
+						path="/signup"
+						element={<SignUp />}></Route>
+					<Route
+						path="/questions"
+						element={<QuestionsList />}></Route>
+					<Route
+						path="/askquestions"
+						element={<AskQuestion />}></Route>
+					<Route
+						path="/mypage"
+						element={<Mypage />}></Route>
+				</Routes>
+			</Section>
+			{/* <Ad /> */}
+			{/* </Template> */}
+			{/* <Footer /> */}
 		</BrowserRouter>
 	);
 }
