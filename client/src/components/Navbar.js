@@ -18,12 +18,12 @@ function Navbar() {
             <SearchBarInput placeholder="Search..."/>
           </SearchBarContainer>
           <ButtonContainer>
-          <Link to="/login"> 
-            <Button text="Log In"/>
-          </Link>
-          <Link to="/signup"> 
-            <Button text="Sign Up"/>
-          </Link>
+            <Link to="/login"> 
+              <Button text="Log In"/>
+            </Link>
+            <Link to="/signup"> 
+              <Button text="Sign Up"/>
+            </Link>
           </ButtonContainer>
         </NavbarContents>
       </NavbarContainer>
@@ -83,6 +83,7 @@ function Navbar() {
     button {
       margin: 5px;
     }
+    
   `;
 
 export default Navbar;
