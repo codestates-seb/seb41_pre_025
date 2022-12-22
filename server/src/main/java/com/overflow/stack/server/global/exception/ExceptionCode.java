@@ -6,7 +6,10 @@ public enum ExceptionCode {
 
    TITLE_NONE(400, "TITLE_NONE"),
    TODO_NONE(404, "MEMBER_NONE"),
-   QUESTION_NOT_FOUND(409, "Question not found");
+   QUESTION_NOT_FOUND(409, "Question not found"),
+   ANSWER_NOT_FOUND(404, "Answer not found");
+
+
    @Getter
    private final int code;
 
