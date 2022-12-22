@@ -18,6 +18,7 @@ public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
+    // only for mapping
     private Long memberId;
     @Column(nullable = false, unique = true, length = 20)
     private String email;

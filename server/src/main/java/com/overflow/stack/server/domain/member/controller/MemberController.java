@@ -36,7 +36,8 @@ public class MemberController {
     }
     @GetMapping
     public ResponseEntity getMember(@AuthenticationPrincipal User members){
-        Member member = memberService.getMember(members.getUsername());
+        Member member = memberService.findMember(members.getUsername());
+        System.out.println(member);
         return ResponseEntity.ok(memberMapper.memberToResponseMemberDto(member));
     }
 

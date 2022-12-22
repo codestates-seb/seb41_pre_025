@@ -43,9 +43,4 @@ public class MemberServiceImpl implements MemberService {
       return memberRepository.findById(id).orElseThrow(() -> new CustomLogicException(ExceptionCode.MEMBER_NONE));
     }
 
-    @Override
-    public Member getMember(String username) {
-        System.out.println("username = " + username);
-        return null;
-    }
 }
