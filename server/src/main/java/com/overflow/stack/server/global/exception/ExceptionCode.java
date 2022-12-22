@@ -5,8 +5,12 @@ import lombok.Getter;
 public enum ExceptionCode {
 
    TITLE_NONE(400, "TITLE_NONE"),
-   TODO_NONE(404, "MEMBER_NONE"),
+   MEMBER_NONE(404, "MEMBER_NONE"),
+
+   MEMBER_DUPLICATE(409, "MEMBER_DUPLICATE"),
    QUESTION_NOT_FOUND(409, "Question not found");
+
+
    @Getter
    private final int code;
 
