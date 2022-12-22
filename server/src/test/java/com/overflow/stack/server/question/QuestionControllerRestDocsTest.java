@@ -49,6 +49,7 @@ public class QuestionControllerRestDocsTest {
 
     @Autowired
     private Gson gson;
+    private static final String url = "/api/v1/questions";
 
     @Test
     public void postQuestionTest() throws Exception {
@@ -72,7 +73,7 @@ public class QuestionControllerRestDocsTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        post("/api/v1/questions")
+                        post(url)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
@@ -129,7 +130,7 @@ public class QuestionControllerRestDocsTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        patch("/api/v1/questions/{question-id}", questionId)
+                        patch(url+"/{question-id}", questionId)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
@@ -186,7 +187,7 @@ public class QuestionControllerRestDocsTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        get("/api/v1/questions/{question-id}", questionId)
+                        get(url+"/{question-id}", questionId)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                 );
@@ -244,7 +245,7 @@ public class QuestionControllerRestDocsTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        get("/api/v1/questions")
+                        get(url)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                 );
@@ -276,7 +277,7 @@ public class QuestionControllerRestDocsTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        delete("/api/v1/questions/{question-id}", questionId)
+                        delete(url+"/{question-id}", questionId)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                 );
