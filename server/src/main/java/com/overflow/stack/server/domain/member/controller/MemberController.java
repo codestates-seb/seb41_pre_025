@@ -4,6 +4,7 @@ import com.overflow.stack.server.domain.member.dto.MemberDto;
 import com.overflow.stack.server.domain.member.entity.Member;
 import com.overflow.stack.server.domain.member.mapper.MemberMapper;
 import com.overflow.stack.server.domain.member.service.MemberService;
+import com.overflow.stack.server.global.response.SingleResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -34,10 +35,16 @@ public class MemberController {
                 memberMapper.postMemberDtoToMember(memberDto));
         return ResponseEntity.created(new URI(BASE_URL)).build();
     }
+
+    /**
+     * @param members email
+     *
+     * @return
+     */
     @GetMapping
     public ResponseEntity getMember(@AuthenticationPrincipal User members){
-        Member member = memberService.getMember(members.getUsername());
-        return ResponseEntity.ok(memberMapper.memberToResponseMemberDto(member));
+        Member member = memberService.findMember(members.getUsername());
+        return ResponseEntity.ok(new SingleResponse<>(memberMapper.memberToResponseMemberDto(member)));
     }
 
 }

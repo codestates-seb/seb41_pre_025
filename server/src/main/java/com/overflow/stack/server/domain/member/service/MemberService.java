@@ -8,5 +8,5 @@ public interface MemberService {
     Member findMember(String email);
     Member findMember(Long id);
 
-    Member getMember(String username);
+
 }

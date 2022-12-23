@@ -41,10 +41,11 @@ public class MemberDto {
         private String imgUrl;
     }
     @Getter
-    @Setter
+    @NoArgsConstructor
     @AllArgsConstructor
+    @Builder
     public static class Response {
-        private Long id;
+        private Long memberId;
         private String email;
         private String fullName;
         private String displayName;

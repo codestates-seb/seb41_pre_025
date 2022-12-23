@@ -1,6 +1,7 @@
 package com.overflow.stack.server.common.token;
 
 import com.overflow.stack.server.auth.token.AuthTokenProvider;
+import org.springframework.http.HttpHeaders;
 
 import java.util.List;
 
@@ -12,5 +13,10 @@ public class GeneratedToken {
     }
     public static String createMockToken() {
         return "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjcxNjg5Nzg4fQ.eFeEyh5F5ilhUfK28DzIxNPscqrlo5d9kNcOZYgbsUs";
+    }
+    public static HttpHeaders getMockHeaderToken(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(AUTHERIZATION, createMockToken());
+        return headers;
     }
 }
