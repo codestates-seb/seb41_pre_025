@@ -43,10 +43,10 @@ function Sidebar() {
 
 const SidebarContainer = styled.div`
   width: 167px;
-  height: 100vh;
   border-right: 1px solid lightgray;
   padding-top: 20px;
   font-size: 13px;
+  display: initial;
 
   ul {
     padding-left: 0px;

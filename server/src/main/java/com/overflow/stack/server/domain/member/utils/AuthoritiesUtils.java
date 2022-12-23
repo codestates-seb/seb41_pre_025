@@ -29,7 +29,7 @@ public class AuthoritiesUtils {
             return List.of(Member.MemberRole.ROLE_ADMIN.name(), Member.MemberRole.ROLE_USER.name());
         }
 
-        return List.of(Member.MemberRole.ROLE_ADMIN.name());
+        return List.of(Member.MemberRole.ROLE_USER.name());
     }
     public static List<GrantedAuthority> getAuthorities(List<String> roles) {
         List<GrantedAuthority> authorities = roles.stream()

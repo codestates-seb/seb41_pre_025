@@ -48,8 +48,11 @@ public class LogAspect {
 
         Object[] args = joinPoint.getArgs();
         for (Object arg : args) {
-            log.info("type = {}", arg.getClass().getSimpleName());
-            log.info("value = {}", arg);
+            if(arg != null) {
+                log.info("type = {}", arg.getClass().getSimpleName());
+                log.info("value = {}", arg);
+            }
+
         }
     }
 
