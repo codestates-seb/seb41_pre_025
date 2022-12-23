@@ -1,5 +1,6 @@
 package com.overflow.stack.server.domain.member.utils;
 
+import com.overflow.stack.server.domain.member.entity.Member;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
@@ -13,8 +14,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class AuthoritiesUtils {
-    public static final String ROLE_USER = "ROLE_USER";
-    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+
 
     public static Set<String> ADMINS_EMAIL;
 
@@ -26,10 +26,10 @@ public class AuthoritiesUtils {
 
     public static List<String> createRoles(String email) {
         if (ADMINS_EMAIL != null && ADMINS_EMAIL.contains(email)) {
-            return List.of(ROLE_ADMIN, ROLE_USER);
+            return List.of(Member.MemberRole.ROLE_ADMIN.name(), Member.MemberRole.ROLE_USER.name());
         }
 
-        return List.of(ROLE_USER);
+        return List.of(Member.MemberRole.ROLE_ADMIN.name());
     }
     public static List<GrantedAuthority> getAuthorities(List<String> roles) {
         List<GrantedAuthority> authorities = roles.stream()

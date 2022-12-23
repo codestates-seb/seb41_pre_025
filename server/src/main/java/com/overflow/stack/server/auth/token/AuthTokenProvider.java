@@ -16,6 +16,7 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -35,8 +36,8 @@ public class AuthTokenProvider {
     public AuthToken createAuthToken(String id, Date expiry) {
         return new AuthToken(id, expiry, key);
     }
-    public AuthToken createAccessToken(String id) {
-        return new AuthToken(id, new Date(System.currentTimeMillis() + tokenValidTime), key);
+    public AuthToken createAccessToken(String id , List<String> role) {
+        return new AuthToken(id,role, new Date(System.currentTimeMillis() + tokenValidTime), key);
     }
     public AuthToken createRefreshToken(String id) {
         return new AuthToken(id, new Date(System.currentTimeMillis() + refreshTokenValidTime), key);
@@ -54,10 +55,8 @@ public class AuthTokenProvider {
         if(authToken.validate()) {
 
             Claims claims = authToken.getTokenClaims();
-            Collection<? extends GrantedAuthority> authorities =
-                    Arrays.stream(new String[]{claims.get(AUTHORITIES_KEY).toString()})
-                            .map(SimpleGrantedAuthority::new)
-                            .collect(Collectors.toList());
+            System.out.println(claims.get("role"));
+            Collection<? extends GrantedAuthority> authorities  = getAuthorities((List) claims.get(AUTHORITIES_KEY));
 
             log.debug("claims subject := [{}]", claims.getSubject());
             User principal = new User(claims.getSubject(), "", authorities);
@@ -66,5 +65,10 @@ public class AuthTokenProvider {
         } else {
             throw new CustomLogicException(ExceptionCode.MEMBER_NONE);
         }
+    }
+    public static Collection<? extends GrantedAuthority> getAuthorities(List<String> roles) {
+        return roles.stream()
+                .map(role -> role.startsWith("ROLE_") ? new SimpleGrantedAuthority(role) : new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toList());
     }
 }

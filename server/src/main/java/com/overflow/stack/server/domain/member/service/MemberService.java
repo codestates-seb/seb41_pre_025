@@ -7,4 +7,6 @@ public interface MemberService {
     Member createMember(Member member);
     Member findMember(String email);
     Member findMember(Long id);
+
+
 }
