@@ -42,7 +42,7 @@ public class SecurityConfig {
                                 .antMatchers("/docs/index.html").permitAll()
                                 .antMatchers(HttpMethod.POST, "/api/v1/members").permitAll()
                                 .antMatchers("/api/v1/members/**").authenticated()
-                                .antMatchers(HttpMethod.POST , "/api/v1/question").authenticated()
+                                .antMatchers(HttpMethod.POST , "/api/v1/questions").authenticated()
                                 .anyRequest().permitAll()
                                 // 작은 것 부터 큰 순서
 
