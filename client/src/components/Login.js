@@ -74,6 +74,12 @@ const SignUpText = styled.span`
 	width: 288.45px;
 	height: 78px;
 	padding: 16px;
+
+	a {
+		text-decoration: none;
+		color: #2d75c6;
+		margin-left: 5px;
+	}
 `;
 
 const InputContainer = styled.div`
