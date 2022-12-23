@@ -35,7 +35,6 @@ public class Member extends Auditable {
     @ColumnDefault("''")
     private String aboutMeTitle;
     @Lob
-    @ColumnDefault("''")
     private String aboutMe;
     @Column(length = 100)
     @ColumnDefault("''")
