@@ -105,6 +105,7 @@ class MemberControllerTest extends abstractControllerTest {
                 )
         ));
     }
+
     @Test
     @DisplayName("회원 정보 GET")
     @WithMockUser(username = "test@gmail.com", roles = "USER")
@@ -130,7 +131,9 @@ class MemberControllerTest extends abstractControllerTest {
                 .andExpect(jsonPath("data.githubLink").value(response.getGithubLink()))
                 .andExpect(jsonPath("data.websiteLink").value(response.getWebsiteLink()))
                 .andExpect(jsonPath("data.location").value(response.getLocation()))
-                .andExpect(jsonPath("data.imgUrl").value(response.getImgUrl()));
+                .andExpect(jsonPath("data.imgUrl").value(response.getImgUrl()))
+                .andExpect(jsonPath("data.tags").isArray())
+                .andExpect(jsonPath("data.tags[0]").value(response.getTags().get(0)));
         // then
         resultActions.andDo(document("member-get",
                 getRequestPreProcessor(),
@@ -157,7 +160,8 @@ class MemberControllerTest extends abstractControllerTest {
                 fieldWithPath("data.githubLink").type(JsonFieldType.STRING).description("깃허브 링크"),
                 fieldWithPath("data.websiteLink").type(JsonFieldType.STRING).description("웹사이트 링크"),
                 fieldWithPath("data.location").type(JsonFieldType.STRING).description("지역"),
-                fieldWithPath("data.imgUrl").type(JsonFieldType.STRING).description("이미지 링크")
+                fieldWithPath("data.imgUrl").type(JsonFieldType.STRING).description("이미지 링크"),
+                fieldWithPath("data.tags").type(JsonFieldType.ARRAY).description("태그")
         );
     }
 
@@ -166,17 +170,9 @@ class MemberControllerTest extends abstractControllerTest {
                 fieldWithPath("email").type(JsonFieldType.STRING).description("이메일 / not null"),
                 fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호 / not null"),
                 fieldWithPath("fullName").type(JsonFieldType.STRING).description("이름 / not null"),
-                fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임 / not null"),
-                fieldWithPath("aboutMe").type(JsonFieldType.STRING).description("자기소개 / nullable"),
-                fieldWithPath("aboutMeTitle").type(JsonFieldType.STRING).description("자기소개 제목 / nullable"),
-                fieldWithPath("twitterLink").type(JsonFieldType.STRING).description("트위터 링크 / nullable"),
-                fieldWithPath("githubLink").type(JsonFieldType.STRING).description("깃허브 링크 / nullable"),
-                fieldWithPath("websiteLink").type(JsonFieldType.STRING).description("웹사이트 링크 / nullable"),
-                fieldWithPath("location").type(JsonFieldType.STRING).description("지역 / nullable"),
-                fieldWithPath("imgUrl").type(JsonFieldType.STRING).description("이미지 링크 /  nullable")
-        );
+                fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임 / not null")
+                );
     }
-
 
 
 }

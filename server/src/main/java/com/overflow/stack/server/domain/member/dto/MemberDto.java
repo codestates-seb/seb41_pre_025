@@ -3,6 +3,7 @@ package com.overflow.stack.server.domain.member.dto;
 import lombok.*;
 
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,7 +20,6 @@ public class MemberDto {
         @Pattern(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
         private String email;
         @NonNull
-
         private String password;
 
         @Pattern(regexp = "^[a-zA-Z0-9가-힣+_.-]+$")
@@ -27,7 +27,9 @@ public class MemberDto {
         @NonNull
         @Pattern(regexp = "^[a-zA-Z0-9가-힣+_.-]+$")
         private String displayName;
-        private String location;
+
+        private List<String> tags;
+        /*private String location;
         private String aboutMeTitle;
         private String aboutMe;
         //weblink Pattern
@@ -38,7 +40,7 @@ public class MemberDto {
         @Pattern(regexp = "^(http|https)://[a-zA-Z0-9+_.-]+.[a-zA-Z0-9+_.-]+.[a-zA-Z0-9+_.-]+$")
         private String websiteLink;
 
-        private String imgUrl;
+        private String imgUrl;*/
     }
     @Getter
     @NoArgsConstructor
@@ -56,6 +58,7 @@ public class MemberDto {
         private String twitterLink;
         private String websiteLink;
         private String imgUrl;
+        private List<String> tags;
 
     }
 
