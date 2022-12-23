@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { Button } from "./Button";
 import { Link } from "react-router-dom";
-import icon from "../image/icon.svg";
 import { RiQuestionnaireLine } from "react-icons/ri";
 import { HiOutlineChevronUpDown } from "react-icons/hi2";
 import { AiFillTags } from "react-icons/ai";
@@ -56,12 +55,42 @@ export default function Login() {
 					</span>
 				</div>
 			</TextContent>
+
 			<FormAndSignUpContainer>
+				<Button
+					text="Sign up with Google"
+					color="black"
+					border="1px solid #bbbfc3"
+					bgColor="white"
+					hoverColor="hsl(210,8%,97.5%)"
+					activeColor="hsl(210,8%,97.5%)"
+					width="288.445px"
+					margin="6px 0px"
+					boxshadow="none"
+				/>
+				<Button
+					text="Sign up with GitHub"
+					color="white"
+					border="none"
+					bgColor="black"
+					hoverColor="none"
+					activeColor="hsl(210,8%,97.5%)"
+					width="288.445px"
+					margin="6px 0px"
+					boxshadow="none"
+				/>
+				<Button
+					text="Sign up with FaceBook"
+					color="white"
+					border="none"
+					bgColor="#385499"
+					hoverColor="#314a86"
+					activeColor="#2a4074"
+					width="288.445px"
+					margin="6px 0px"
+					boxshadow="none"></Button>
+
 				<FormContainer>
-					<Logo
-						src={icon}
-						alt="logo"
-					/>
 					<LabelTextInput
 						id="displayname"
 						text="Display Name"
@@ -179,12 +208,14 @@ const InnerTextContainer = styled.div`
 const FormAndSignUpContainer = styled.div`
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	justify-content: center;
 `;
 
 const FormContainer = styled.form`
 	width: 288.445px;
-	height: 570.594px;
+	height: 460px;
+	margin-top: 16px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
 	display: flex;
@@ -197,7 +228,7 @@ const FormContainer = styled.form`
 `;
 
 const Logo = styled.img`
-	width: 70px;
+	width: 30px;
 	margin-bottom: 24px;
 `;
 
