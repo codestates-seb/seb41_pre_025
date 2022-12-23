@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { FaGlobeAmericas } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import React from 'react';
+import styled from 'styled-components';
+import { FaGlobeAmericas } from 'react-icons/fa';
+import { NavLink } from 'react-router-dom';
 
 function Sidebar() {
   return (
@@ -15,7 +15,7 @@ function Sidebar() {
           </li>
           <li>PUBLIC</li>
           <li>
-            <NavLink activeClassName="active" to="/QuestiosList">
+            <NavLink activeClassName="active" to="/questions">
               <FaGlobeAmericas className="icon" />
               Questions
             </NavLink>
