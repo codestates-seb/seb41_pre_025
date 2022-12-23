@@ -13,7 +13,7 @@ function Sidebar() {
 					</li>
 					<li>PUBLIC</li>
 					<li>
-						<Link to="/QuestiosList">
+						<Link to="/questions">
 							<FaGlobeAmericas className="icon" />
 							Questions
 						</Link>
