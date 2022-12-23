@@ -1,5 +1,7 @@
 package com.overflow.stack.server.auth.token;
 
+import com.overflow.stack.server.global.exception.CustomLogicException;
+import com.overflow.stack.server.global.exception.ExceptionCode;
 import io.jsonwebtoken.*;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -99,8 +101,6 @@ public class AuthToken {
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-        } catch (SecurityException e) {
-            log.info("Invalid JWT signature.");
         } catch (MalformedJwtException e) {
             log.info("Invalid JWT token.");
         } catch (ExpiredJwtException e) {
@@ -109,6 +109,8 @@ public class AuthToken {
             log.info("Unsupported JWT token.");
         } catch (IllegalArgumentException e) {
             log.info("JWT token compact of handler are invalid.");
+        } catch (io.jsonwebtoken.security.SignatureException e) {
+            throw new CustomLogicException(ExceptionCode.TOKEN_INVALID);
         }
         return null;
     }
