@@ -13,6 +13,7 @@ import SignUp from "./components/SignUp";
 import QuestionsList from "./components/QuestionsList";
 import AskQuestion from "./components/AskQuestion";
 import Mypage from "./components/Mypage";
+import Pre from "./components/Pre";
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -30,39 +31,31 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-	return (
-		<BrowserRouter>
-			<GlobalStyle />
-			<Navbar />
-			<Template>
-			<Sidebar />
-			<Section>
-				<Routes>
-					<Route
-						path="/"
-						element={<TopQuestions />}></Route>
-					<Route
-						path="/login"
-						element={<Login />}></Route>
-					<Route
-						path="/signup"
-						element={<SignUp />}></Route>
-					<Route
-						path="/questions"
-						element={<QuestionsList />}></Route>
-					<Route
-						path="/askquestions"
-						element={<AskQuestion />}></Route>
-					<Route
-						path="/mypage"
-						element={<Mypage />}></Route>
-				</Routes>
-			</Section>
-			<Ad />
-			</Template>
-			<Footer />
-		</BrowserRouter>
-	);
+  return (
+    <BrowserRouter>
+      <GlobalStyle />
+      <Navbar />
+      <Template>
+        <Sidebar />
+        <Section>
+          <Routes>
+            <Route path="/" element={<TopQuestions />}></Route>
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/signup" element={<SignUp />}></Route>
+            <Route path="/questions" element={<QuestionsList />}></Route>
+            <Route path="/askquestions" element={<AskQuestion />}></Route>
+            <Route path="/mypage" element={<Mypage />}></Route>
+            <Route path="/tags" element={<Pre />}></Route>
+            <Route path="/users" element={<Pre />}></Route>
+            <Route path="/companies" element={<Pre />}></Route>
+          </Routes>
+        </Section>
+        <Ad />
+      </Template>
+      <Footer />
+    </BrowserRouter>
+  );
+
 }
 
 export default App;
