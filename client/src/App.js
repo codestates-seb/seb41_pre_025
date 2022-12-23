@@ -34,8 +34,8 @@ function App() {
 		<BrowserRouter>
 			<GlobalStyle />
 			<Navbar />
-			{/* <Template> */}
-			{/* <Sidebar /> */}
+			<Template>
+			<Sidebar />
 			<Section>
 				<Routes>
 					<Route
@@ -58,9 +58,9 @@ function App() {
 						element={<Mypage />}></Route>
 				</Routes>
 			</Section>
-			{/* <Ad /> */}
-			{/* </Template> */}
-			{/* <Footer /> */}
+			<Ad />
+			</Template>
+			<Footer />
 		</BrowserRouter>
 	);
 }
