@@ -1,78 +1,92 @@
 import React from "react";
 import styled from "styled-components";
 import { FaGlobeAmericas } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Sidebar() {
-	return (
-		<>
-			<SidebarContainer>
-				<ul>
-					<li>
-						<Link to="/">Home</Link>
-					</li>
-					<li>PUBLIC</li>
-					<li>
-						<Link to="/QuestiosList">
-							<FaGlobeAmericas className="icon" />
-							Questions
-						</Link>
-					</li>
-					<li>Tags</li>
-					<li>Users</li>
-					<li>Companies</li>
-				</ul>
-			</SidebarContainer>
-		</>
-	);
+  return (
+    <>
+      <SidebarContainer>
+        <ul>
+          <li>
+            <NavLink activeClassName="active" to="/">
+              Home
+            </NavLink>
+          </li>
+          <li>PUBLIC</li>
+          <li>
+            <NavLink activeClassName="active" to="/QuestiosList">
+              <FaGlobeAmericas className="icon" />
+              Questions
+            </NavLink>
+          </li>
+          <li>
+            <NavLink activeClassName="active" to="/tags">
+              Tags
+            </NavLink>
+          </li>
+          <li>
+            <NavLink activeClassName="active" to="/users">
+              Users
+            </NavLink>
+          </li>
+          <li>
+            <NavLink activeClassName="active" to="/companies">
+              Companies
+            </NavLink>
+          </li>
+        </ul>
+      </SidebarContainer>
+    </>
+  );
 }
 
 const SidebarContainer = styled.div`
-	width: 167px;
-	height: 100vh;
-	border-right: 1px solid lightgray;
-	padding-top: 20px;
-	font-size: 13px;
+  width: 167px;
+  height: 100vh;
+  border-right: 1px solid lightgray;
+  padding-top: 20px;
+  font-size: 13px;
 
-	ul {
-		padding-left: 0px;
-		color: #525960;
-	}
+  ul {
+    padding-left: 0px;
+    color: #525960;
+  }
 
-	li:nth-child(1) {
-		font-size: 13px;
-		font-weight: 500;
-		&:hover {
-			color: black;
-		}
-	}
-
-	li:nth-child(2) {
-		font-size: 11px;
-		margin: 25px 0px 15px 8px;
-	}
-
-	a {
-		color: #525960;
-		text-decoration: none;
-		font-weight: 500;
-		padding: 4px 4px 4px 8px;
-		> .icon {
-			font-size: 16px;
-			margin: -1px 4px 0px 0px;
-		}
-		&:hover {
-			color: black;
-		}
-	}
-	li:nth-child(n + 4) {
-		font-weight: 500;
-		padding: 20px 4px 4px 30px;
-
-		&:hover {
-			color: black;
-		}
-	}
+  li:nth-child(1) > a {
+    padding: 8px 6px 8px 8px;
+  }
+  li:nth-child(2) {
+    font-size: 11px;
+    margin: 16px 0px 4px 8px;
+  }
+  li:nth-child(3) > a {
+    display: flex;
+    align-items: center;
+    padding: 8px 6px 8px 8px;
+    > .icon {
+      margin-right: 4px;
+      font-size: 16px;
+    }
+  }
+  li:nth-child(n + 4) > a {
+    padding: 8px 8px 8px 30px;
+  }
+  a {
+    display: block;
+    color: #525960;
+    text-decoration: none;
+    font-weight: 500;
+    &:hover {
+      color: black;
+    }
+    &.active {
+      color: black;
+      font-weight: bold;
+      background: #f1f2f3;
+      border-right: 3px solid #f48225;
+    }
+  }
 `;
 
 export default Sidebar;
