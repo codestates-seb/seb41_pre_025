@@ -39,4 +39,34 @@ public class MemberFactory {
                 .imgUrl("https://img.com")
                 .build();
     }
+    public static Member createMember() {
+        return Member.builder()
+                .email("test1@gmail.com")
+                .memberStatus(Member.MemberStatus.MEMBER_ACTIVE)
+                .fullName("fullName")
+                .displayName("displayName")
+                .aboutMe("aboutMe")
+                .aboutMeTitle("aboutMeTitle")
+                .twitterLink("https://twitter.com")
+                .githubLink("https://github.com")
+                .websiteLink("https://website.com")
+                .location("location")
+                .imgUrl("https://img.com")
+                .build();
+    }
+    public static MemberDto.Response createMemberResponseDto() {
+        return MemberDto.Response.builder()
+                .memberId(1L)
+                .email("test1@gmail.com")
+                .fullName("fullName")
+                .displayName("displayName")
+                .aboutMe("aboutMe")
+                .aboutMeTitle("aboutMeTitle")
+                .twitterLink("https://twitter.com")
+                .githubLink("https://github.com")
+                .websiteLink("https://website.com")
+                .location("location")
+                .imgUrl("https://img.com")
+                .build();
+    }
 }
