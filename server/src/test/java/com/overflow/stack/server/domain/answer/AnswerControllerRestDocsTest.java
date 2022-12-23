@@ -1,11 +1,13 @@
 package com.overflow.stack.server.domain.answer;
 
 import com.google.gson.Gson;
+import com.overflow.stack.server.common.abstractControllerTest;
 import com.overflow.stack.server.domain.answer.controller.AnswerController;
 import com.overflow.stack.server.domain.answer.dto.AnswerDto;
 import com.overflow.stack.server.domain.answer.entity.Answer;
 import com.overflow.stack.server.domain.answer.mapper.AnswerMapper;
 import com.overflow.stack.server.domain.answer.service.AnswerServiceImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -17,6 +19,7 @@ import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -28,15 +31,13 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AnswerController.class)
-@MockBean(JpaMetamodelMappingContext.class)
-@AutoConfigureRestDocs
-public class AnswerControllerRestDocsTest {
-    @Autowired
-    private MockMvc mockMvc;
+class AnswerControllerRestDocsTest extends abstractControllerTest {
+    private final String BASE_URL = "/api/v1/answers";
 
     @MockBean
     private AnswerServiceImpl answerService;
@@ -48,7 +49,9 @@ public class AnswerControllerRestDocsTest {
     private Gson gson;
 
     @Test
-    public void postAnswerTest() throws Exception {
+    @DisplayName("답변 생성")
+    @WithMockUser(username = "test@gmail.com", roles = "USER")
+    void createAnswer() throws Exception {
 
         AnswerDto.Post post = new AnswerDto.Post("content", 0L);
         String content = gson.toJson(post);
@@ -70,8 +73,8 @@ public class AnswerControllerRestDocsTest {
                         post("/api/v1/answers")
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(content)
-                );
+                                .with(csrf())
+                                .content(content));
 
         actions
                 .andExpect(status().isCreated())
