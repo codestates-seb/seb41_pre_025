@@ -8,7 +8,7 @@ export default function AskQuestion() {
 			<Content>
 				<h1>Ask a public question</h1>
 				<HelpBubbleGoodQuestion>
-					<h2>Writing a good question</h2>
+					<h2>Writing a good question </h2>
 					<p>
 						You’re ready to ask a programming-related question and this form
 						will help guide you through the process. Looking to ask a
