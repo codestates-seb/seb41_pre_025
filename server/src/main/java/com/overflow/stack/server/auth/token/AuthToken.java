@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 // 토큰 데이터 클래스
@@ -26,6 +27,10 @@ public class AuthToken {
         this.key = key;
         this.token = createAuthToken(id, role, expiry);
     }
+    AuthToken(String id, List<String> roles, Date expiry, Key key) {
+        this.key = key;
+        this.token = createAuthToken(id, roles, expiry);
+    }
 
     public AuthToken(String token, Key key) {
         this.key = key;
@@ -41,6 +46,14 @@ public class AuthToken {
     }
 
     private String createAuthToken(String id, String role, Date expiry) {
+        return Jwts.builder()
+                .setSubject(id)
+                .claim(AUTHORITIES_KEY, role)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .setExpiration(expiry)
+                .compact();
+    }
+    private String createAuthToken(String id, List<String> role, Date expiry) {
         return Jwts.builder()
                 .setSubject(id)
                 .claim(AUTHORITIES_KEY, role)
