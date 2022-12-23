@@ -27,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
         findByEmail(member.getEmail()).ifPresent(m -> {
             throw new CustomLogicException(ExceptionCode.MEMBER_DUPLICATE);
         });
+        member.setMemberStatus(Member.MemberStatus.MEMBER_ACTIVE);
         member.setPassword(passwordEncoder.encode(member.getPassword()));
         member.setRoles(createRoles(member.getEmail()));
         return memberRepository.save(member);
@@ -40,5 +41,11 @@ public class MemberServiceImpl implements MemberService {
     }
     public Member findMember(Long id) {
       return memberRepository.findById(id).orElseThrow(() -> new CustomLogicException(ExceptionCode.MEMBER_NONE));
+    }
+
+    @Override
+    public Member getMember(String username) {
+        System.out.println("username = " + username);
+        return null;
     }
 }

@@ -40,5 +40,22 @@ public class MemberDto {
 
         private String imgUrl;
     }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class Response {
+        private Long id;
+        private String email;
+        private String fullName;
+        private String displayName;
+        private String location;
+        private String aboutMeTitle;
+        private String aboutMe;
+        private String githubLink;
+        private String twitterLink;
+        private String websiteLink;
+        private String imgUrl;
+
+    }
 
 }

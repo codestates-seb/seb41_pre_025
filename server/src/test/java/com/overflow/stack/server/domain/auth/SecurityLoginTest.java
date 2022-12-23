@@ -38,10 +38,12 @@ public class SecurityLoginTest {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private MockMvc mockMvc;
+
     @AfterEach
     public void tearDown() {
         jpaMemberRepository.deleteAll();
     }
+
     @Test
     @DisplayName("로그인 성공")
     public void loginSuccess() throws Exception {
@@ -53,11 +55,11 @@ public class SecurityLoginTest {
         loginDto.setPassword("password");
         // when
         ResultActions resultActions = mockMvc.perform(post("/api/v1/auth/login")
-                .contentType("application/json")
-                .content(gson.toJson(loginDto)))
+                        .contentType("application/json")
+                        .content(gson.toJson(loginDto)))
                 .andExpect(status().isOk());
         // then
-        resultActions.andDo(document("auth-login" ,
+        resultActions.andDo(document("auth-login",
                 getRequestPreProcessor(),
                 requestFields(
                         fieldWithPath("email").description("이메일"),
