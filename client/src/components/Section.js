@@ -11,5 +11,4 @@ export default function Section({ children }) {
 
 const SectionContainer = styled.div`
   flex: 1;
-  height: 100vh;
 `;
