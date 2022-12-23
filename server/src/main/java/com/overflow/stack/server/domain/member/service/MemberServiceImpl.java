@@ -27,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
         findByEmail(member.getEmail()).ifPresent(m -> {
             throw new CustomLogicException(ExceptionCode.MEMBER_DUPLICATE);
         });
+        member.setMemberStatus(Member.MemberStatus.MEMBER_ACTIVE);
         member.setPassword(passwordEncoder.encode(member.getPassword()));
         member.setRoles(createRoles(member.getEmail()));
         return memberRepository.save(member);
