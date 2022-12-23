@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .and().authorizeRequests(
                         authorize -> authorize
                                 .antMatchers("/api/v1/members").permitAll()
+                                .antMatchers("docs/index.html").permitAll()
                                 .anyRequest().permitAll()
                 );
         return http.build();
