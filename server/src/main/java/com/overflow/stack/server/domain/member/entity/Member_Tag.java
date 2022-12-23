@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Member_Tag extends Auditable {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long MemberTagId;
+   private Long memberTagId;
    @ManyToOne
    private Member member;
 
