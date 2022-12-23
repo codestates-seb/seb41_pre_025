@@ -5,6 +5,8 @@
 :toc-title: Table of Contents
 :source-highlighter: prettify
 
+api 뒤 _csrf 는 무시하시면 됩니다!
+
 유형찬
 채승윤
 박종혁
@@ -13,6 +15,23 @@ v1.0.0, 2022.12.20
 
 ***
 == AuthController
+
+=== 로그인
+.curl-request
+include::{snippets}/auth-login/curl-request.adoc[]
+.http-request
+include::{snippets}/auth-login/http-request.adoc[]
+.http-response
+include::{snippets}/auth-login/http-response.adoc[]
+.request-body
+include::{snippets}/auth-login/request-body.adoc[]
+.request-fields
+include::{snippets}/auth-login/request-fields.adoc[]
+.response-body
+include::{snippets}/auth-login/response-body.adoc[]
+.response-headers
+include::{snippets}/auth-login/response-headers.adoc[]
+
 
 ***
 == AnswerController
@@ -106,6 +125,49 @@ include::{snippets}/delete-question/http-response.adoc[]
 
 ***
 == MemberController
+=== 회원가입
+.curl-request
+include::{snippets}/member-create/curl-request.adoc[]
+.http-request
+include::{snippets}/member-create/http-request.adoc[]
+.request-body
+include::{snippets}/member-create/request-body.adoc[]
+.request-fields
+include::{snippets}/member-create/request-fields.adoc[]
+.http-response
+include::{snippets}/member-create/http-response.adoc[]
+.response-body
+include::{snippets}/member-create/response-body.adoc[]
+
+=== 회원가입 실패
+.curl-request
+include::{snippets}/member-create-fail/curl-request.adoc[]
+.http-request
+include::{snippets}/member-create-fail/http-request.adoc[]
+.request-body
+include::{snippets}/member-create-fail/request-body.adoc[]
+.request-fields
+include::{snippets}/member-create-fail/request-fields.adoc[]
+.http-response
+include::{snippets}/member-create-fail/http-response.adoc[]
+.response-body
+include::{snippets}/member-create-fail/response-body.adoc[]
+.response-fields
+include::{snippets}/member-create-fail/response-fields.adoc[]
+
+=== 회원정보 조회
+.curl-request
+include::{snippets}/member-get/curl-request.adoc[]
+.http-request
+include::{snippets}/member-get/http-request.adoc[]
+.http-response
+include::{snippets}/member-get/http-response.adoc[]
+.response-body
+include::{snippets}/member-get/response-body.adoc[]
+.response-fields
+include::{snippets}/member-get/response-fields.adoc[]
+
+
 
 ***
 == VoteController

@@ -1,5 +1,6 @@
 package com.overflow.stack.server.question;
 
+import com.overflow.stack.server.common.token.GeneratedToken;
 import com.overflow.stack.server.domain.question.controller.QuestionController;
 import com.overflow.stack.server.domain.question.dto.QuestionDto;
 import com.overflow.stack.server.domain.question.entity.Question;
@@ -15,6 +16,7 @@ import com.google.gson.Gson;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -25,12 +27,15 @@ import static com.overflow.stack.server.util.ApiDocumentUtils.getRequestPreProce
 import static com.overflow.stack.server.util.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,6 +57,7 @@ public class QuestionControllerRestDocsTest {
     private static final String url = "/api/v1/questions";
 
     @Test
+    @WithMockUser
     public void postQuestionTest() throws Exception {
 
         QuestionDto.Post post = new QuestionDto.Post("title1", "content1", 0L);
@@ -76,7 +82,9 @@ public class QuestionControllerRestDocsTest {
                         post(url)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
+                                .with(csrf())
                                 .content(content)
+                                .headers(GeneratedToken.getMockHeaderToken())
                 );
 
         actions
@@ -87,6 +95,9 @@ public class QuestionControllerRestDocsTest {
                 .andDo(document("post-question",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Bearer Token")
+                        ),
                         // request body
                         requestFields(
                                 List.of(
@@ -109,6 +120,7 @@ public class QuestionControllerRestDocsTest {
     }
 
     @Test
+    @WithMockUser
     public void patchQuestionTest() throws Exception {
         long questionId=1L;
         QuestionDto.Patch patch = new QuestionDto.Patch(questionId, "title1", "content1", 0L);
@@ -132,8 +144,10 @@ public class QuestionControllerRestDocsTest {
                 mockMvc.perform(
                         patch(url+"/{question-id}", questionId)
                                 .accept(MediaType.APPLICATION_JSON)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
+                                .headers(GeneratedToken.getMockHeaderToken())
                 );
 
         actions
@@ -145,6 +159,9 @@ public class QuestionControllerRestDocsTest {
                 .andDo(document("patch-question",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Bearer Token")
+                        ),
                         pathParameters(
                                 parameterWithName("question-id").description("질문 식별자")
                         ),
@@ -171,6 +188,7 @@ public class QuestionControllerRestDocsTest {
     }
 
     @Test
+    @WithMockUser
     public void getQuestionTest() throws Exception {
         long questionId=1L;
 
@@ -217,6 +235,7 @@ public class QuestionControllerRestDocsTest {
     }
 
     @Test
+    @WithMockUser
     public void getQuestionsTest() throws Exception {
 
         QuestionDto.response responseDto =
@@ -269,6 +288,7 @@ public class QuestionControllerRestDocsTest {
     }
 
     @Test
+    @WithMockUser
     public void deleteQuestionTest() throws Exception {
         long questionId=1L;
 
@@ -280,11 +300,16 @@ public class QuestionControllerRestDocsTest {
                         delete(url+"/{question-id}", questionId)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
+                                .with(csrf())
+                                .headers(GeneratedToken.getMockHeaderToken())
                 );
 
         actions
                 .andExpect(status().isNoContent())
                 .andDo(document("delete-question",
+                        requestHeaders(
+                                headerWithName("Authorization").description("JWT 토큰")
+                        ),
                         pathParameters(
                                 parameterWithName("question-id").description("질문 식별자")
                         )
