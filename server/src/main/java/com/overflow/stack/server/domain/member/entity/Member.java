@@ -24,11 +24,11 @@ public class Member extends Auditable {
     private String email;
     @Column(nullable = false, length = 100)
     private String password;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String fullName;
     @Column(nullable = false, length = 20)
     private String displayName;
-    @Column( length = 50)
+    @Column(length = 50)
     @ColumnDefault("''")
     private String location;
     @Column(length = 30)
