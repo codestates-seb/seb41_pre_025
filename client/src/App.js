@@ -1,6 +1,6 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import Template from "./components/Template";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
@@ -20,9 +20,6 @@ const GlobalStyle = createGlobalStyle`
   box-sizing: border-box;
 
 }
-  body {
-    background: #e9ecef;
-  }
 
   ol, ul, li {
 	list-style: none;
@@ -31,18 +28,23 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  const location = useLocation();
+  const pathname = location.pathname;
+  const sidebar = ["/login", "/signup"];
+  const ad = [...sidebar, "/mypage"];
+  const footer = [...sidebar];
   return (
-    <BrowserRouter>
+    <>
       <GlobalStyle />
       <Navbar />
       <Template>
-        <Sidebar />
+        {sidebar.indexOf(pathname) === -1 && <Sidebar />}
         <Section>
           <Routes>
             <Route path="/" element={<TopQuestions />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/signup" element={<SignUp />}></Route>
-            <Route path="/questions" element={<QuestionsList />}></Route>
+            <Route path="/QuestiosList" element={<QuestionsList />}></Route>
             <Route path="/askquestions" element={<AskQuestion />}></Route>
             <Route path="/mypage" element={<Mypage />}></Route>
             <Route path="/tags" element={<Pre />}></Route>
@@ -50,12 +52,11 @@ function App() {
             <Route path="/companies" element={<Pre />}></Route>
           </Routes>
         </Section>
-        <Ad />
+        {ad.indexOf(pathname) === -1 && <Ad />}
       </Template>
-      <Footer />
-    </BrowserRouter>
+      {footer.indexOf(pathname) === -1 && <Footer />}
+    </>
   );
-
 }
 
 export default App;
