@@ -17,6 +17,22 @@ v1.0.0, 2022.12.20
 ***
 == AnswerController
 
+=== 답변 등록
+.curl-request
+include::{snippets}/post-answer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/post-answer/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-answer/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-answer/http-response.adoc[]
+
+.response-fields
+include::{snippets}/post-answer/response-fields.adoc[]
+
 ***
 == QuestionController
 
