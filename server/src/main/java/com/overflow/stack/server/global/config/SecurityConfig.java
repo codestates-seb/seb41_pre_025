@@ -5,6 +5,7 @@ import com.overflow.stack.server.auth.handler.MemberAccessDeniedHandler;
 import com.overflow.stack.server.auth.handler.MemberAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,8 +39,13 @@ public class SecurityConfig {
                 .authenticationEntryPoint(authenticationEntryPoint())
                 .and().authorizeRequests(
                         authorize -> authorize
-                                .antMatchers("/api/v1/members").permitAll()
+                                .antMatchers("/docs/index.html").permitAll()
+                                .antMatchers(HttpMethod.POST, "/api/v1/members").permitAll()
+                                .antMatchers("/api/v1/members/**").authenticated()
+                                .antMatchers(HttpMethod.POST , "/api/v1/questions").authenticated()
                                 .anyRequest().permitAll()
+                                // 작은 것 부터 큰 순서
+
                 );
         return http.build();
     }
