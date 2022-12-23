@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { Button } from "./Button";
 import { Link } from "react-router-dom";
-import icon from "../image/icon.svg";
 import { RiQuestionnaireLine } from "react-icons/ri";
 import { HiOutlineChevronUpDown } from "react-icons/hi2";
 import { AiFillTags } from "react-icons/ai";
@@ -148,15 +147,17 @@ const InnerTextContainer = styled.div`
 `;
 
 const FormAndSignUpContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 `;
 
 const FormContainer = styled.form`
-  width: 288.445px;
-  height: 570.594px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	width: 288.445px;
+	height: 460px;
+	margin-top: 16px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
   display: flex;
   flex-direction: column;
@@ -168,8 +169,10 @@ const FormContainer = styled.form`
 `;
 
 const Logo = styled.img`
-  width: 70px;
-  margin-bottom: 24px;
+
+	width: 30px;
+	margin-bottom: 24px;
+
 `;
 
 const SignUpText = styled.span`
