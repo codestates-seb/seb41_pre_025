@@ -169,7 +169,6 @@ const FormContainer = styled.form`
 `;
 
 const Logo = styled.img`
-
 	width: 30px;
 	margin-bottom: 24px;
 
