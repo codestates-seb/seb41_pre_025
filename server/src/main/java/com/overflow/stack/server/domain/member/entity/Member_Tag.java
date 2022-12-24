@@ -22,7 +22,7 @@ public class Member_Tag extends Auditable {
    @ManyToOne
    private Tag tag;
 
-   public Member_Tag(Member member,Tag tag){
+   public Member_Tag(Tag tag){
       this.tag = tag;
    }
 }

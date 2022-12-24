@@ -19,7 +19,7 @@ public interface MemberMapper {
                 .build();
         member.setTags(
                 memberDto.getTags().stream()
-                        .map(tag -> new Member_Tag(member, new Tag(tag.toLowerCase())))
+                        .map(tag -> new Member_Tag(new Tag(tag.toLowerCase())))
                         .collect(Collectors.toList())
         );
         return member;
