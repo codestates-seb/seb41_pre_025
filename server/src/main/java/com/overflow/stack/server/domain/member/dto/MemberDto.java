@@ -21,7 +21,7 @@ public class MemberDto {
         @NonNull
 
         private String password;
-        @NonNull
+
         @Pattern(regexp = "^[a-zA-Z0-9가-힣+_.-]+$")
         private String fullName;
         @NonNull
