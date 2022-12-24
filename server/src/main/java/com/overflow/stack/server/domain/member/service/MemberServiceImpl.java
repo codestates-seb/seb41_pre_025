@@ -8,6 +8,7 @@ import com.overflow.stack.server.domain.tag.repository.JpaTagRepository;
 import com.overflow.stack.server.domain.tag.service.TagService;
 import com.overflow.stack.server.global.exception.CustomLogicException;
 import com.overflow.stack.server.global.exception.ExceptionCode;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

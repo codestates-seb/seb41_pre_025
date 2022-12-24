@@ -1,6 +1,7 @@
 package com.overflow.stack.server.question;
 
 import com.overflow.stack.server.common.token.GeneratedToken;
+import com.overflow.stack.server.domain.member.entity.Member;
 import com.overflow.stack.server.domain.question.controller.QuestionController;
 import com.overflow.stack.server.domain.question.dto.QuestionDto;
 import com.overflow.stack.server.domain.question.entity.Question;
@@ -67,12 +68,13 @@ public class QuestionControllerRestDocsTest {
                 new QuestionDto.response(1L,
                         "title1",
                         "content1",
-                        0L);
+                        0L,
+                        "displayName1");
 
 
         given(mapper.questionPostDtoToQuestion(Mockito.any(QuestionDto.Post.class))).willReturn(new Question());
 
-        given(questionService.createQuestion(Mockito.any(Question.class))).willReturn(new Question());
+        given(questionService.createQuestion(Mockito.any(Question.class),Mockito.anyString())).willReturn(new Question());
 
         given(mapper.questionToQuestionResponseDto(Mockito.any(Question.class))).willReturn(responseDto);
 
@@ -113,7 +115,8 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("회원 식별자"),
                                         fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
-                                        fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과")
+                                        fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자")
                                 )
                         )
                 ));
@@ -125,12 +128,12 @@ public class QuestionControllerRestDocsTest {
         long questionId=1L;
         QuestionDto.Patch patch = new QuestionDto.Patch(questionId, "title1", "content1", 0L);
         String content = gson.toJson(patch);
-
         QuestionDto.response responseDto =
                 new QuestionDto.response(1L,
                         "title1",
                         "content1",
-                        0L);
+                        0L,
+                        "displayName1");
 
 
         given(mapper.questionPatchDtoToQuestion(Mockito.any(QuestionDto.Patch.class))).willReturn(new Question());
@@ -181,7 +184,8 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
-                                        fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과")
+                                        fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자")
                                 )
                         )
                 ));
@@ -196,7 +200,8 @@ public class QuestionControllerRestDocsTest {
                 new QuestionDto.response(1L,
                         "title1",
                         "content1",
-                        0L);
+                        0L,
+                        "displayName1");
 
         given(questionService.findQuestion(Mockito.anyLong())).willReturn(new Question());
 
@@ -228,7 +233,8 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
-                                        fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과")
+                                        fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자")
                                 )
                         )
                 ));
@@ -237,18 +243,21 @@ public class QuestionControllerRestDocsTest {
     @Test
     @WithMockUser
     public void getQuestionsTest() throws Exception {
-
+        Member member = new Member();
+        member.setDisplayName("displayName1");
         QuestionDto.response responseDto =
                 new QuestionDto.response(1L,
                         "title1",
                         "content1",
-                        0L);
+                        0L,
+                        "displayName1");
 
         QuestionDto.response responseDto2 =
                 new QuestionDto.response(2L,
                         "title2",
                         "content2",
-                        0L);
+                        0L,
+                        "displayName2");
         List<QuestionDto.response> responseList=new ArrayList<>();
         responseList.add(responseDto);
         responseList.add(responseDto2);
@@ -281,7 +290,8 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("data.[].content").type(JsonFieldType.STRING).description("내용"),
-                                        fieldWithPath("data.[].voteResult").type(JsonFieldType.NUMBER).description("투표 결과")
+                                        fieldWithPath("data.[].voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
+                                        fieldWithPath("data.[].displayName").type(JsonFieldType.STRING).description("작성자")
                                 )
                         )
                 ));

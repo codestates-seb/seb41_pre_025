@@ -1,5 +1,6 @@
 package com.overflow.stack.server.domain.question.dto;
 
+import com.overflow.stack.server.domain.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,6 +39,7 @@ public class QuestionDto {
         @NotBlank
         private String content;
         private Long voteResult;
+        private String displayName;
     }
 
 }
