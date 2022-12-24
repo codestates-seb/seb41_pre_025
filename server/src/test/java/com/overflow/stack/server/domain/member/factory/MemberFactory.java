@@ -4,6 +4,8 @@ import com.overflow.stack.server.domain.member.dto.MemberDto;
 import com.overflow.stack.server.domain.member.entity.Member;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
+
 public class MemberFactory {
     public static MemberDto.Post createMemberPostDto() {
 
@@ -12,13 +14,6 @@ public class MemberFactory {
                 .password("password")
                 .fullName("fullName")
                 .displayName("displayName")
-                .aboutMe("aboutMe")
-                .aboutMeTitle("aboutMeTitle")
-                .twitterLink("https://twitter.com")
-                .githubLink("https://github.com")
-                .websiteLink("https://website.com")
-                .location("location")
-                .imgUrl("https://img.com")
                 .build();
     }
 
@@ -67,6 +62,7 @@ public class MemberFactory {
                 .websiteLink("https://website.com")
                 .location("location")
                 .imgUrl("https://img.com")
+                .tags(List.of("js,java"))
                 .build();
     }
 }
