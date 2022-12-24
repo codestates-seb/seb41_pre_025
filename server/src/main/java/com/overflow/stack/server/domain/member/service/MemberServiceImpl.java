@@ -4,10 +4,10 @@ import com.overflow.stack.server.domain.member.entity.Member;
 import com.overflow.stack.server.domain.member.entity.Member_Tag;
 import com.overflow.stack.server.domain.member.repository.JpaMemberRepository;
 import com.overflow.stack.server.domain.tag.entity.Tag;
-import com.overflow.stack.server.domain.tag.repository.JpaTagRepository;
 import com.overflow.stack.server.domain.tag.service.TagService;
 import com.overflow.stack.server.global.exception.CustomLogicException;
 import com.overflow.stack.server.global.exception.ExceptionCode;
+import com.overflow.stack.server.global.utils.CustomBeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +23,12 @@ import static com.overflow.stack.server.domain.member.utils.AuthoritiesUtils.cre
 public class MemberServiceImpl implements MemberService {
     private final JpaMemberRepository memberRepository;
     private final TagService tagService;
+    private final CustomBeanUtils<Member> customBeanUtils;
     private final PasswordEncoder passwordEncoder;
-    public MemberServiceImpl(JpaMemberRepository memberRepository,  TagService tagService, PasswordEncoder passwordEncoder) {
+    public MemberServiceImpl(JpaMemberRepository memberRepository, TagService tagService, CustomBeanUtils<Member> customBeanUtils, PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
         this.tagService = tagService;
+        this.customBeanUtils = customBeanUtils;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -38,12 +40,10 @@ public class MemberServiceImpl implements MemberService {
         member.setMemberStatus(Member.MemberStatus.MEMBER_ACTIVE);
         member.setPassword(passwordEncoder.encode(member.getPassword()));
         member.setRoles(createRoles(member.getEmail()));
-        List<Member_Tag> memberTags = member.getTags().stream().map(mTag -> {
-            Member_Tag memberTag = new Member_Tag();
-            memberTag.setMember(member);
+        List<Member_Tag> memberTags = member.getTags().stream().peek(mTag -> {
+            mTag.setMember(member);
             Tag tag = tagService.findTagByTagName(mTag.getTag().getTagName()).orElseGet(() -> tagService.saveTag(mTag.getTag()));
-            memberTag.setTag(tag);
-            return memberTag;
+            mTag.setTag(tag);
         }).collect(Collectors.toList());
         member.setTags(memberTags);
         return memberRepository.save(member);
@@ -57,6 +57,16 @@ public class MemberServiceImpl implements MemberService {
     }
     public Member findMember(Long id) {
       return memberRepository.findById(id).orElseThrow(() -> new CustomLogicException(ExceptionCode.MEMBER_NONE));
+    }
+
+    @Override
+    public Member updateMember(Member member, Member patchMember) {
+        return customBeanUtils.copyNonNullProperties(patchMember, member);
+    }
+
+    @Override
+    public Member updateMemberTags(Member member, String tag, Boolean isFollow) {
+        return null;
     }
 
 }

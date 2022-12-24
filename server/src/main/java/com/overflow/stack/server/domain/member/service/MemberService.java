@@ -9,4 +9,7 @@ public interface MemberService {
     Member findMember(Long id);
 
 
+    Member updateMember(Member member, Member patchMemberDtoToMember);
+
+    Member updateMemberTags(Member member, String tag, Boolean isFollow);
 }

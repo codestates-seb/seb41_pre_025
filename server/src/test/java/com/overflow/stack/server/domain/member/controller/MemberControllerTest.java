@@ -132,8 +132,9 @@ class MemberControllerTest extends abstractControllerTest {
                 .andExpect(jsonPath("data.websiteLink").value(response.getWebsiteLink()))
                 .andExpect(jsonPath("data.location").value(response.getLocation()))
                 .andExpect(jsonPath("data.imgUrl").value(response.getImgUrl()))
-                .andExpect(jsonPath("data.tags").isArray())
-                .andExpect(jsonPath("data.tags[0]").value(response.getTags().get(0)));
+                .andExpect(jsonPath("data.isFollowingTags").isArray())
+                .andExpect(jsonPath("data.isFollowingTags[0]").value(response.getIsFollowingTags().get(0)))
+                .andExpect(jsonPath("data.isUnFollowingTags").isArray());
         // then
         resultActions.andDo(document("member-get",
                 getRequestPreProcessor(),
@@ -161,7 +162,8 @@ class MemberControllerTest extends abstractControllerTest {
                 fieldWithPath("data.websiteLink").type(JsonFieldType.STRING).description("웹사이트 링크"),
                 fieldWithPath("data.location").type(JsonFieldType.STRING).description("지역"),
                 fieldWithPath("data.imgUrl").type(JsonFieldType.STRING).description("이미지 링크"),
-                fieldWithPath("data.tags").type(JsonFieldType.ARRAY).description("태그")
+                fieldWithPath("data.isFollowingTags").type(JsonFieldType.ARRAY).description("팔로우 태그"),
+                fieldWithPath("data.isUnFollowingTags").type(JsonFieldType.ARRAY).description("언팔로우 태그")
         );
     }
 
@@ -171,7 +173,7 @@ class MemberControllerTest extends abstractControllerTest {
                 fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호 / not null"),
                 fieldWithPath("fullName").type(JsonFieldType.STRING).description("이름 / not null"),
                 fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임 / not null")
-                );
+        );
     }
 
 

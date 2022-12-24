@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @SuppressWarnings("rawtypes")
 @RestController
@@ -46,5 +47,17 @@ public class MemberController {
         Member member = memberService.findMember(members.getUsername());
         return ResponseEntity.ok(new SingleResponse<>(memberMapper.memberToResponseMemberDto(member)));
     }
+    @PatchMapping
+    public ResponseEntity patchMember(@AuthenticationPrincipal User members, @Valid @RequestBody MemberDto.Patch memberDto){
+        Member member = memberService.findMember(members.getUsername());
+        member = memberService.updateMember(member, memberMapper.patchMemberDtoToMember(memberDto));
+        return ResponseEntity.ok(new SingleResponse<>(memberMapper.memberToResponseMemberDto(member)));
+    }
+    /*@PatchMapping("/tags/{isFollow}")
+    public ResponseEntity patchMemberTags(@AuthenticationPrincipal User members, @RequestBody String tag , @PathVariable Boolean isFollow){
+        Member member = memberService.findMember(members.getUsername());
+        memberService.updateMemberTags(member, tag, isFollow);
+        return ResponseEntity.noContent().build();
+    }*/
 
 }
