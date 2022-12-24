@@ -50,14 +50,14 @@ public class MemberController {
     @PatchMapping
     public ResponseEntity patchMember(@AuthenticationPrincipal User members, @Valid @RequestBody MemberDto.Patch memberDto){
         Member member = memberService.findMember(members.getUsername());
-        member = memberService.updateMember(member, memberMapper.patchMemberDtoToMember(memberDto));
+        memberService.updateMember(member, memberMapper.patchMemberDtoToMember(memberDto));
         return ResponseEntity.noContent().build();
     }
-    @PatchMapping("/tags/{isFollow}")
-    public ResponseEntity patchMemberTags(@AuthenticationPrincipal User members, @RequestBody String tag , @PathVariable boolean isFollow){
+    @PatchMapping("/tags/{tag}/{isFollow}")
+    public ResponseEntity patchMemberTags(@AuthenticationPrincipal User members, @PathVariable String tag , @PathVariable boolean isFollow){
         Member member = memberService.findMember(members.getUsername());
-        memberService.updateMemberTags(member, tag, isFollow);
-        return ResponseEntity.noContent().build();
+        member = memberService.updateMemberTags(member, tag, isFollow);
+        return ResponseEntity.ok(new SingleResponse<>(memberMapper.memberToResponseMemberDto(member)));
     }
 
 }

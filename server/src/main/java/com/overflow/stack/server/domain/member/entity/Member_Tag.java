@@ -22,9 +22,9 @@ public class Member_Tag extends Auditable {
     @ManyToOne
     private Tag tag;
 
-    private Boolean isFollowed;
+    private boolean isFollowed;
 
-    public Member_Tag(Tag tag, Boolean isFollowed) {
+    public Member_Tag(Tag tag, boolean isFollowed) {
         this.tag = tag;
         this.isFollowed = isFollowed;
     }

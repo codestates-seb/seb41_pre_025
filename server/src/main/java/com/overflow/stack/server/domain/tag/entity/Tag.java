@@ -23,4 +23,5 @@ public class Tag extends Auditable {
     public Tag(String tagName){
         this.tagName = tagName;
     }
+
 }

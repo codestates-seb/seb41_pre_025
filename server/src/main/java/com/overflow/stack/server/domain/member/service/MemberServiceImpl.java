@@ -25,6 +25,7 @@ public class MemberServiceImpl implements MemberService {
     private final TagService tagService;
     private final CustomBeanUtils<Member> customBeanUtils;
     private final PasswordEncoder passwordEncoder;
+
     public MemberServiceImpl(JpaMemberRepository memberRepository, TagService tagService, CustomBeanUtils<Member> customBeanUtils, PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
         this.tagService = tagService;
@@ -48,15 +49,18 @@ public class MemberServiceImpl implements MemberService {
         member.setTags(memberTags);
         return memberRepository.save(member);
     }
+
     // read only
     private Optional<Member> findByEmail(String email) {
         return memberRepository.findByEmail(email);
     }
+
     public Member findMember(String email) {
-      return findByEmail(email).orElseThrow(() -> new CustomLogicException(ExceptionCode.MEMBER_NONE));
+        return findByEmail(email).orElseThrow(() -> new CustomLogicException(ExceptionCode.MEMBER_NONE));
     }
+
     public Member findMember(Long id) {
-      return memberRepository.findById(id).orElseThrow(() -> new CustomLogicException(ExceptionCode.MEMBER_NONE));
+        return memberRepository.findById(id).orElseThrow(() -> new CustomLogicException(ExceptionCode.MEMBER_NONE));
     }
 
     @Override
@@ -65,8 +69,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member updateMemberTags(Member member, String tag, Boolean isFollow) {
-        return null;
+    public Member updateMemberTags(Member member, String tag, boolean isFollow) {
+        // follow 를 할 때 tag 가 없으면 tag 를 생성하고, 있으면 tag 를 찾아서 member_tag 에 추가한다.
+        // follow 할 때 unfollow 한 목록에 해당 tag 가 있다면 unfollow 목록에서 제거한다.
+// unfollow 를 할 때 tag 가 없으면 예외를 발생시킨다.
+// unfollow 를 할 때 follow 한 목록에 해당 tag 가 있다면 follow 목록에서 제거한다.
+
+        Tag tagEntity = tagService.findTagByTagName(tag).orElseGet(() -> tagService.saveTag(new Tag(tag)));
+        Member_Tag memberTag = Member_Tag.builder().member(member).tag(tagEntity).isFollowed(isFollow).build();
+        member.getTags().removeIf(mTag -> mTag.getTag().getTagName().equals(tag));
+        member.getTags().add(memberTag);
+
+
+        return member;
     }
 
 }
