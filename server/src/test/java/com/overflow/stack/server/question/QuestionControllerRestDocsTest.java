@@ -61,7 +61,7 @@ public class QuestionControllerRestDocsTest {
     @WithMockUser
     public void postQuestionTest() throws Exception {
 
-        QuestionDto.Post post = new QuestionDto.Post("title1", "content1", 0L);
+        QuestionDto.Post post = new QuestionDto.Post("title1", "content1");
         String content = gson.toJson(post);
 
         QuestionDto.response responseDto =
@@ -93,7 +93,6 @@ public class QuestionControllerRestDocsTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.data.title").value(post.getTitle()))
                 .andExpect(jsonPath("$.data.content").value(post.getContent()))
-                .andExpect(jsonPath("$.data.voteResult").value(post.getVoteResult()))
                 .andDo(document("post-question",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
@@ -104,8 +103,7 @@ public class QuestionControllerRestDocsTest {
                         requestFields(
                                 List.of(
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
-                                        fieldWithPath("content").type(JsonFieldType.STRING).description("내용"),
-                                        fieldWithPath("voteResult").type(JsonFieldType.NUMBER).description("투표 결과")
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("내용")
                                 )
                         ),
                         // response body
@@ -126,7 +124,7 @@ public class QuestionControllerRestDocsTest {
     @WithMockUser
     public void patchQuestionTest() throws Exception {
         long questionId=1L;
-        QuestionDto.Patch patch = new QuestionDto.Patch(questionId, "title1", "content1", 0L);
+        QuestionDto.Patch patch = new QuestionDto.Patch(questionId, "title1", "content1");
         String content = gson.toJson(patch);
         QuestionDto.response responseDto =
                 new QuestionDto.response(1L,
@@ -158,7 +156,6 @@ public class QuestionControllerRestDocsTest {
                 .andExpect(jsonPath("$.data.questionId").value(patch.getQuestionId()))
                 .andExpect(jsonPath("$.data.title").value(patch.getTitle()))
                 .andExpect(jsonPath("$.data.content").value(patch.getContent()))
-                .andExpect(jsonPath("$.data.voteResult").value(patch.getVoteResult()))
                 .andDo(document("patch-question",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
@@ -173,8 +170,7 @@ public class QuestionControllerRestDocsTest {
                                 List.of(
                                         fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 식별자").ignored(),
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("제목").optional(),
-                                        fieldWithPath("content").type(JsonFieldType.STRING).description("내용").optional(),
-                                        fieldWithPath("voteResult").type(JsonFieldType.NUMBER).description("투표 결과").optional()
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("내용").optional()
                                 )
                         ),
                         // response body

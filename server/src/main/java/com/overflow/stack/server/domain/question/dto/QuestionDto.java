@@ -15,7 +15,6 @@ public class QuestionDto {
         private String title;
         @NotBlank
         private String content;
-        private Long voteResult;
     }
 
     @AllArgsConstructor
@@ -27,7 +26,6 @@ public class QuestionDto {
         private String title;
         @NotBlank
         private String content;
-        private Long voteResult;
     }
 
     @AllArgsConstructor
