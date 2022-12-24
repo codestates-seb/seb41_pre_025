@@ -65,6 +65,7 @@ public class MemberDto {
         private String imgUrl;
     }
     @Getter
+    @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder

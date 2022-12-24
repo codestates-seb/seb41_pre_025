@@ -8,6 +8,7 @@ import com.overflow.stack.server.domain.member.entity.Member;
 import com.overflow.stack.server.domain.member.factory.MemberFactory;
 import com.overflow.stack.server.domain.member.mapper.MemberMapper;
 import com.overflow.stack.server.domain.member.service.MemberService;
+import com.overflow.stack.server.domain.member.utils.MemberExpectedAction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +20,22 @@ import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.List;
+
 import static com.overflow.stack.server.domain.member.factory.MemberFactory.createMemberPatchDto;
 import static com.overflow.stack.server.domain.member.factory.MemberFactory.createMemberPostDto;
+import static com.overflow.stack.server.domain.member.utils.MemberExpectedAction.expectedResponse;
 import static com.overflow.stack.server.util.ApiDocumentUtils.getRequestPreProcessor;
 import static com.overflow.stack.server.util.ApiDocumentUtils.getResponsePreProcessor;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -119,22 +124,8 @@ class MemberControllerTest extends abstractControllerTest {
         ResultActions resultActions = mockMvc.perform(get(BASE_URL)
                         .contentType("application/json")
                         .headers(GeneratedToken.getMockHeaderToken())
-                        .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("data.memberId").value(response.getMemberId()))
-                .andExpect(jsonPath("data.email").value(response.getEmail()))
-                .andExpect(jsonPath("data.fullName").value(response.getFullName()))
-                .andExpect(jsonPath("data.displayName").value(response.getDisplayName()))
-                .andExpect(jsonPath("data.aboutMe").value(response.getAboutMe()))
-                .andExpect(jsonPath("data.aboutMeTitle").value(response.getAboutMeTitle()))
-                .andExpect(jsonPath("data.twitterLink").value(response.getTwitterLink()))
-                .andExpect(jsonPath("data.githubLink").value(response.getGithubLink()))
-                .andExpect(jsonPath("data.websiteLink").value(response.getWebsiteLink()))
-                .andExpect(jsonPath("data.location").value(response.getLocation()))
-                .andExpect(jsonPath("data.imgUrl").value(response.getImgUrl()))
-                .andExpect(jsonPath("data.isFollowingTags").isArray())
-                .andExpect(jsonPath("data.isFollowingTags[0]").value(response.getIsFollowingTags().get(0)))
-                .andExpect(jsonPath("data.isUnFollowingTags").isArray());
+                        .with(csrf()));
+        resultActions = expectedResponse(resultActions , response);
         // then
         resultActions.andDo(document("member-get",
                 getRequestPreProcessor(),
@@ -179,6 +170,38 @@ class MemberControllerTest extends abstractControllerTest {
                         fieldWithPath("location").type(JsonFieldType.STRING).description("지역"),
                         fieldWithPath("imgUrl").type(JsonFieldType.STRING).description("이미지 링크")
                 )
+        ));
+    }
+    @Test
+    @DisplayName("TAG 팔로우")
+    @WithMockUser
+    void followTag() throws Exception {
+        // given
+        String tag = "java";
+        MemberDto.Response response = MemberFactory.createMemberResponseDto();
+        response.setIsFollowingTags(List.of(tag));
+        given(memberService.findMember(anyString())).willReturn(new Member());
+        given(memberService.updateMemberTags(any(Member.class), anyString(), anyBoolean())).willReturn(new Member());
+        given(mapper.memberToResponseMemberDto(any(Member.class))).willReturn(response);
+        // when
+        ResultActions resultActions = mockMvc.perform(patch(BASE_URL + "/tags/{tag}/{isFollow}", tag, true)
+                        .contentType("application/json")
+                        .headers(GeneratedToken.getMockHeaderToken())
+                        .with(csrf()));
+        resultActions = expectedResponse(resultActions, response);
+
+        // then
+        resultActions.andDo(document("member-follow-tag",
+                getRequestPreProcessor(),
+                getResponsePreProcessor(),
+                requestHeaders(
+                        headerWithName("Authorization").description("JWT 토큰")
+                ),
+                pathParameters(
+                        parameterWithName("tag").description("팔로우할 태그"),
+                        parameterWithName("isFollow").description("팔로우 여부")
+                ),
+                getResponseFieldsSnippet()
         ));
     }
 
