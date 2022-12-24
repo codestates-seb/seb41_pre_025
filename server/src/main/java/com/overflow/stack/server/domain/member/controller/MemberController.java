@@ -60,4 +60,5 @@ public class MemberController {
         return ResponseEntity.ok(new SingleResponse<>(memberMapper.memberToResponseMemberDto(member)));
     }
 
+
 }
