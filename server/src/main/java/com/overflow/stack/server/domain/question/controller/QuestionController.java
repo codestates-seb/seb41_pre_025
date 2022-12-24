@@ -50,8 +50,7 @@ public class QuestionController {
    }
 
    @GetMapping("/{question-id}")
-   public ResponseEntity getQuestion(@PathVariable("question-id") long questionId,
-                                     @AuthenticationPrincipal User members){
+   public ResponseEntity getQuestion(@PathVariable("question-id") long questionId){
       Question question = questionService.findQuestion(questionId);
 
       return new ResponseEntity<>(
@@ -60,7 +59,7 @@ public class QuestionController {
    }
 
    @GetMapping
-   public ResponseEntity getQuestions(@AuthenticationPrincipal User members){
+   public ResponseEntity getQuestions(){
       List<Question>questions = questionService.findQuestions();
       return new ResponseEntity<>(
               new ListResponse<>(mapper.questionsToQuestionResponseDtos(questions)),
