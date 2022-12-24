@@ -67,4 +67,17 @@ public class MemberFactory {
                 .isUnFollowingTags(List.of("python" , "c++"))
                 .build();
     }
+    public static MemberDto.Patch createMemberPatchDto() {
+        return MemberDto.Patch.builder()
+                .imgUrl("https://img.com")
+                .fullName("fullName")
+                .displayName("displayName")
+                .aboutMe("aboutMe")
+                .aboutMeTitle("aboutMeTitle")
+                .twitterLink("https://twitter.com")
+                .githubLink("https://github.com")
+                .websiteLink("https://website.com")
+                .location("location")
+                .build();
+    }
 }

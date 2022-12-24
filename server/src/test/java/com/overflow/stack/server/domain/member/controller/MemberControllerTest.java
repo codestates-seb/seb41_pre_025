@@ -19,6 +19,7 @@ import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.overflow.stack.server.domain.member.factory.MemberFactory.createMemberPatchDto;
 import static com.overflow.stack.server.domain.member.factory.MemberFactory.createMemberPostDto;
 import static com.overflow.stack.server.util.ApiDocumentUtils.getRequestPreProcessor;
 import static com.overflow.stack.server.util.ApiDocumentUtils.getResponsePreProcessor;
@@ -28,8 +29,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -146,6 +146,40 @@ class MemberControllerTest extends abstractControllerTest {
         ));
 
 
+    }
+    @Test
+    @DisplayName("회원 정보 수정")
+    @WithMockUser
+    void updateMember() throws Exception {
+        // given
+        MemberDto.Patch put = createMemberPatchDto();
+        String json = gson.toJson(put);
+        // when
+        ResultActions resultActions = mockMvc.perform(patch(BASE_URL)
+                        .contentType("application/json")
+                        .headers(GeneratedToken.getMockHeaderToken())
+                        .with(csrf())
+                        .content(json))
+                .andExpect(status().isNoContent());
+        // then
+        resultActions.andDo(document("member-update",
+                getRequestPreProcessor(),
+                getResponsePreProcessor(),
+                requestHeaders(
+                        headerWithName("Authorization").description("JWT 토큰")
+                ),
+                requestFields(
+                        fieldWithPath("fullName").type(JsonFieldType.STRING).description("이름"),
+                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임"),
+                        fieldWithPath("aboutMe").type(JsonFieldType.STRING).description("자기소개"),
+                        fieldWithPath("aboutMeTitle").type(JsonFieldType.STRING).description("자기소개 제목"),
+                        fieldWithPath("twitterLink").type(JsonFieldType.STRING).description("트위터 링크"),
+                        fieldWithPath("githubLink").type(JsonFieldType.STRING).description("깃허브 링크"),
+                        fieldWithPath("websiteLink").type(JsonFieldType.STRING).description("웹사이트 링크"),
+                        fieldWithPath("location").type(JsonFieldType.STRING).description("지역"),
+                        fieldWithPath("imgUrl").type(JsonFieldType.STRING).description("이미지 링크")
+                )
+        ));
     }
 
     private static ResponseFieldsSnippet getResponseFieldsSnippet() {

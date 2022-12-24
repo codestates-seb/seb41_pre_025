@@ -44,9 +44,13 @@ public class MemberDto {
     }
     @Getter
     @ToString
+    @Builder
     public static class Patch{
+        @Pattern(regexp = "^[a-zA-Z0-9가-힣+_.-]+$")
         private String fullName;
+        @Pattern(regexp = "^[a-zA-Z0-9가-힣+_.-]+$")
         private String displayName;
+
         private String location;
         private String aboutMeTitle;
         private String aboutMe;

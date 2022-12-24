@@ -51,13 +51,13 @@ public class MemberController {
     public ResponseEntity patchMember(@AuthenticationPrincipal User members, @Valid @RequestBody MemberDto.Patch memberDto){
         Member member = memberService.findMember(members.getUsername());
         member = memberService.updateMember(member, memberMapper.patchMemberDtoToMember(memberDto));
-        return ResponseEntity.ok(new SingleResponse<>(memberMapper.memberToResponseMemberDto(member)));
+        return ResponseEntity.noContent().build();
     }
-    /*@PatchMapping("/tags/{isFollow}")
-    public ResponseEntity patchMemberTags(@AuthenticationPrincipal User members, @RequestBody String tag , @PathVariable Boolean isFollow){
+    @PatchMapping("/tags/{isFollow}")
+    public ResponseEntity patchMemberTags(@AuthenticationPrincipal User members, @RequestBody String tag , @PathVariable boolean isFollow){
         Member member = memberService.findMember(members.getUsername());
         memberService.updateMemberTags(member, tag, isFollow);
         return ResponseEntity.noContent().build();
-    }*/
+    }
 
 }
