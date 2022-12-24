@@ -2,6 +2,7 @@ package com.overflow.stack.server.domain.answer;
 
 import com.google.gson.Gson;
 import com.overflow.stack.server.common.abstractControllerTest;
+import com.overflow.stack.server.common.token.GeneratedToken;
 import com.overflow.stack.server.domain.answer.controller.AnswerController;
 import com.overflow.stack.server.domain.answer.dto.AnswerDto;
 import com.overflow.stack.server.domain.answer.entity.Answer;
@@ -9,7 +10,6 @@ import com.overflow.stack.server.domain.answer.mapper.AnswerMapper;
 import com.overflow.stack.server.domain.answer.service.AnswerServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -17,7 +17,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,16 +27,24 @@ import java.util.List;
 import static com.overflow.stack.server.util.ApiDocumentUtils.getRequestPreProcessor;
 import static com.overflow.stack.server.util.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AnswerController.class)
-class AnswerControllerRestDocsTest extends abstractControllerTest {
-    private final String BASE_URL = "/api/v1/answers";
+@MockBean(JpaMetamodelMappingContext.class)
+@AutoConfigureRestDocs
+public class AnswerControllerRestDocsTest{
+    @Autowired
+    private MockMvc mockMvc;
 
     @MockBean
     private AnswerServiceImpl answerService;
@@ -48,10 +55,12 @@ class AnswerControllerRestDocsTest extends abstractControllerTest {
     @Autowired
     private Gson gson;
 
+    private static final String BASE_URL = "/api/v1/answers";
+
     @Test
     @DisplayName("답변 생성")
-    @WithMockUser(username = "test@gmail.com", roles = "USER")
-    void createAnswer() throws Exception {
+    @WithMockUser
+    public void createAnswerTest() throws Exception {
 
         AnswerDto.Post post = new AnswerDto.Post("content", 0L);
         String content = gson.toJson(post);
@@ -70,11 +79,12 @@ class AnswerControllerRestDocsTest extends abstractControllerTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        post("/api/v1/answers")
+                        post(BASE_URL)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .with(csrf())
-                                .content(content));
+                                .content(content)
+                                .headers(GeneratedToken.getMockHeaderToken()));
 
         actions
                 .andExpect(status().isCreated())
@@ -90,6 +100,56 @@ class AnswerControllerRestDocsTest extends abstractControllerTest {
                                 )
                         ),
 
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
+                                        fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
+                                        fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과")
+                                )
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("답변 수정")
+    @WithMockUser
+    public void patchAnswerTest() throws Exception {
+        long answerId = 1L;
+        AnswerDto.Patch patch = new AnswerDto.Patch(answerId, "content", 0L);
+        String content = gson.toJson(patch);
+
+        AnswerDto.Response responseDto =
+                new AnswerDto.Response(1L, "content", 0L);
+
+        given(answerMapper.answerPatchDtoToAnswer(Mockito.any(AnswerDto.Patch.class))).willReturn(new Answer());
+        given(answerService.updateAnswer(Mockito.any(Answer.class))).willReturn(new Answer());
+        given(answerMapper.answerToAnswerResponseDto(Mockito.any(Answer.class))).willReturn(responseDto);
+
+        ResultActions actions =
+                mockMvc.perform(
+                        patch(BASE_URL + "{answer-id")
+                                .accept(MediaType.APPLICATION_JSON)
+                                .with(csrf())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(content)
+                                .headers(GeneratedToken.getMockHeaderToken())
+                );
+
+        actions
+                .andExpect((status().isOk()))
+                .andExpect(jsonPath("$.data.answerId").value(patch.getAnswerId()))
+                .andExpect(jsonPath("$.data.content").value(patch.getContent()))
+                .andExpect(jsonPath("$.data.voteResult").value(patch.getVoteResult()))
+                .andDo(document("patch-question",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Bearer Token")
+                        ),
+                        pathParameters(
+                                parameterWithName("answer-id").description("답변 식별자")
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),

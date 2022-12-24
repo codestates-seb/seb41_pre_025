@@ -21,6 +21,16 @@ public class AnswerDto {
 
     @AllArgsConstructor
     @Getter
+    @Setter
+    public static class Patch{
+        private Long answerId;
+        @NotBlank
+        private String content;
+        private Long voteResult;
+    }
+
+    @AllArgsConstructor
+    @Getter
     public static class Response {
         private Long answerId;
         @NotBlank
