@@ -20,9 +20,11 @@ public interface QuestionMapper {
             Question question = new Question();
             question.setTitle(questionPostDto.getTitle());
             question.setContent(questionPostDto.getContent());
-            question.setTags(questionPostDto.getTag().stream()
-                    .map(tag->new Question_Tag(question,new Tag(tag.toLowerCase())))
-                    .collect(Collectors.toSet()));
+            if(questionPostDto.getTag()!=null) {
+                question.setTags(questionPostDto.getTag().stream()
+                        .map(tag -> new Question_Tag(question, new Tag(tag.toLowerCase())))
+                        .collect(Collectors.toSet()));
+            }
             return question;
         }
     }
