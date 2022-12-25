@@ -10,13 +10,29 @@
 
 ## 프로젝트 소개
 
-CodeStates에서 41st - 25th team Pre Project로 진행한 프로젝트입니다.
+> CodeStates에서 41st - 25th team Pre Project로 진행한 프로젝트입니다.   
+프로젝트는 스택오버플로우를 클론하여 서버와 클라이언트를 구성하는 방식으로 진행되었습니다.
+> 대표적인 기능은 회원가입하고 로그인하여 질문을 올리고 답변을 달 수 있는 기능입니다.   
+> 태그를 설정할 수 있는 기능을 추가하였으며 배포 주소를 통해 구현한 페이지를 경험할 수 있습니다.
+
+
 
 ### 프로젝트 기간
-2022.12.16 ~ 2023.01.04
+* 2022.12.16 ~ 2023.01.02
 
-### 프로젝트 구조
-
+### 프로젝트 구조 및 주요 기능
+- FE   
+> 
+- BE 
+> - 프로젝트 구조
+>  - controller, service, repository 구성
+>  - Entity, Dto 생성
+>  - Spring JPA, Spring Security 활용
+> - 주요 기능
+>  - 회원가입, 로그인 기능   
+>  - 질문 내용 등록, 수정, 삭제, 조회   
+>  - 답변 내용 등록, 수정, 삭제, 조회
+>  - 회원가입, 질문 등에 태그 추가하기
 
 
 <br>
@@ -53,6 +69,7 @@ CodeStates에서 41st - 25th team Pre Project로 진행한 프로젝트입니다
 [요구사항 정의서](https://docs.google.com/spreadsheets/d/11e0y3NLAZAIWfjTgWVdka0D4ATXGKdJCLKn7mrw0buc/edit#gid=0)
 
 [화면 구성](https://www.figma.com/file/i0De5WDtvU4P5y9dS8XBeM?embed_host=notion&kind=&node-id=0%3A1&t=oWsMsd2Llu0VRvnp-0&viewer=1)
+
 ### 배포 주소 
 [Client](https://client.prestack41-25.kro.kr/)
 
