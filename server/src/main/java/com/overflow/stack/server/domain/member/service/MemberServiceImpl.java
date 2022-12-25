@@ -43,12 +43,13 @@ public class MemberServiceImpl implements MemberService {
         member.setMemberStatus(Member.MemberStatus.MEMBER_ACTIVE);
         member.setPassword(passwordEncoder.encode(member.getPassword()));
         member.setRoles(createRoles(member.getEmail()));
-        Set<Member_Tag> memberTags = member.getTags().stream().peek(mTag -> {
-            mTag.setMember(member);
-            Tag tag = tagService.findTagByTagName(mTag.getTag().getTagName()).orElseGet(() -> tagService.saveTag(mTag.getTag()));
-            mTag.setTag(tag);
-        }).collect(Collectors.toSet());
-        member.setTags(memberTags);
+        if (member.getTags() != null) {
+            member.setTags(member.getTags().stream().peek(mTag -> {
+                mTag.setMember(member);
+                Tag tag = tagService.findTagByTagName(mTag.getTag().getTagName()).orElseGet(() -> tagService.saveTag(mTag.getTag()));
+                mTag.setTag(tag);
+            }).collect(Collectors.toSet()));
+        }
         return memberRepository.save(member);
     }
 
