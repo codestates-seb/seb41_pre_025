@@ -19,7 +19,7 @@ public interface MemberMapper {
                 .build();
         member.setTags(
                 memberDto.getTags().stream()
-                        .map(tag -> new Member_Tag(new Tag(tag.toLowerCase())))
+                        .map(tag -> new Member_Tag(new Tag(tag.toLowerCase()),true))
                         .collect(Collectors.toList())
         );
         return member;
@@ -30,7 +30,9 @@ public interface MemberMapper {
                 .email(member.getEmail())
                 .displayName(member.getDisplayName())
                 .fullName(member.getFullName())
-                .tags(member.getTags().stream().map(Member_Tag::getTag).map(Tag::getTagName).collect(Collectors.toList()))
+                .location(member.getLocation())
+                .isFollowingTags(member.getTags().stream().filter(Member_Tag::isFollowed).map(memberTag -> memberTag.getTag().getTagName()).collect(Collectors.toList()))
+                .isUnFollowingTags(member.getTags().stream().filter(memberTag -> !memberTag.isFollowed()).map(memberTag -> memberTag.getTag().getTagName()).collect(Collectors.toList()))
                 .aboutMe(member.getAboutMe())
                 .aboutMeTitle(member.getAboutMeTitle())
                 .githubLink(member.getGithubLink())
@@ -39,4 +41,6 @@ public interface MemberMapper {
                 .imgUrl(member.getImgUrl())
                 .build();
     }
+
+    Member patchMemberDtoToMember(MemberDto.Patch memberDto);
 }
