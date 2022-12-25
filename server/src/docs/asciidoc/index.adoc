@@ -196,6 +196,16 @@ include::{snippets}/member-follow-tag/response-body.adoc[]
 .response-fields
 include::{snippets}/member-follow-tag/response-fields.adoc[]
 
+### 멤버 Tag 삭제
+.curl-request
+include::{snippets}/member-delete-tag/curl-request.adoc[]
+.http-request
+include::{snippets}/member-delete-tag/http-request.adoc[]
+.path-parameters
+include::{snippets}/member-delete-tag/path-parameters.adoc[]
+.http-response
+include::{snippets}/member-delete-tag/http-response.adoc[]
+
 
 ***
 == VoteController

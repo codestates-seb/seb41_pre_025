@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.overflow.stack.server.domain.member.utils.AuthoritiesUtils.createRoles;
@@ -42,12 +43,13 @@ public class MemberServiceImpl implements MemberService {
         member.setMemberStatus(Member.MemberStatus.MEMBER_ACTIVE);
         member.setPassword(passwordEncoder.encode(member.getPassword()));
         member.setRoles(createRoles(member.getEmail()));
-        List<Member_Tag> memberTags = member.getTags().stream().peek(mTag -> {
-            mTag.setMember(member);
-            Tag tag = tagService.findTagByTagName(mTag.getTag().getTagName()).orElseGet(() -> tagService.saveTag(mTag.getTag()));
-            mTag.setTag(tag);
-        }).collect(Collectors.toList());
-        member.setTags(memberTags);
+        if (member.getTags() != null) {
+            member.setTags(member.getTags().stream().peek(mTag -> {
+                mTag.setMember(member);
+                Tag tag = tagService.findTagByTagName(mTag.getTag().getTagName()).orElseGet(() -> tagService.saveTag(mTag.getTag()));
+                mTag.setTag(tag);
+            }).collect(Collectors.toSet()));
+        }
         return memberRepository.save(member);
     }
 
@@ -82,6 +84,12 @@ public class MemberServiceImpl implements MemberService {
         member.getTags().add(memberTag);
 
 
+        return member;
+    }
+
+    @Override
+    public Member deleteMemberTags(Member member, String tag) {
+        member.getTags().removeIf(mTag -> mTag.getTag().getTagName().equals(tag));
         return member;
     }
 

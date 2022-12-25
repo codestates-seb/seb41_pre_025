@@ -59,5 +59,11 @@ public class MemberController {
         member = memberService.updateMemberTags(member, tag, isFollow);
         return ResponseEntity.ok(new SingleResponse<>(memberMapper.memberToResponseMemberDto(member)));
     }
+    @DeleteMapping("/tags/{tag}")
+    public ResponseEntity deleteMemberTags(@AuthenticationPrincipal User members, @PathVariable String tag){
+        Member member = memberService.findMember(members.getUsername());
+        member = memberService.deleteMemberTags(member, tag);
+        return ResponseEntity.noContent().build();
+    }
 
 }
