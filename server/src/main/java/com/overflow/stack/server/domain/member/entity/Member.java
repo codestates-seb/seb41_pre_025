@@ -6,7 +6,9 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -57,8 +59,8 @@ public class Member extends Auditable {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
-    @OneToMany(cascade = CascadeType.ALL , mappedBy = "member")
-    private List<Member_Tag> tags = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL , mappedBy = "member" , orphanRemoval = true)
+    private Set<Member_Tag> tags = new HashSet<>();
 
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),

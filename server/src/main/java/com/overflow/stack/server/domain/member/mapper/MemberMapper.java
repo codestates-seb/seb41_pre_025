@@ -18,9 +18,11 @@ public interface MemberMapper {
                 .password(memberDto.getPassword())
                 .build();
         member.setTags(
-                memberDto.getTags().stream()
-                        .map(tag -> new Member_Tag(new Tag(tag.toLowerCase()),true))
-                        .collect(Collectors.toList())
+                memberDto.getTags() != null ?
+                        memberDto.getTags().stream()
+                                .map(tag -> new Member_Tag(new Tag(tag.toLowerCase()),true))
+                                .collect(Collectors.toSet()) : null
+
         );
         return member;
     }
