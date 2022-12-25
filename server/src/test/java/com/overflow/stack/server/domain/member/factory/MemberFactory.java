@@ -15,6 +15,7 @@ public class MemberFactory {
                 .password("password")
                 .fullName("fullName")
                 .displayName("displayName")
+                .tags(new ArrayList<>())
                 .build();
     }
 

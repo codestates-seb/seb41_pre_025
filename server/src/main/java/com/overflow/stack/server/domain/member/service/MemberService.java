@@ -12,4 +12,5 @@ public interface MemberService {
     Member updateMember(Member member, Member patchMemberDtoToMember);
 
     Member updateMemberTags(Member member, String tag, boolean isFollow);
+    Member deleteMemberTags(Member member, String tag);
 }
