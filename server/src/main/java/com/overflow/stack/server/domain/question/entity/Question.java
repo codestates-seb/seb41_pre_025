@@ -32,7 +32,7 @@ public class Question {
     @JoinColumn(name = "MEMEBER")
     private Member member;
 
-    @OneToMany(cascade = CascadeType.ALL , mappedBy = "question")
+    @OneToMany(cascade = CascadeType.ALL , mappedBy = "question", orphanRemoval = true)
     private Set<Question_Tag> tags = new HashSet<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
