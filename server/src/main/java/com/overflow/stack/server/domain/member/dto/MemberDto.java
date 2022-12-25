@@ -43,6 +43,29 @@ public class MemberDto {
         private String imgUrl;*/
     }
     @Getter
+    @ToString
+    @Builder
+    public static class Patch{
+        @Pattern(regexp = "^[a-zA-Z0-9가-힣+_.-]+$")
+        private String fullName;
+        @Pattern(regexp = "^[a-zA-Z0-9가-힣+_.-]+$")
+        private String displayName;
+
+        private String location;
+        private String aboutMeTitle;
+        private String aboutMe;
+        //weblink Pattern
+        @Pattern(regexp = "^(http|https)://[a-zA-Z0-9+_.-]+.[a-zA-Z0-9+_.-]+.[a-zA-Z0-9+_.-]+$")
+        private String githubLink;
+        @Pattern(regexp = "^(http|https)://[a-zA-Z0-9+_.-]+.[a-zA-Z0-9+_.-]+.[a-zA-Z0-9+_.-]+$")
+        private String twitterLink;
+        @Pattern(regexp = "^(http|https)://[a-zA-Z0-9+_.-]+.[a-zA-Z0-9+_.-]+.[a-zA-Z0-9+_.-]+$")
+        private String websiteLink;
+
+        private String imgUrl;
+    }
+    @Getter
+    @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
@@ -58,7 +81,8 @@ public class MemberDto {
         private String twitterLink;
         private String websiteLink;
         private String imgUrl;
-        private List<String> tags;
+        private List<String> isFollowingTags;
+        private List<String> isUnFollowingTags;
 
     }
 
