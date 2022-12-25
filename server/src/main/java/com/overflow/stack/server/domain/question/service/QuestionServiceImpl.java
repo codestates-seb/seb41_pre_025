@@ -36,6 +36,7 @@ public class QuestionServiceImpl implements QuestionService {
             question.getTags().stream()
                     .forEach(qtag -> {
                         Tag tag = tagService.findTagByTagName(qtag.getTag().getTagName()).orElseGet(() -> tagService.saveTag(qtag.getTag()));
+                        qtag.setTag(tag);
                     });
         }
         return questionRepository.save(question);
