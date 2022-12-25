@@ -234,4 +234,34 @@ class MemberControllerTest extends abstractControllerTest {
     }
 
 
+    @Test
+    @DisplayName("회원 Follow Tag , UnFollow Tag 삭제")
+    @WithMockUser
+    void deleteMemberTags() throws Exception {
+        // given
+        String tag = "java";
+        MemberDto.Response response = MemberFactory.createMemberResponseDto();
+        response.setIsFollowingTags(List.of("js"));
+        given(memberService.findMember(anyString())).willReturn(new Member());
+        given(memberService.deleteMemberTags(any(Member.class), anyString())).willReturn(new Member());
+        given(mapper.memberToResponseMemberDto(any(Member.class))).willReturn(response);
+        // when
+        ResultActions resultActions = mockMvc.perform(delete(BASE_URL + "/tags/{tag}", tag)
+                        .contentType("application/json")
+                        .headers(GeneratedToken.getMockHeaderToken())
+                        .with(csrf()))
+                .andExpect(status().isNoContent());
+
+        // then
+        resultActions.andDo(document("member-delete-tag",
+                getRequestPreProcessor(),
+                getResponsePreProcessor(),
+                requestHeaders(
+                        headerWithName("Authorization").description("JWT 토큰")
+                ),
+                pathParameters(
+                        parameterWithName("tag").description("팔로우할 태그")
+                )
+        ));
+    }
 }
