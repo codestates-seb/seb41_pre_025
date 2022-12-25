@@ -22,7 +22,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.overflow.stack.server.util.ApiDocumentUtils.getRequestPreProcessor;
 import static com.overflow.stack.server.util.ApiDocumentUtils.getResponsePreProcessor;
@@ -60,8 +62,7 @@ public class QuestionControllerRestDocsTest {
     @Test
     @WithMockUser
     public void postQuestionTest() throws Exception {
-
-        QuestionDto.Post post = new QuestionDto.Post("title1", "content1");
+        QuestionDto.Post post = new QuestionDto.Post("title1", "content1", Set.of("tag1, tag2"));
         String content = gson.toJson(post);
 
         QuestionDto.response responseDto =
@@ -69,7 +70,8 @@ public class QuestionControllerRestDocsTest {
                         "title1",
                         "content1",
                         0L,
-                        "displayName1");
+                        "displayName1",
+                        Set.of("tag1, tag2"));
 
 
         given(mapper.questionPostDtoToQuestion(Mockito.any(QuestionDto.Post.class))).willReturn(new Question());
@@ -103,7 +105,8 @@ public class QuestionControllerRestDocsTest {
                         requestFields(
                                 List.of(
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
-                                        fieldWithPath("content").type(JsonFieldType.STRING).description("내용")
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("내용"),
+                                        fieldWithPath("tag").type(JsonFieldType.ARRAY).description("태그")
                                 )
                         ),
                         // response body
@@ -114,7 +117,8 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
-                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자")
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그")
                                 )
                         )
                 ));
@@ -124,14 +128,15 @@ public class QuestionControllerRestDocsTest {
     @WithMockUser
     public void patchQuestionTest() throws Exception {
         long questionId=1L;
-        QuestionDto.Patch patch = new QuestionDto.Patch(questionId, "title1", "content1");
+        QuestionDto.Patch patch = new QuestionDto.Patch(questionId, "title1", "content1",Set.of("tag1, tag2"));
         String content = gson.toJson(patch);
         QuestionDto.response responseDto =
                 new QuestionDto.response(1L,
                         "title1",
                         "content1",
                         0L,
-                        "displayName1");
+                        "displayName1",
+                        Set.of("tag1, tag2"));
 
 
         given(mapper.questionPatchDtoToQuestion(Mockito.any(QuestionDto.Patch.class))).willReturn(new Question());
@@ -170,7 +175,8 @@ public class QuestionControllerRestDocsTest {
                                 List.of(
                                         fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 식별자").ignored(),
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("제목").optional(),
-                                        fieldWithPath("content").type(JsonFieldType.STRING).description("내용").optional()
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("내용").optional(),
+                                        fieldWithPath("tag").type(JsonFieldType.ARRAY).description("태그").optional()
                                 )
                         ),
                         // response body
@@ -181,7 +187,8 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
-                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자")
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그")
                                 )
                         )
                 ));
@@ -197,7 +204,8 @@ public class QuestionControllerRestDocsTest {
                         "title1",
                         "content1",
                         0L,
-                        "displayName1");
+                        "displayName1",
+                        Set.of("tag1, tag2"));
 
         given(questionService.findQuestion(Mockito.anyLong())).willReturn(new Question());
 
@@ -230,7 +238,8 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
-                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자")
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그")
                                 )
                         )
                 ));
@@ -246,14 +255,16 @@ public class QuestionControllerRestDocsTest {
                         "title1",
                         "content1",
                         0L,
-                        "displayName1");
+                        "displayName1",
+                        Set.of("tag1","tag2"));
 
         QuestionDto.response responseDto2 =
                 new QuestionDto.response(2L,
                         "title2",
                         "content2",
                         0L,
-                        "displayName2");
+                        "displayName2",
+                        Set.of("tag3, tag4"));
         List<QuestionDto.response> responseList=new ArrayList<>();
         responseList.add(responseDto);
         responseList.add(responseDto2);
@@ -287,7 +298,8 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("data.[].content").type(JsonFieldType.STRING).description("내용"),
                                         fieldWithPath("data.[].voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
-                                        fieldWithPath("data.[].displayName").type(JsonFieldType.STRING).description("작성자")
+                                        fieldWithPath("data.[].displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.[].tag").type(JsonFieldType.ARRAY).description("태그")
                                 )
                         )
                 ));

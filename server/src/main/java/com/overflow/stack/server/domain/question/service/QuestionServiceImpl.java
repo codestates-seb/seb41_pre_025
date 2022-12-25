@@ -1,9 +1,9 @@
 package com.overflow.stack.server.domain.question.service;
 
-import com.overflow.stack.server.domain.member.entity.Member;
 import com.overflow.stack.server.domain.member.service.MemberService;
 import com.overflow.stack.server.domain.question.entity.Question;
 import com.overflow.stack.server.domain.question.repository.QuestionRepository;
+import com.overflow.stack.server.domain.tag.service.TagService;
 import com.overflow.stack.server.global.exception.CustomLogicException;
 import com.overflow.stack.server.global.exception.ExceptionCode;
 import com.overflow.stack.server.global.utils.CustomBeanUtils;
@@ -19,16 +19,24 @@ public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepository questionRepository;
     private final CustomBeanUtils<Question> beanUtils;
     private final MemberService memberService;
+    private final TagService tagService;
 
-    public QuestionServiceImpl(QuestionRepository questionRepository, CustomBeanUtils<Question> beanUtils, MemberService memberService) {
+    public QuestionServiceImpl(QuestionRepository questionRepository, CustomBeanUtils<Question> beanUtils, MemberService memberService, TagService tagService) {
         this.questionRepository = questionRepository;
         this.beanUtils = beanUtils;
         this.memberService = memberService;
+        this.tagService = tagService;
     }
 
     @Override
     public Question createQuestion(Question question, String userName) {
         question.setMember(memberService.findMember(userName));
+        if(question.getTags()!=null) {
+            question.getTags().stream()
+                    .forEach(qtag -> {
+                        tagService.saveTag(qtag.getTag());
+                    });
+        }
         return questionRepository.save(question);
     }
 
