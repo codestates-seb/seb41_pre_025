@@ -26,13 +26,13 @@ public class Question_Tag extends Auditable {
     @ManyToOne
     private Tag tag;
 
-    public void setQuestion(Question question){
+    public void addQuestion(Question question){
         this.question=question;
         if(!this.question.getTags().contains(this)) {
             this.question.addQuestionTag(this);
         }
     }
-    public void setTag(Tag tag){
+    public void addTag(Tag tag){
         this.tag=tag;
         if(!this.tag.getQuestionTags().contains(this)){
             this.tag.addQuestionTag(this);
