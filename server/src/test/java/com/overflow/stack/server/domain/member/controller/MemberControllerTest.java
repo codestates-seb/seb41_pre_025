@@ -229,7 +229,8 @@ class MemberControllerTest extends abstractControllerTest {
                 fieldWithPath("email").type(JsonFieldType.STRING).description("이메일 / not null"),
                 fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호 / not null"),
                 fieldWithPath("fullName").type(JsonFieldType.STRING).description("이름 / not null"),
-                fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임 / not null")
+                fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임 / not null"),
+                fieldWithPath("tags").type(JsonFieldType.ARRAY).description("태그 / nullable")
         );
     }
 
