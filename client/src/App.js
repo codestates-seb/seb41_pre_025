@@ -19,7 +19,7 @@ import QuestionsList from "./pages/QuestionsList";
 import AskQuestion from "./pages/AskQuestion";
 import Mypage from "./pages/Mypage";
 import Pre from "./components/Pre";
-import Question from "./components/Question";
+import Question from "./pages/Question";
 
 const GlobalStyle = createGlobalStyle`
 * {
