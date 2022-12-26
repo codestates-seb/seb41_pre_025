@@ -3,6 +3,7 @@ package com.overflow.stack.server.domain.answer.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
@@ -10,13 +11,17 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 public class AnswerDto {
-    @AllArgsConstructor
+
+    @NoArgsConstructor
     @Getter
-    @Setter
     public static class Post {
+
+        public Post(String content) {
+            this.content = content;
+        }
+
         @NotBlank
         private String content;
-        private Long voteResult;
     }
 
     @AllArgsConstructor
@@ -26,7 +31,6 @@ public class AnswerDto {
         private Long answerId;
         @NotBlank
         private String content;
-        private Long voteResult;
     }
 
     @AllArgsConstructor
@@ -36,5 +40,6 @@ public class AnswerDto {
         @NotBlank
         private String content;
         private Long voteResult;
+        private String displayName;
     }
 }
