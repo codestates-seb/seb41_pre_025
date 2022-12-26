@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Button, Social } from "./Button";
+import { Button, Social } from "../components/Button";
 import { Link } from "react-router-dom";
 import icon from "../image/icon.svg";
 import { FcGoogle } from "react-icons/fc";
