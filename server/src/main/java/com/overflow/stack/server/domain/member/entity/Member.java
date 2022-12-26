@@ -5,7 +5,10 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -24,18 +27,17 @@ public class Member extends Auditable {
     private String email;
     @Column(nullable = false, length = 100)
     private String password;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String fullName;
     @Column(nullable = false, length = 20)
     private String displayName;
-    @Column( length = 50)
+    @Column(length = 50)
     @ColumnDefault("''")
     private String location;
     @Column(length = 30)
     @ColumnDefault("''")
     private String aboutMeTitle;
     @Lob
-    @ColumnDefault("''")
     private String aboutMe;
     @Column(length = 100)
     @ColumnDefault("''")
@@ -57,7 +59,8 @@ public class Member extends Auditable {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
-
+    @OneToMany(cascade = CascadeType.ALL , mappedBy = "member" , orphanRemoval = true)
+    private Set<Member_Tag> tags = new HashSet<>();
 
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),

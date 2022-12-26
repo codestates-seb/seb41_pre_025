@@ -167,6 +167,44 @@ include::{snippets}/member-get/response-body.adoc[]
 .response-fields
 include::{snippets}/member-get/response-fields.adoc[]
 
+=== 멤버 정보 수정
+.curl-request
+include::{snippets}/member-update/curl-request.adoc[]
+.http-request
+include::{snippets}/member-update/http-request.adoc[]
+.request-body
+include::{snippets}/member-update/request-body.adoc[]
+.request-fields
+include::{snippets}/member-update/request-fields.adoc[]
+.http-response
+include::{snippets}/member-update/http-response.adoc[]
+.response-body
+include::{snippets}/member-update/response-body.adoc[]
+
+=== 멤버 TAG (Un)Following Tag
+.curl-request
+include::{snippets}/member-follow-tag/curl-request.adoc[]
+.http-request
+include::{snippets}/member-follow-tag/http-request.adoc[]
+.path-parameters
+include::{snippets}/member-follow-tag/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/member-follow-tag/http-response.adoc[]
+.response-body
+include::{snippets}/member-follow-tag/response-body.adoc[]
+.response-fields
+include::{snippets}/member-follow-tag/response-fields.adoc[]
+
+### 멤버 Tag 삭제
+.curl-request
+include::{snippets}/member-delete-tag/curl-request.adoc[]
+.http-request
+include::{snippets}/member-delete-tag/http-request.adoc[]
+.path-parameters
+include::{snippets}/member-delete-tag/path-parameters.adoc[]
+.http-response
+include::{snippets}/member-delete-tag/http-response.adoc[]
 
 
 ***
