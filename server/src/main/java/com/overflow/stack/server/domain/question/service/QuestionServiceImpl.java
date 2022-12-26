@@ -1,5 +1,6 @@
 package com.overflow.stack.server.domain.question.service;
 
+import com.overflow.stack.server.domain.member.entity.Member;
 import com.overflow.stack.server.domain.member.service.MemberService;
 import com.overflow.stack.server.domain.question.entity.Question;
 import com.overflow.stack.server.domain.question.entity.Question_Vote;
@@ -56,10 +57,26 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Question voteQuestion(long questionId, String userName, boolean voteUp) {
+        Member member = memberService.findMember(userName);
         Question findQ = findVerifiedQuestion(questionId);
-        findQ.setVoteResult(findQ.getVoteResult() + (voteUp ? 1 : -1));
-        Question_Vote qVote= new Question_Vote(findQ, memberService.findMember(userName));
-        questionVoteRepository.save(qVote);
+        Optional<Question_Vote> findVote=questionVoteRepository.findByMember(member);
+        if(findVote.isPresent()) {
+            if(findVote.get().isVoteUp()==voteUp){
+                findQ.setVoteResult(findQ.getVoteResult() + (voteUp ? -1 : 1));
+                questionVoteRepository.delete(findVote.get());
+            }
+            else{
+                findQ.setVoteResult(findQ.getVoteResult() + (voteUp ? 2 : -2));
+                Question_Vote qVote= new Question_Vote(voteUp,findQ, member);
+                questionVoteRepository.save(findVote.get());
+            }
+        }
+        else{
+            findQ.setVoteResult(findQ.getVoteResult() + (voteUp ? 1 : -1));
+            Question_Vote qVote= new Question_Vote(voteUp,findQ, member);
+            questionVoteRepository.save(qVote);
+        }
+
         return findQ;
     }
 

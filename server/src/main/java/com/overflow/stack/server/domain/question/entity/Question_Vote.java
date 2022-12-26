@@ -18,13 +18,16 @@ public class Question_Vote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionVoteId;
 
+    private boolean voteUp;
+
     @ManyToOne
     private Question question;
 
     @ManyToOne
     private Member member;
 
-    public Question_Vote(Question question, Member member) {
+    public Question_Vote(boolean voteUp, Question question, Member member) {
+        this.voteUp = voteUp;
         this.question = question;
         this.member = member;
     }

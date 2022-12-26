@@ -8,6 +8,7 @@ public enum ExceptionCode {
    MEMBER_NONE(404, "MEMBER_NONE"),
 
    MEMBER_DUPLICATE(409, "MEMBER_DUPLICATE"),
+   VOTE_DUPLICATE(409, "VOTE_DUPLICATE"),
 
    QUESTION_NOT_FOUND(404, "Question not found"),
 
