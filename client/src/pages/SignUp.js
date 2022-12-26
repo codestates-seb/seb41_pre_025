@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "./Button";
+import { Button } from "../components/Button";
 import { Link } from "react-router-dom";
 import { RiQuestionnaireLine } from "react-icons/ri";
 import { HiOutlineChevronUpDown } from "react-icons/hi2";
