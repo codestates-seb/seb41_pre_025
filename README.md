@@ -1,4 +1,4 @@
-# 프로젝트 이름
+# Stack OverFlow Clone Project
 
 <p align="center">
   <br>
@@ -7,7 +7,7 @@
 </p>
 
 ## 목차
-1. [프로젝트 소개](#1-Project-intro)
+1. [프로젝트 소개](#1-프로젝트-소개)
 2. [프로젝트 기간](#2-프로젝트-기간)
 3. [프로젝트 구조 및 주요 기능](#3-프로젝트-구조-및-주요-기능)
 4. [팀원 소개](#4-팀원-소개)
@@ -18,7 +18,7 @@
 9. [라인센스](#9-라이센스)
 ---
 
-## 1. Project Intro
+## 1. 프로젝트 소개
 
 > CodeStates에서 41st - 25th team Pre Project로 진행한 프로젝트입니다.   
 프로젝트는 스택오버플로우를 클론하여 서버와 클라이언트를 구성하는 방식으로 진행되었습니다.
@@ -78,22 +78,22 @@
 
 ## 6. 문서
 
-[API 문서](https://server.prestack41-25.kro.kr/docs/index.html)
+6-1. [API 문서](https://server.prestack41-25.kro.kr/docs/index.html)
 
-[테이블 정의서](https://docs.google.com/spreadsheets/d/1BBenLhqlpUmjgY6uC2ZhaJwrMxluj4H9bhJA7o0io0U/edit#gid=0)
+6-2.  [테이블 정의서](https://docs.google.com/spreadsheets/d/1BBenLhqlpUmjgY6uC2ZhaJwrMxluj4H9bhJA7o0io0U/edit#gid=0)
 
-[ERD](https://www.erdcloud.com/d/vWN9S58QNkiv6pxd2)
+6-3. [ERD](https://www.erdcloud.com/d/vWN9S58QNkiv6pxd2)
 
-[요구사항 정의서](https://docs.google.com/spreadsheets/d/11e0y3NLAZAIWfjTgWVdka0D4ATXGKdJCLKn7mrw0buc/edit#gid=0)
+6-4. [요구사항 정의서](https://docs.google.com/spreadsheets/d/11e0y3NLAZAIWfjTgWVdka0D4ATXGKdJCLKn7mrw0buc/edit#gid=0)
 
-[화면 구성](https://www.figma.com/file/i0De5WDtvU4P5y9dS8XBeM?embed_host=notion&kind=&node-id=0%3A1&t=oWsMsd2Llu0VRvnp-0&viewer=1)
+6-5. [화면 구성](https://www.figma.com/file/i0De5WDtvU4P5y9dS8XBeM?embed_host=notion&kind=&node-id=0%3A1&t=oWsMsd2Llu0VRvnp-0&viewer=1)
 
 ---
 
 ## 7. 배포 주소 
-[Client](https://client.prestack41-25.kro.kr/)
+### [Client](https://client.prestack41-25.kro.kr/)
 
-[Server](https://server.prestack41-25.kro.kr/)
+### [Server](https://server.prestack41-25.kro.kr/)
 
 
 ## 8. 배운 점 & 아쉬운 점
