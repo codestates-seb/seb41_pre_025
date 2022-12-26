@@ -7,6 +7,7 @@ import com.overflow.stack.server.domain.question.dto.QuestionDto;
 import com.overflow.stack.server.domain.question.entity.Question;
 import com.overflow.stack.server.domain.question.mapper.QuestionMapper;
 import com.overflow.stack.server.domain.question.service.QuestionServiceImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -60,6 +60,7 @@ public class QuestionControllerRestDocsTest {
     private static final String url = "/api/v1/questions";
 
     @Test
+    @DisplayName("질문 등록")
     @WithMockUser
     public void postQuestionTest() throws Exception {
         QuestionDto.Post post = new QuestionDto.Post("title1", "content1", Set.of("tag1, tag2"));
@@ -125,6 +126,7 @@ public class QuestionControllerRestDocsTest {
     }
 
     @Test
+    @DisplayName("질문 수정")
     @WithMockUser
     public void patchQuestionTest() throws Exception {
         long questionId=1L;
@@ -193,8 +195,69 @@ public class QuestionControllerRestDocsTest {
                         )
                 ));
     }
+    @Test
+    @DisplayName("질문 투표")
+    @WithMockUser
+    public void voteQuestionTest() throws Exception {
+        long questionId=1L;
+        QuestionDto.response responseDto =
+                new QuestionDto.response(1L,
+                        "title1",
+                        "content1",
+                        0L,
+                        "displayName1",
+                        Set.of("tag1, tag2"));
+
+        given(questionService.voteQuestion(Mockito.anyLong(), Mockito.anyString(), Mockito.anyBoolean())).willReturn(new Question());
+
+        given(mapper.questionToQuestionResponseDto(Mockito.any(Question.class))).willReturn(responseDto);
+
+
+        ResultActions actions =
+                mockMvc.perform(
+                        patch(url+"/votes/{question-id}", questionId)
+                                .param("voteUp","true")
+                                .accept(MediaType.APPLICATION_JSON)
+                                .with(csrf())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .headers(GeneratedToken.getMockHeaderToken())
+                );
+
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.questionId").value(1L))
+                .andExpect(jsonPath("$.data.title").value("title1"))
+                .andExpect(jsonPath("$.data.content").value("content1"))
+                .andDo(document("vote-question",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Bearer Token")
+                        ),
+                        requestParameters(
+                                parameterWithName("voteUp").description("투표 종류"),
+                                parameterWithName("_csrf").description("csrf")
+                        ),
+                        pathParameters(
+                                parameterWithName("question-id").description("질문 식별자")
+                        ),
+                        // response body
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
+                                        fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
+                                        fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
+                                        fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그")
+                                )
+                        )
+                ));
+    }
 
     @Test
+    @DisplayName("질문 조회")
     @WithMockUser
     public void getQuestionTest() throws Exception {
         long questionId=1L;
@@ -246,6 +309,7 @@ public class QuestionControllerRestDocsTest {
     }
 
     @Test
+    @DisplayName("모든 질문 조회")
     @WithMockUser
     public void getQuestionsTest() throws Exception {
         Member member = new Member();
@@ -306,6 +370,7 @@ public class QuestionControllerRestDocsTest {
     }
 
     @Test
+    @DisplayName("질문 삭제")
     @WithMockUser
     public void deleteQuestionTest() throws Exception {
         long questionId=1L;
