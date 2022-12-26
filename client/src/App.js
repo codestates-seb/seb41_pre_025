@@ -33,10 +33,14 @@ const GlobalStyle = createGlobalStyle`
       body{
       background-color:white;
       ${(props) =>
-				["/login", "/signup", "/askquestions"].indexOf(props.pathname) !== -1 &&
-				css`
-					background-color: #f1f2f3;
-				`}
+				props.pathname === "/askquestions"
+					? css`
+							background-color: #f7f8f8;
+					  `
+					: ["/login", "/signup"].indexOf(props.pathname) !== -1 &&
+					  css`
+							background-color: #f1f2f3;
+					  `}
       }
 `;
 
