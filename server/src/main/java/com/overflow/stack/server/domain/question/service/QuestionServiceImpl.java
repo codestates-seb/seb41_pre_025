@@ -2,7 +2,9 @@ package com.overflow.stack.server.domain.question.service;
 
 import com.overflow.stack.server.domain.member.service.MemberService;
 import com.overflow.stack.server.domain.question.entity.Question;
+import com.overflow.stack.server.domain.question.entity.Question_Vote;
 import com.overflow.stack.server.domain.question.repository.QuestionRepository;
+import com.overflow.stack.server.domain.question.repository.QuestionVoteRepository;
 import com.overflow.stack.server.domain.tag.entity.Tag;
 import com.overflow.stack.server.domain.tag.service.TagService;
 import com.overflow.stack.server.global.exception.CustomLogicException;
@@ -18,12 +20,14 @@ import java.util.Optional;
 @Transactional
 public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepository questionRepository;
+    private final QuestionVoteRepository questionVoteRepository;
     private final CustomBeanUtils<Question> beanUtils;
     private final MemberService memberService;
     private final TagService tagService;
 
-    public QuestionServiceImpl(QuestionRepository questionRepository, CustomBeanUtils<Question> beanUtils, MemberService memberService, TagService tagService) {
+    public QuestionServiceImpl(QuestionRepository questionRepository, QuestionVoteRepository questionVoteRepository, CustomBeanUtils<Question> beanUtils, MemberService memberService, TagService tagService) {
         this.questionRepository = questionRepository;
+        this.questionVoteRepository = questionVoteRepository;
         this.beanUtils = beanUtils;
         this.memberService = memberService;
         this.tagService = tagService;
@@ -32,6 +36,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question createQuestion(Question question, String userName) {
         question.setMember(memberService.findMember(userName));
+        question.setVoteResult(0L);
         if(question.getTags()!=null) {
             question.getTags().stream()
                     .forEach(qtag -> {
@@ -47,6 +52,15 @@ public class QuestionServiceImpl implements QuestionService {
         Question findQuestion =findVerifiedQuestion(question.getQuestionId());
         beanUtils.copyNonNullProperties(question, findQuestion);
         return questionRepository.save(findQuestion);
+    }
+
+    @Override
+    public Question voteQuestion(long questionId, String userName, boolean voteUp) {
+        Question findQ = findVerifiedQuestion(questionId);
+        findQ.setVoteResult(findQ.getVoteResult() + (voteUp ? 1 : -1));
+        Question_Vote qVote= new Question_Vote(findQ, memberService.findMember(userName));
+        questionVoteRepository.save(qVote);
+        return findQ;
     }
 
     @Override

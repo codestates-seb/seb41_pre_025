@@ -48,6 +48,15 @@ public class QuestionController {
               new SingleResponse<>(mapper.questionToQuestionResponseDto(question)),
               HttpStatus.OK);
    }
+   @PatchMapping("/votes/{question-id}")
+   public ResponseEntity voteQeustion(@PathVariable("question-id") long questionId,
+                                       @RequestParam boolean voteUp,
+                                       @AuthenticationPrincipal User members){
+      Question question=questionService.voteQuestion(questionId, members.getUsername(), voteUp);
+      return new ResponseEntity<>(
+              new SingleResponse<>(mapper.questionToQuestionResponseDto(question)),
+              HttpStatus.OK);
+   }
 
    @GetMapping("/{question-id}")
    public ResponseEntity getQuestion(@PathVariable("question-id") long questionId){
