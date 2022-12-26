@@ -6,8 +6,14 @@ import icon from "../image/icon.svg";
 import { FcGoogle } from "react-icons/fc";
 import { VscGithub } from "react-icons/vsc";
 import { AiFillFacebook } from "react-icons/ai";
+import { useSetRecoilState } from "recoil";
+import { loginState } from "../state/atom";
 
 export default function Login() {
+  const setIsLogin = useSetRecoilState(loginState);
+  const login = () => {
+    setIsLogin(true);
+  };
   return (
     <Content>
       <Logo src={icon} alt="logo" />
@@ -17,7 +23,7 @@ export default function Login() {
       <FormContainer>
         <LabelTextInput id="email" text="Email" placeholder="Please enter your e-mail" />
         <LabelTextInput id="password" text="Password" placeholder="Please enter your password" />
-        <Button text="Log In" color="white" border="1px solid #4393F7" bgColor="#4393F7" hoverColor="#2D75C6" activeColor="#1859A3" width="240.45px" margin="6px 0px" />
+        <Button onClick={login} type="button" text="Log In" color="white" border="1px solid #4393F7" bgColor="#4393F7" hoverColor="#2D75C6" activeColor="#1859A3" width="240.45px" margin="6px 0px" />
       </FormContainer>
       <SignUpText>
         Don’t have an account?
