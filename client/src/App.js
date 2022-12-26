@@ -18,7 +18,7 @@ import SignUp from "./pages/SignUp";
 import QuestionsList from "./pages/QuestionsList";
 import AskQuestion from "./pages/AskQuestion";
 import Mypage from "./pages/Mypage";
-import Pre from "./components/Pre";
+import Pre from "./pages/Pre";
 import Question from "./pages/Question";
 
 const GlobalStyle = createGlobalStyle`
@@ -48,7 +48,7 @@ function App() {
 	const location = useLocation();
 	const pathname = location.pathname;
 	const sidebar = ["/login", "/signup", "/askquestions"];
-	const ad = [...sidebar, "/mypage"];
+	const ad = [...sidebar, "/mypage", "/users", "/companies"];
 	const footer = ["/login", "/signup"];
 	return (
 		<>
