@@ -68,7 +68,6 @@ public class QuestionServiceImpl implements QuestionService {
             else{
                 findQ.setVoteResult(findQ.getVoteResult() + (voteUp ? 2 : -2));
                 findVote.get().setVoteUp(voteUp);
-                questionVoteRepository.save(findVote.get());
             }
         }
         else{
