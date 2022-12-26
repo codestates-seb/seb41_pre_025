@@ -27,9 +27,9 @@ const ButtonTemplate = styled.button`
 `;
 
 export function Button(props) {
-  const { type, text, width, margin, color, border, bgColor, hoverColor, activeColor, boxshadow, bdradius, height } = props;
+  const { onClick, type, text, width, margin, color, border, bgColor, hoverColor, activeColor, boxshadow, bdradius, height } = props;
   return (
-    <ButtonTemplate type={type} margin={margin} color={color} bgColor={bgColor} border={border} hoverColor={hoverColor} activeColor={activeColor} width={width} boxshadow={boxshadow} bdradius={bdradius} height={height}>
+    <ButtonTemplate onClick={onClick} type={type} margin={margin} color={color} bgColor={bgColor} border={border} hoverColor={hoverColor} activeColor={activeColor} width={width} boxshadow={boxshadow} bdradius={bdradius} height={height}>
       {text}
     </ButtonTemplate>
   );
