@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button } from './Button';
+import { Button } from '../components/Button';
 import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import { BsBookmark } from 'react-icons/bs';
 import { GiBackwardTime } from 'react-icons/gi';

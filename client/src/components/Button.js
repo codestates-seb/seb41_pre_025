@@ -12,7 +12,7 @@ const ButtonTemplate = styled.button`
   align-items: center;
   text-align: center;
   font-size: 12px;
-  border-radius: ${(props) => props.bgradius || '4px'};
+  border-radius: ${(props) => props.bdradius || '4px'};
   border: ${(props) => props.border || '1px solid #83A6C4'};
 
   outline: none;
@@ -28,6 +28,8 @@ const ButtonTemplate = styled.button`
 
 export function Button(props) {
   const {
+    onClick,
+    type,
     text,
     width,
     margin,
@@ -42,6 +44,8 @@ export function Button(props) {
   } = props;
   return (
     <ButtonTemplate
+      onClick={onClick}
+      type={type}
       margin={margin}
       color={color}
       bgColor={bgColor}

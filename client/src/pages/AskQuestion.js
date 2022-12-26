@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "./Button";
+import { Button } from "../components/Button";
 import { useState } from "react";
 
 export default function AskQuestion() {
@@ -53,6 +53,7 @@ export default function AskQuestion() {
 						placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
 					/>
 					<Button
+						margin="0"
 						text="Next"
 						color="white"
 						border="1px solid #4393F7"
@@ -69,6 +70,7 @@ export default function AskQuestion() {
 					</p>
 					<ContextInputTextArea />
 					<Button
+						margin="6px 0"
 						text="Next"
 						color="white"
 						border="1px solid #4393F7"
@@ -108,6 +110,7 @@ export default function AskQuestion() {
 					</TagsInput>
 				</TagsContainer>
 				<Button
+					margin="0"
 					text="Post your question"
 					width="130px"
 					color="white"
@@ -123,15 +126,15 @@ export default function AskQuestion() {
 
 const Content = styled.div`
 	width: 1264px;
-	/* background-color: #f1f2f3; */
-	margin: 24px;
+	background-color: #f7f8f8;
+	padding: 24px;
 	display: flex;
 	flex-direction: column;
-	color: black;
+	align-items: center;
 `;
 
 const HelpBubbleGoodQuestion = styled.section`
-	width: 802.02px;
+	width: 831.01px;
 	padding: 24px;
 	margin: 16px 0;
 	background-color: #edf4fa;
@@ -171,63 +174,63 @@ const HelpBubbleGoodQuestion = styled.section`
 `;
 
 const TitleInputContainer = styled.div`
-	width: 802.02px;
+	width: 831.01px;
 	margin-bottom: 16px;
+	padding: 24px;
 	background-color: white;
 	display: flex;
 	flex-direction: column;
 	border: 1px solid #d7d9dc;
 	border-radius: 3px;
 	font-size: 15px;
-
 `;
 
 const InputContainer = styled.div`
-    width: 240.45px;
-    margin: 6px 0;
+	width: 240.45px;
+	margin: 6px 0;
 `;
 
 const Input = styled.input`
-    width: 781.029px;
-    height: 32.59px;
+	width: 781.029px;
+	height: 32.59px;
 
-    padding: 7.8px 9.1px;
-    border: 1px solid #bbbfc3;
-    border-radius: 3px;
-    outline: none;
+	padding: 7.8px 9.1px;
+	border: 1px solid #bbbfc3;
+	border-radius: 3px;
+	outline: none;
 
-    &:focus-within {
-        border: 1px solid blue;
-    }
+	&:focus-within {
+		border: 1px solid blue;
+	}
 `;
 
 const Label = styled.label`
-    display: block;
-    margin: 6px 0;
-    font-size: 16px;
-    font-weight: bold;
+	display: block;
+	margin: 6px 0;
+	font-size: 16px;
+	font-weight: bold;
 `;
 
 const LabelTextInput = ({
-    id = '',
-    placeholder = '',
-    onChange = (e) => {},
+	id = "",
+	placeholder = "",
+	onChange = (e) => {},
 }) => {
-    return (
-        <InputContainer>
-            <Label htmlFor={id}></Label>
-            <Input
-                name={id}
-                placeholder={placeholder}
-                onChange={(e) => onChange(e)}
-            />
-        </InputContainer>
-    );
+	return (
+		<InputContainer>
+			<Label htmlFor={id}></Label>
+			<Input
+				name={id}
+				placeholder={placeholder}
+				onChange={(e) => onChange(e)}
+			/>
+		</InputContainer>
+	);
 };
 
 const ContextInputContainer = styled.div`
-	width: 802.02px;
 	margin-bottom: 16px;
+	padding: 24px;
 	background-color: white;
 	display: flex;
 	flex-direction: column;
@@ -251,8 +254,8 @@ const ContextInputTextArea = styled.textarea`
 `;
 
 const TagsContainer = styled.div`
-	width: 802.02px;
 	margin-bottom: 16px;
+	padding: 24px;
 	background-color: white;
 	display: flex;
 	flex-direction: column;

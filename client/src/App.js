@@ -7,20 +7,20 @@ import Sidebar from './components/Sidebar';
 import Footer from './components/Footer';
 import Ad from './components/Ad';
 import Section from './components/Section';
-import TopQuestions from './components/TopQuestions';
-import Login from './components/Login';
-import SignUp from './components/SignUp';
-import QuestionsList from './components/QuestionsList';
-import AskQuestion from './components/AskQuestion';
-import Mypage from './components/Mypage';
-import Pre from './components/Pre';
-import Question from './components/Question';
+import TopQuestions from './pages/TopQuestions';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
+import QuestionsList from './pages/QuestionsList';
+import AskQuestion from './pages/AskQuestion';
+import Mypage from './pages/Mypage';
+import Pre from './pages/Pre';
+import Question from './pages/Question';
 
 const GlobalStyle = createGlobalStyle`
-* {
-  box-sizing: border-box;
+  * {
+    box-sizing: border-box;
 
-}
+  }
 
   ol, ul, li {
    list-style: none;
@@ -28,10 +28,14 @@ const GlobalStyle = createGlobalStyle`
       body{
       background-color:white;
       ${(props) =>
-        ['/login', '/signup', '/askquestions'].indexOf(props.pathname) !== -1 &&
-        css`
-          background-color: #f1f2f3;
-        `}
+        props.pathname === '/askquestions'
+          ? css`
+              background-color: #f7f8f8;
+            `
+          : ['/login', '/signup'].indexOf(props.pathname) !== -1 &&
+            css`
+              background-color: #f1f2f3;
+            `}
       }
 `;
 
@@ -39,7 +43,7 @@ function App() {
   const location = useLocation();
   const pathname = location.pathname;
   const sidebar = ['/login', '/signup', '/askquestions'];
-  const ad = [...sidebar, '/mypage'];
+  const ad = [...sidebar, '/mypage', '/users', '/companies'];
   const footer = ['/login', '/signup'];
   return (
     <>
