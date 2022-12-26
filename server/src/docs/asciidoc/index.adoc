@@ -78,6 +78,9 @@ include::{snippets}/patch-question/curl-request.adoc[]
 .http-request
 include::{snippets}/patch-question/http-request.adoc[]
 
+.path-parameters
+include::{snippets}/patch-question/path-parameters.adoc[]
+
 .request-fields
 include::{snippets}/patch-question/request-fields.adoc[]
 
@@ -93,6 +96,9 @@ include::{snippets}/get-question/curl-request.adoc[]
 
 .http-request
 include::{snippets}/get-question/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/get-question/path-parameters.adoc[]
 
 .http-response
 include::{snippets}/get-question/http-response.adoc[]
@@ -120,8 +126,33 @@ include::{snippets}/delete-question/curl-request.adoc[]
 .http-request
 include::{snippets}/delete-question/http-request.adoc[]
 
+.path-parameters
+include::{snippets}/delete-question/path-parameters.adoc[]
+
 .http-response
 include::{snippets}/delete-question/http-response.adoc[]
+
+=== 질문 투표
+.curl-request
+include::{snippets}/vote-question/curl-request.adoc[]
+
+.http-request
+include::{snippets}/vote-question/http-request.adoc[]
+
+.request-fields
+include::{snippets}/vote-question/request-fields.adoc[]
+
+.path-parameters
+include::{snippets}/vote-question/path-parameters.adoc[]
+
+.request-parameters
+include::{snippets}/vote-question/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/vote-question/http-response.adoc[]
+
+.response-fields
+include::{snippets}/vote-question/response-fields.adoc[]
 
 ***
 == MemberController
