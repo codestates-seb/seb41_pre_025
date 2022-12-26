@@ -3,6 +3,7 @@ package com.overflow.stack.server.domain.question.entity;
 import com.overflow.stack.server.domain.answer.entity.Answer;
 import com.overflow.stack.server.domain.member.entity.Member;
 import com.overflow.stack.server.domain.member.entity.Member_Tag;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
