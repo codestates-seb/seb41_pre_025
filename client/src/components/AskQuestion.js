@@ -179,49 +179,50 @@ const TitleInputContainer = styled.div`
 	border: 1px solid #d7d9dc;
 	border-radius: 3px;
 	font-size: 15px;
+
 `;
 
 const InputContainer = styled.div`
-	width: 240.45px;
-	margin: 6px 0;
+    width: 240.45px;
+    margin: 6px 0;
 `;
 
 const Input = styled.input`
-	width: 781.029px;
-	height: 32.59px;
+    width: 781.029px;
+    height: 32.59px;
 
-	padding: 7.8px 9.1px;
-	border: 1px solid #bbbfc3;
-	border-radius: 3px;
-	outline: none;
+    padding: 7.8px 9.1px;
+    border: 1px solid #bbbfc3;
+    border-radius: 3px;
+    outline: none;
 
-	&:focus-within {
-		border: 1px solid blue;
-	}
+    &:focus-within {
+        border: 1px solid blue;
+    }
 `;
 
 const Label = styled.label`
-	display: block;
-	margin: 6px 0;
-	font-size: 16px;
-	font-weight: bold;
+    display: block;
+    margin: 6px 0;
+    font-size: 16px;
+    font-weight: bold;
 `;
 
 const LabelTextInput = ({
-	id = "",
-	placeholder = "",
-	onChange = (e) => {},
+    id = '',
+    placeholder = '',
+    onChange = (e) => {},
 }) => {
-	return (
-		<InputContainer>
-			<Label htmlFor={id}></Label>
-			<Input
-				name={id}
-				placeholder={placeholder}
-				onChange={(e) => onChange(e)}
-			/>
-		</InputContainer>
-	);
+    return (
+        <InputContainer>
+            <Label htmlFor={id}></Label>
+            <Input
+                name={id}
+                placeholder={placeholder}
+                onChange={(e) => onChange(e)}
+            />
+        </InputContainer>
+    );
 };
 
 const ContextInputContainer = styled.div`
