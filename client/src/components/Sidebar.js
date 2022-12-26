@@ -15,7 +15,7 @@ function Sidebar() {
           </li>
           <li>PUBLIC</li>
           <li>
-            <NavLink activeClassName="active" to="/questions">
+            <NavLink activeClassName="active" to="/questionslist">
               <FaGlobeAmericas className="icon" />
               Questions
             </NavLink>

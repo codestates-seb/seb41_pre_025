@@ -1,22 +1,20 @@
-
-import React from "react";
-import { createGlobalStyle, css } from "styled-components";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import Template from "./components/Template";
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
-import Footer from "./components/Footer";
-import Ad from "./components/Ad";
-import Section from "./components/Section";
-import TopQuestions from "./components/TopQuestions";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
-import QuestionsList from "./components/QuestionsList";
-import AskQuestion from "./components/AskQuestion";
-import Mypage from "./components/Mypage";
-import Pre from "./components/Pre";
-import Question from "./components/Question";
-
+import React from 'react';
+import { createGlobalStyle, css } from 'styled-components';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import Template from './components/Template';
+import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
+import Footer from './components/Footer';
+import Ad from './components/Ad';
+import Section from './components/Section';
+import TopQuestions from './components/TopQuestions';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import QuestionsList from './components/QuestionsList';
+import AskQuestion from './components/AskQuestion';
+import Mypage from './components/Mypage';
+import Pre from './components/Pre';
+import Question from './components/Question';
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -30,7 +28,7 @@ const GlobalStyle = createGlobalStyle`
       body{
       background-color:white;
       ${(props) =>
-        ["/login", "/signup", "/askquestions"].indexOf(props.pathname) !== -1 &&
+        ['/login', '/signup', '/askquestions'].indexOf(props.pathname) !== -1 &&
         css`
           background-color: #f1f2f3;
         `}
@@ -40,9 +38,9 @@ const GlobalStyle = createGlobalStyle`
 function App() {
   const location = useLocation();
   const pathname = location.pathname;
-  const sidebar = ["/login", "/signup", "/askquestions"];
-  const ad = [...sidebar, "/mypage"];
-  const footer = ["/login", "/signup"];
+  const sidebar = ['/login', '/signup', '/askquestions'];
+  const ad = [...sidebar, '/mypage'];
+  const footer = ['/login', '/signup'];
   return (
     <>
       <GlobalStyle pathname={pathname} />
@@ -54,7 +52,7 @@ function App() {
             <Route path="/" element={<TopQuestions />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/signup" element={<SignUp />}></Route>
-            <Route path="/QuestiosList" element={<QuestionsList />}></Route>
+            <Route path="/questionslist" element={<QuestionsList />}></Route>
             <Route path="/askquestions" element={<AskQuestion />}></Route>
             <Route path="/mypage" element={<Mypage />}></Route>
             {/* 임시로 질문상세페이지를 tags에서 볼 수 있도록 설정
@@ -69,7 +67,6 @@ function App() {
       {footer.indexOf(pathname) === -1 && <Footer />}
     </>
   );
-
 }
 
 export default App;
