@@ -1,11 +1,6 @@
 import React from "react";
 import { createGlobalStyle, css } from "styled-components";
-import {
-	BrowserRouter as Router,
-	Routes,
-	Route,
-	useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Template from "./components/Template";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
@@ -22,10 +17,10 @@ import Pre from "./pages/Pre";
 import Question from "./pages/Question";
 
 const GlobalStyle = createGlobalStyle`
-* {
-  box-sizing: border-box;
+  * {
+    box-sizing: border-box;
 
-}
+  }
 
   ol, ul, li {
    list-style: none;
@@ -78,22 +73,16 @@ function App() {
 							element={<Mypage />}></Route>
 						{/* 임시로 질문상세페이지를 tags에서 볼 수 있도록 설정
             데이터 받아온 후에 다시 변경해야 함 */}
-						<Route
-							path="/tags"
-							element={<Question />}></Route>
-						<Route
-							path="/users"
-							element={<Pre />}></Route>
-						<Route
-							path="/companies"
-							element={<Pre />}></Route>
-					</Routes>
-				</Section>
-				{ad.indexOf(pathname) === -1 && <Ad />}
-			</Template>
-			{footer.indexOf(pathname) === -1 && <Footer />}
-		</>
-	);
+            <Route path="/tags" element={<Question />}></Route>
+            <Route path="/users" element={<Pre />}></Route>
+            <Route path="/companies" element={<Pre />}></Route>
+          </Routes>
+        </Section>
+        {ad.indexOf(pathname) === -1 && <Ad />}
+      </Template>
+      {footer.indexOf(pathname) === -1 && <Footer />}
+    </>
+  );
 }
 
 export default App;
