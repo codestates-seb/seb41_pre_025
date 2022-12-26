@@ -1,17 +1,17 @@
 package com.overflow.stack.server.domain.question.controller;
 
+import com.overflow.stack.server.domain.member.entity.Member;
+import com.overflow.stack.server.domain.member.service.MemberService;
 import com.overflow.stack.server.domain.question.dto.QuestionDto;
 import com.overflow.stack.server.domain.question.entity.Question;
 import com.overflow.stack.server.domain.question.mapper.QuestionMapper;
-import com.overflow.stack.server.domain.question.repository.JpaQuestionRepository;
-import com.overflow.stack.server.domain.question.repository.QuestionRepository;
 import com.overflow.stack.server.domain.question.service.QuestionService;
-import com.overflow.stack.server.domain.question.service.QuestionServiceImpl;
 import com.overflow.stack.server.global.response.ListResponse;
 import com.overflow.stack.server.global.response.SingleResponse;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,20 +25,23 @@ public class QuestionController {
    private final QuestionService questionService;
    private final QuestionMapper mapper;
 
+
    public QuestionController(QuestionService questionService, QuestionMapper mapper) {
       this.questionService = questionService;
       this.mapper = mapper;
    }
    @PostMapping
-   public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post questionPostDto){
-      Question question=questionService.createQuestion(mapper.questionPostDtoToQuestion(questionPostDto));
+   public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post questionPostDto,
+                                      @AuthenticationPrincipal User members){
+      Question question=questionService.createQuestion(mapper.questionPostDtoToQuestion(questionPostDto),members.getUsername());
       return new ResponseEntity<>(
               new SingleResponse<>(mapper.questionToQuestionResponseDto(question)),
               HttpStatus.CREATED);
    }
    @PatchMapping("/{question-id}")
    public ResponseEntity patchQuestion(@PathVariable("question-id") long questionId,
-                                      @Valid @RequestBody QuestionDto.Patch questionPatchDto){
+                                      @Valid @RequestBody QuestionDto.Patch questionPatchDto,
+                                       @AuthenticationPrincipal User members){
       questionPatchDto.setQuestionId(questionId);
       Question question=questionService.updateQuestion(mapper.questionPatchDtoToQuestion(questionPatchDto));
       return new ResponseEntity<>(
@@ -64,7 +67,8 @@ public class QuestionController {
    }
 
    @DeleteMapping("/{question-id}")
-   public ResponseEntity deleteQuestion(@PathVariable("question-id") long questionId){
+   public ResponseEntity deleteQuestion(@PathVariable("question-id") long questionId,
+                                        @AuthenticationPrincipal User members){
       questionService.deleteQuestion(questionId);
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
    }

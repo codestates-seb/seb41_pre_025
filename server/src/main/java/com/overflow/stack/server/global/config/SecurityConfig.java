@@ -30,6 +30,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                .headers().frameOptions().disable()
+                .and()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -43,6 +45,7 @@ public class SecurityConfig {
                                 .antMatchers(HttpMethod.POST, "/api/v1/members").permitAll()
                                 .antMatchers("/api/v1/members/**").authenticated()
                                 .antMatchers(HttpMethod.POST , "/api/v1/questions").authenticated()
+                                .antMatchers("/h2/**").permitAll()
                                 .anyRequest().permitAll()
                                 // 작은 것 부터 큰 순서
 

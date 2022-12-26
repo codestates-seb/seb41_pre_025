@@ -1,3 +1,4 @@
+
 import React from "react";
 import { createGlobalStyle, css } from "styled-components";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
@@ -15,6 +16,7 @@ import AskQuestion from "./components/AskQuestion";
 import Mypage from "./components/Mypage";
 import Pre from "./components/Pre";
 import Question from "./components/Question";
+
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -67,6 +69,7 @@ function App() {
       {footer.indexOf(pathname) === -1 && <Footer />}
     </>
   );
+
 }
 
 export default App;

@@ -37,3 +37,4 @@ out/
 .vscode/
 /src/main/resources/static/docs/index.html
 
+application-local-mysql.yml

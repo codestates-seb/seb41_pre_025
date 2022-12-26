@@ -206,6 +206,7 @@ const ItemBlock = styled.div`
 `;
 
 const VoteBox = styled.div`
+
   font-size: 21px;
   margin: 0px 10px;
   padding: 5px 20px;

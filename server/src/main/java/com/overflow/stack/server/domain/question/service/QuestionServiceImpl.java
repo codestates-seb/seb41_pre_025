@@ -1,27 +1,44 @@
 package com.overflow.stack.server.domain.question.service;
 
+import com.overflow.stack.server.domain.member.service.MemberService;
 import com.overflow.stack.server.domain.question.entity.Question;
 import com.overflow.stack.server.domain.question.repository.QuestionRepository;
+import com.overflow.stack.server.domain.tag.entity.Tag;
+import com.overflow.stack.server.domain.tag.service.TagService;
 import com.overflow.stack.server.global.exception.CustomLogicException;
 import com.overflow.stack.server.global.exception.ExceptionCode;
 import com.overflow.stack.server.global.utils.CustomBeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepository questionRepository;
     private final CustomBeanUtils<Question> beanUtils;
+    private final MemberService memberService;
+    private final TagService tagService;
 
-    public QuestionServiceImpl(QuestionRepository questionRepository, CustomBeanUtils<Question> beanUtils) {
+    public QuestionServiceImpl(QuestionRepository questionRepository, CustomBeanUtils<Question> beanUtils, MemberService memberService, TagService tagService) {
         this.questionRepository = questionRepository;
         this.beanUtils = beanUtils;
+        this.memberService = memberService;
+        this.tagService = tagService;
     }
 
     @Override
-    public Question createQuestion(Question question) {
+    public Question createQuestion(Question question, String userName) {
+        question.setMember(memberService.findMember(userName));
+        if(question.getTags()!=null) {
+            question.getTags().stream()
+                    .forEach(qtag -> {
+                        Tag tag = tagService.findTagByTagName(qtag.getTag().getTagName()).orElseGet(() -> tagService.saveTag(qtag.getTag()));
+                        qtag.setTag(tag);
+                    });
+        }
         return questionRepository.save(question);
     }
 
@@ -29,12 +46,6 @@ public class QuestionServiceImpl implements QuestionService {
     public Question updateQuestion(Question question) {
         Question findQuestion =findVerifiedQuestion(question.getQuestionId());
         beanUtils.copyNonNullProperties(question, findQuestion);
-//        Optional.ofNullable(question.getTitle())
-//                .ifPresent(title -> findQuestion.setTitle(title));
-//        Optional.ofNullable(question.getContent())
-//                .ifPresent(content -> findQuestion.setContent(content));
-//        Optional.ofNullable(question.getVoteResult())
-//                .ifPresent(vote -> findQuestion.setVoteResult(vote));
         return questionRepository.save(findQuestion);
     }
 

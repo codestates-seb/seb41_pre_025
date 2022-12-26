@@ -8,6 +8,7 @@ import com.overflow.stack.server.domain.member.entity.Member;
 import com.overflow.stack.server.domain.member.factory.MemberFactory;
 import com.overflow.stack.server.domain.member.mapper.MemberMapper;
 import com.overflow.stack.server.domain.member.service.MemberService;
+import com.overflow.stack.server.domain.member.utils.MemberExpectedAction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +20,22 @@ import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.List;
+
+import static com.overflow.stack.server.domain.member.factory.MemberFactory.createMemberPatchDto;
 import static com.overflow.stack.server.domain.member.factory.MemberFactory.createMemberPostDto;
+import static com.overflow.stack.server.domain.member.utils.MemberExpectedAction.expectedResponse;
 import static com.overflow.stack.server.util.ApiDocumentUtils.getRequestPreProcessor;
 import static com.overflow.stack.server.util.ApiDocumentUtils.getResponsePreProcessor;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -105,6 +110,7 @@ class MemberControllerTest extends abstractControllerTest {
                 )
         ));
     }
+
     @Test
     @DisplayName("회원 정보 GET")
     @WithMockUser(username = "test@gmail.com", roles = "USER")
@@ -118,19 +124,8 @@ class MemberControllerTest extends abstractControllerTest {
         ResultActions resultActions = mockMvc.perform(get(BASE_URL)
                         .contentType("application/json")
                         .headers(GeneratedToken.getMockHeaderToken())
-                        .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("data.memberId").value(response.getMemberId()))
-                .andExpect(jsonPath("data.email").value(response.getEmail()))
-                .andExpect(jsonPath("data.fullName").value(response.getFullName()))
-                .andExpect(jsonPath("data.displayName").value(response.getDisplayName()))
-                .andExpect(jsonPath("data.aboutMe").value(response.getAboutMe()))
-                .andExpect(jsonPath("data.aboutMeTitle").value(response.getAboutMeTitle()))
-                .andExpect(jsonPath("data.twitterLink").value(response.getTwitterLink()))
-                .andExpect(jsonPath("data.githubLink").value(response.getGithubLink()))
-                .andExpect(jsonPath("data.websiteLink").value(response.getWebsiteLink()))
-                .andExpect(jsonPath("data.location").value(response.getLocation()))
-                .andExpect(jsonPath("data.imgUrl").value(response.getImgUrl()));
+                        .with(csrf()));
+        resultActions = expectedResponse(resultActions , response);
         // then
         resultActions.andDo(document("member-get",
                 getRequestPreProcessor(),
@@ -142,6 +137,72 @@ class MemberControllerTest extends abstractControllerTest {
         ));
 
 
+    }
+    @Test
+    @DisplayName("회원 정보 수정")
+    @WithMockUser
+    void updateMember() throws Exception {
+        // given
+        MemberDto.Patch put = createMemberPatchDto();
+        String json = gson.toJson(put);
+        // when
+        ResultActions resultActions = mockMvc.perform(patch(BASE_URL)
+                        .contentType("application/json")
+                        .headers(GeneratedToken.getMockHeaderToken())
+                        .with(csrf())
+                        .content(json))
+                .andExpect(status().isNoContent());
+        // then
+        resultActions.andDo(document("member-update",
+                getRequestPreProcessor(),
+                getResponsePreProcessor(),
+                requestHeaders(
+                        headerWithName("Authorization").description("JWT 토큰")
+                ),
+                requestFields(
+                        fieldWithPath("fullName").type(JsonFieldType.STRING).description("이름"),
+                        fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임"),
+                        fieldWithPath("aboutMe").type(JsonFieldType.STRING).description("자기소개"),
+                        fieldWithPath("aboutMeTitle").type(JsonFieldType.STRING).description("자기소개 제목"),
+                        fieldWithPath("twitterLink").type(JsonFieldType.STRING).description("트위터 링크"),
+                        fieldWithPath("githubLink").type(JsonFieldType.STRING).description("깃허브 링크"),
+                        fieldWithPath("websiteLink").type(JsonFieldType.STRING).description("웹사이트 링크"),
+                        fieldWithPath("location").type(JsonFieldType.STRING).description("지역"),
+                        fieldWithPath("imgUrl").type(JsonFieldType.STRING).description("이미지 링크")
+                )
+        ));
+    }
+    @Test
+    @DisplayName("TAG 팔로우")
+    @WithMockUser
+    void followTag() throws Exception {
+        // given
+        String tag = "java";
+        MemberDto.Response response = MemberFactory.createMemberResponseDto();
+        response.setIsFollowingTags(List.of(tag));
+        given(memberService.findMember(anyString())).willReturn(new Member());
+        given(memberService.updateMemberTags(any(Member.class), anyString(), anyBoolean())).willReturn(new Member());
+        given(mapper.memberToResponseMemberDto(any(Member.class))).willReturn(response);
+        // when
+        ResultActions resultActions = mockMvc.perform(patch(BASE_URL + "/tags/{tag}/{isFollow}", tag, true)
+                        .contentType("application/json")
+                        .headers(GeneratedToken.getMockHeaderToken())
+                        .with(csrf()));
+        resultActions = expectedResponse(resultActions, response);
+
+        // then
+        resultActions.andDo(document("member-follow-tag",
+                getRequestPreProcessor(),
+                getResponsePreProcessor(),
+                requestHeaders(
+                        headerWithName("Authorization").description("JWT 토큰")
+                ),
+                pathParameters(
+                        parameterWithName("tag").description("팔로우할 태그"),
+                        parameterWithName("isFollow").description("팔로우 여부")
+                ),
+                getResponseFieldsSnippet()
+        ));
     }
 
     private static ResponseFieldsSnippet getResponseFieldsSnippet() {
@@ -157,7 +218,9 @@ class MemberControllerTest extends abstractControllerTest {
                 fieldWithPath("data.githubLink").type(JsonFieldType.STRING).description("깃허브 링크"),
                 fieldWithPath("data.websiteLink").type(JsonFieldType.STRING).description("웹사이트 링크"),
                 fieldWithPath("data.location").type(JsonFieldType.STRING).description("지역"),
-                fieldWithPath("data.imgUrl").type(JsonFieldType.STRING).description("이미지 링크")
+                fieldWithPath("data.imgUrl").type(JsonFieldType.STRING).description("이미지 링크"),
+                fieldWithPath("data.isFollowingTags").type(JsonFieldType.ARRAY).description("팔로우 태그"),
+                fieldWithPath("data.isUnFollowingTags").type(JsonFieldType.ARRAY).description("언팔로우 태그")
         );
     }
 
@@ -167,16 +230,39 @@ class MemberControllerTest extends abstractControllerTest {
                 fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호 / not null"),
                 fieldWithPath("fullName").type(JsonFieldType.STRING).description("이름 / not null"),
                 fieldWithPath("displayName").type(JsonFieldType.STRING).description("닉네임 / not null"),
-                fieldWithPath("aboutMe").type(JsonFieldType.STRING).description("자기소개 / nullable"),
-                fieldWithPath("aboutMeTitle").type(JsonFieldType.STRING).description("자기소개 제목 / nullable"),
-                fieldWithPath("twitterLink").type(JsonFieldType.STRING).description("트위터 링크 / nullable"),
-                fieldWithPath("githubLink").type(JsonFieldType.STRING).description("깃허브 링크 / nullable"),
-                fieldWithPath("websiteLink").type(JsonFieldType.STRING).description("웹사이트 링크 / nullable"),
-                fieldWithPath("location").type(JsonFieldType.STRING).description("지역 / nullable"),
-                fieldWithPath("imgUrl").type(JsonFieldType.STRING).description("이미지 링크 /  nullable")
+                fieldWithPath("tags").type(JsonFieldType.ARRAY).description("태그 / nullable")
         );
     }
 
 
+    @Test
+    @DisplayName("회원 Follow Tag , UnFollow Tag 삭제")
+    @WithMockUser
+    void deleteMemberTags() throws Exception {
+        // given
+        String tag = "java";
+        MemberDto.Response response = MemberFactory.createMemberResponseDto();
+        response.setIsFollowingTags(List.of("js"));
+        given(memberService.findMember(anyString())).willReturn(new Member());
+        given(memberService.deleteMemberTags(any(Member.class), anyString())).willReturn(new Member());
+        given(mapper.memberToResponseMemberDto(any(Member.class))).willReturn(response);
+        // when
+        ResultActions resultActions = mockMvc.perform(delete(BASE_URL + "/tags/{tag}", tag)
+                        .contentType("application/json")
+                        .headers(GeneratedToken.getMockHeaderToken())
+                        .with(csrf()))
+                .andExpect(status().isNoContent());
 
+        // then
+        resultActions.andDo(document("member-delete-tag",
+                getRequestPreProcessor(),
+                getResponsePreProcessor(),
+                requestHeaders(
+                        headerWithName("Authorization").description("JWT 토큰")
+                ),
+                pathParameters(
+                        parameterWithName("tag").description("팔로우할 태그")
+                )
+        ));
+    }
 }

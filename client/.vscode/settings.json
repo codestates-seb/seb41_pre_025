@@ -1,0 +1,9 @@
+{
+    "editor.tabSize": 4,
+    "prettier.tabWidth": 4,
+    "editor.detectIndentation": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "sourse.fixAll.eslint": true
+    }
+  }
