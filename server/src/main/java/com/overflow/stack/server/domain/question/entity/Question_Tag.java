@@ -25,4 +25,9 @@ public class Question_Tag extends Auditable {
 
     @ManyToOne
     private Tag tag;
+
+    public Question_Tag(Question question, Tag tag) {
+        this.question = question;
+        this.tag = tag;
+    }
 }
