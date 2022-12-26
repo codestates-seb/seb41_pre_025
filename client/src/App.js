@@ -1,6 +1,6 @@
 import React from "react";
-import { createGlobalStyle } from "styled-components";
-import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import { createGlobalStyle, css } from "styled-components";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Template from "./components/Template";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
@@ -14,6 +14,7 @@ import QuestionsList from "./components/QuestionsList";
 import AskQuestion from "./components/AskQuestion";
 import Mypage from "./components/Mypage";
 import Pre from "./components/Pre";
+import Question from "./components/Question";
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -22,20 +23,27 @@ const GlobalStyle = createGlobalStyle`
 }
 
   ol, ul, li {
-	list-style: none;
+   list-style: none;
   }
-  
+      body{
+      background-color:white;
+      ${(props) =>
+        ["/login", "/signup", "/askquestions"].indexOf(props.pathname) !== -1 &&
+        css`
+          background-color: #f1f2f3;
+        `}
+      }
 `;
 
 function App() {
   const location = useLocation();
   const pathname = location.pathname;
-  const sidebar = ["/login", "/signup"];
+  const sidebar = ["/login", "/signup", "/askquestions"];
   const ad = [...sidebar, "/mypage"];
-  const footer = [...sidebar];
+  const footer = ["/login", "/signup"];
   return (
     <>
-      <GlobalStyle />
+      <GlobalStyle pathname={pathname} />
       <Navbar />
       <Template>
         {sidebar.indexOf(pathname) === -1 && <Sidebar />}
@@ -47,7 +55,9 @@ function App() {
             <Route path="/QuestiosList" element={<QuestionsList />}></Route>
             <Route path="/askquestions" element={<AskQuestion />}></Route>
             <Route path="/mypage" element={<Mypage />}></Route>
-            <Route path="/tags" element={<Pre />}></Route>
+            {/* 임시로 질문상세페이지를 tags에서 볼 수 있도록 설정
+            데이터 받아온 후에 다시 변경해야 함 */}
+            <Route path="/tags" element={<Question />}></Route>
             <Route path="/users" element={<Pre />}></Route>
             <Route path="/companies" element={<Pre />}></Route>
           </Routes>

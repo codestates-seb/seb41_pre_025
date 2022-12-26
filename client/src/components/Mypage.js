@@ -32,7 +32,7 @@ export default function Mypage() {
         <h1>Questions</h1>
         <ListBlock>
           <ItemBlock>
-            <VoteVox done>1</VoteVox>
+            <VoteBox done>1</VoteBox>
             <Text>배고파</Text>
             <Edit>
               <MdEdit />
@@ -42,7 +42,7 @@ export default function Mypage() {
             </Remove>
           </ItemBlock>
           <ItemBlock>
-            <VoteVox done>2</VoteVox>
+            <VoteBox done>2</VoteBox>
             <Text>살려줘</Text>
             <Edit>
               <MdEdit />
@@ -52,7 +52,7 @@ export default function Mypage() {
             </Remove>
           </ItemBlock>
           <ItemBlock>
-            <VoteVox>5</VoteVox>
+            <VoteBox>5</VoteBox>
             <Text>넹</Text>
             <Edit>
               <MdEdit />
@@ -67,7 +67,7 @@ export default function Mypage() {
         <h1>Answers</h1>
         <ListBlock>
           <ItemBlock>
-            <VoteVox done>1</VoteVox>
+            <VoteBox done>1</VoteBox>
             <Text>배고파</Text>
             <Edit>
               <MdEdit />
@@ -77,7 +77,7 @@ export default function Mypage() {
             </Remove>
           </ItemBlock>
           <ItemBlock>
-            <VoteVox done>2</VoteVox>
+            <VoteBox done>2</VoteBox>
             <Text>살려줘</Text>
             <Edit>
               <MdEdit />
@@ -87,7 +87,7 @@ export default function Mypage() {
             </Remove>
           </ItemBlock>
           <ItemBlock>
-            <VoteVox>5</VoteVox>
+            <VoteBox>5</VoteBox>
             <Text>넹</Text>
             <Edit>
               <MdEdit />
@@ -205,7 +205,7 @@ const ItemBlock = styled.div`
   }
 `;
 
-const VoteVox = styled.div`
+const VoteBox = styled.div`
   font-size: 21px;
   margin: 0px 10px;
   padding: 5px 20px;
