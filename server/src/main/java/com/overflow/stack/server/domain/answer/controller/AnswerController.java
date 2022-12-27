@@ -31,8 +31,9 @@ public class AnswerController {
 
    @PostMapping
    public ResponseEntity postAnswer(@Valid @RequestBody AnswerDto.Post answerPostDto,
+                                    @RequestParam long questionId,
                                     @AuthenticationPrincipal User members) {
-      Answer answer = answerService.createAnswer(answerMapper.answerPostDtoToAnswer(answerPostDto),members.getUsername());
+      Answer answer = answerService.createAnswer(answerMapper.answerPostDtoToAnswer(answerPostDto),members.getUsername(), questionId);
       return new ResponseEntity<>(
               new SingleResponse<>(answerMapper.answerToAnswerResponseDto(answer)),
               HttpStatus.CREATED);

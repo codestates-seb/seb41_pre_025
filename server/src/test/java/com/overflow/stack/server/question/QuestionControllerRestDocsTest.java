@@ -66,8 +66,8 @@ public class QuestionControllerRestDocsTest {
     public void postQuestionTest() throws Exception {
         QuestionDto.Post post = new QuestionDto.Post("title1", "content1", Set.of("tag1, tag2"));
         String content = gson.toJson(post);
-        List<AnswerDto.Response> AResponseDtos=List.of(new AnswerDto.Response(1L, "answer content",0L),
-                new AnswerDto.Response(2L, "answer content2",0L));
+        List<AnswerDto.Response> AResponseDtos=List.of(new AnswerDto.Response(1L, "answer content",0L,"displayName1"),
+                new AnswerDto.Response(2L, "answer content2",0L,"displayName2"));
         QuestionDto.response responseDto =
                 new QuestionDto.response(1L,
                         "title1",
@@ -121,12 +121,13 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
-                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("질문 작성자"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그"),
                                         fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
-                                        fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표")
+                                        fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
+                                        fieldWithPath("data.answers.[].displayName").type(JsonFieldType.STRING).description("답변 작성자")
                                 )
                         )
                 ));
@@ -139,8 +140,8 @@ public class QuestionControllerRestDocsTest {
         long questionId=1L;
         QuestionDto.Patch patch = new QuestionDto.Patch(questionId, "title1", "content1",Set.of("tag1, tag2"));
         String content = gson.toJson(patch);
-        List<AnswerDto.Response> AResponseDtos=List.of(new AnswerDto.Response(1L, "answer content",0L),
-                new AnswerDto.Response(2L, "answer content2",0L));
+        List<AnswerDto.Response> AResponseDtos=List.of(new AnswerDto.Response(1L, "answer content",0L,"displayName1"),
+                new AnswerDto.Response(2L, "answer content2",0L,"displayName2"));
         QuestionDto.response responseDto =
                 new QuestionDto.response(1L,
                         "title1",
@@ -199,13 +200,14 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
-                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("질문 작성자"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그"),
                                         fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
                                         fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
-                                        fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표")
+                                        fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
+                                        fieldWithPath("data.answers.[].displayName").type(JsonFieldType.STRING).description("답변 작성자")
                                 )
                         )
                 ));
@@ -215,8 +217,8 @@ public class QuestionControllerRestDocsTest {
     @WithMockUser
     public void voteQuestionTest() throws Exception {
         long questionId=1L;
-        List<AnswerDto.Response> AResponseDtos=List.of(new AnswerDto.Response(1L, "answer content",0L),
-                new AnswerDto.Response(2L, "answer content2",0L));
+        List<AnswerDto.Response> AResponseDtos=List.of(new AnswerDto.Response(1L, "answer content",0L,"displayName1"),
+                new AnswerDto.Response(2L, "answer content2",0L,"displayName2"));
         QuestionDto.response responseDto =
                 new QuestionDto.response(1L,
                         "title1",
@@ -267,13 +269,14 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
-                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("질문 작성자"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그"),
                                         fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
                                         fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
-                                        fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표")
+                                        fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
+                                        fieldWithPath("data.answers.[].displayName").type(JsonFieldType.STRING).description("답변 작성자")
                                 )
                         )
                 ));
@@ -284,8 +287,8 @@ public class QuestionControllerRestDocsTest {
     @WithMockUser
     public void getQuestionTest() throws Exception {
         long questionId=1L;
-        List<AnswerDto.Response> AResponseDtos=List.of(new AnswerDto.Response(1L, "answer content",0L),
-                new AnswerDto.Response(2L, "answer content2",0L));
+        List<AnswerDto.Response> AResponseDtos=List.of(new AnswerDto.Response(1L, "answer content",0L,"displayName1"),
+                new AnswerDto.Response(2L, "answer content2",0L,"displayName2"));
         QuestionDto.response responseDto =
                 new QuestionDto.response(1L,
                         "title1",
@@ -326,13 +329,14 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
-                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("질문 작성자"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그"),
                                         fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
                                         fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
-                                        fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표")
+                                        fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
+                                        fieldWithPath("data.answers.[].displayName").type(JsonFieldType.STRING).description("답변 작성자")
                                 )
                         )
                 ));
@@ -344,8 +348,8 @@ public class QuestionControllerRestDocsTest {
     public void getQuestionsTest() throws Exception {
         Member member = new Member();
         member.setDisplayName("displayName1");
-        List<AnswerDto.Response> AResponseDtos=List.of(new AnswerDto.Response(1L, "answer content",0L),
-                new AnswerDto.Response(2L, "answer content2",0L));
+        List<AnswerDto.Response> AResponseDtos=List.of(new AnswerDto.Response(1L, "answer content",0L,"displayName1"),
+                new AnswerDto.Response(2L, "answer content2",0L,"displayName2"));
         QuestionDto.response responseDto =
                 new QuestionDto.response(1L,
                         "title1",
@@ -396,13 +400,14 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("제목"),
                                         fieldWithPath("data.[].content").type(JsonFieldType.STRING).description("내용"),
                                         fieldWithPath("data.[].voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
-                                        fieldWithPath("data.[].displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.[].displayName").type(JsonFieldType.STRING).description("질문 작성자"),
                                         fieldWithPath("data.[].tag").type(JsonFieldType.ARRAY).description("태그"),
                                         fieldWithPath("data.[].answers").type(JsonFieldType.ARRAY).description("답변"),
                                         fieldWithPath("data.[].answers").type(JsonFieldType.ARRAY).description("답변"),
                                         fieldWithPath("data.[].answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.[].answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
-                                        fieldWithPath("data.[].answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표")
+                                        fieldWithPath("data.[].answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
+                                        fieldWithPath("data.[].answers.[].displayName").type(JsonFieldType.STRING).description("답변 작성자")
                                 )
                         )
                 ));

@@ -36,8 +36,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -77,7 +76,7 @@ public class AnswerControllerRestDocsTest {
 
         given(answerMapper.answerPostDtoToAnswer(Mockito.any(AnswerDto.Post.class))).willReturn(new Answer());
 
-        given(answerService.createAnswer(Mockito.any(Answer.class),Mockito.anyString())).willReturn(new Answer());
+        given(answerService.createAnswer(Mockito.any(Answer.class),Mockito.anyString(),Mockito.anyLong())).willReturn(new Answer());
 
         given(answerMapper.answerToAnswerResponseDto(Mockito.any(Answer.class))).willReturn(responseDto);
 
@@ -86,6 +85,7 @@ public class AnswerControllerRestDocsTest {
                         post(BASE_URL)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
+                                .param("questionId","1")
                                 .with(csrf())
                                 .content(content)
                                 .headers(GeneratedToken.getMockHeaderToken()));
@@ -96,6 +96,10 @@ public class AnswerControllerRestDocsTest {
                 .andDo(document("post-answer",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
+                        requestParameters(
+                                parameterWithName("questionId").description("질문 식별자"),
+                                parameterWithName("_csrf").description("csrf")
+                        ),
                         requestFields(
                                 List.of(
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("내용")
@@ -143,7 +147,7 @@ public class AnswerControllerRestDocsTest {
                 .andExpect((status().isOk()))
                 .andExpect(jsonPath("$.data.answerId").value(patch.getAnswerId()))
                 .andExpect(jsonPath("$.data.content").value(patch.getContent()))
-                .andDo(document("patch-question",
+                .andDo(document("patch-answer",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         requestHeaders(
@@ -191,7 +195,7 @@ public class AnswerControllerRestDocsTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.answerId").value(responseDto.getAnswerId()))
                 .andExpect(jsonPath("$.data.content").value(responseDto.getContent()))
-                .andDo(document("get-question",
+                .andDo(document("get-answer",
                         getResponsePreProcessor(),
                         pathParameters(
                                 parameterWithName("answer-id").description("답변 식별자")
