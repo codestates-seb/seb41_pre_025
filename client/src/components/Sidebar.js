@@ -4,51 +4,41 @@ import { FaGlobeAmericas } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 function Sidebar() {
-	return (
-		<>
-			<SidebarContainer>
-				<ul>
-					<li>
-						<NavLink
-							className={({ isActive }) => (isActive ? "active" : "not")}
-							to="/">
-							Home
-						</NavLink>
-					</li>
-					<li>PUBLIC</li>
-					<li>
-						<NavLink
-							className={({ isActive }) => (isActive ? "active" : "not")}
-							to="/questionslist">
-							<FaGlobeAmericas className="icon" />
-							Questions
-						</NavLink>
-					</li>
-					<li>
-						<NavLink
-							className={({ isActive }) => (isActive ? "active" : "not")}
-							to="/tags">
-							Tags
-						</NavLink>
-					</li>
-					<li>
-						<NavLink
-							className={({ isActive }) => (isActive ? "active" : "not")}
-							to="/users">
-							Users
-						</NavLink>
-					</li>
-					<li>
-						<NavLink
-							className={({ isActive }) => (isActive ? "active" : "not")}
-							to="/companies">
-							Companies
-						</NavLink>
-					</li>
-				</ul>
-			</SidebarContainer>
-		</>
-	);
+  return (
+    <>
+      <SidebarContainer>
+        <ul>
+          <li>
+            <NavLink className={({ isActive }) => (isActive ? "active" : "not")} to="/">
+              Home
+            </NavLink>
+          </li>
+          <li>PUBLIC</li>
+          <li>
+            <NavLink className={({ isActive }) => (isActive ? "active" : "not")} to="/questionslist">
+              <FaGlobeAmericas className="icon" />
+              Questions
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className={({ isActive }) => (isActive ? "active" : "not")} to="/tags">
+              Tags
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className={({ isActive }) => (isActive ? "active" : "not")} to="/users">
+              Users
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className={({ isActive }) => (isActive ? "active" : "not")} to="/companies">
+              Companies
+            </NavLink>
+          </li>
+        </ul>
+      </SidebarContainer>
+    </>
+  );
 }
 
 const SidebarContainer = styled.div`

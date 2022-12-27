@@ -1,5 +1,6 @@
 package com.overflow.stack.server.domain.answer.entity;
 
+import com.overflow.stack.server.domain.member.entity.Member;
 import com.overflow.stack.server.domain.question.entity.Question;
 import com.overflow.stack.server.global.audit.Auditable;
 import lombok.Getter;
@@ -19,7 +20,8 @@ public class Answer extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
 
-    @Column(length = 100, nullable = false)
+    @Lob
+    @Column(nullable = false)
     private String content;
 
     @Column(name = "voteResult")
@@ -28,4 +30,8 @@ public class Answer extends Auditable {
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
+
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 }

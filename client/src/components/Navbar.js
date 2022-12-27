@@ -8,62 +8,47 @@ import { loginState } from "../state/atom";
 import { useRecoilState } from "recoil";
 
 function Navbar() {
-	const [isLogin, setIsLogin] = useRecoilState(loginState);
-	const logout = () => {
-		setIsLogin(false);
-	};
-	return (
-		<>
-			<NavbarContainer>
-				<NavbarContents>
-					<Link to="/">
-						<NavbarLogo
-							src={logo}
-							alt="logo"
-						/>
-					</Link>
-					<SearchBarContainer>
-						<MdSearch />
-						<SearchBarInput placeholder="Search..." />
-					</SearchBarContainer>
-					<ButtonContainer>
-						{isLogin ? (
-							<>
-								<Link to="/mypage">
-									<MdAccountCircle />
-								</Link>
-								<Link to="/logout">
-									<Button
-										onClick={logout}
-										text="Log Out"
-									/>
-								</Link>
-							</>
-						) : (
-							<>
-								<Link to="/login">
-									<Button
-										text="Log In"
-										marginLeft="0px"
-									/>
-								</Link>
-								<Link to="/signup">
-									<Button
-										text="Sign Up"
-										color="white"
-										border="1px solid #4393F7"
-										bgColor="#4393F7"
-										hoverColor="#2D75C6"
-										activeColor="#1859A3"
-									/>
-								</Link>
-							</>
-						)}
-					</ButtonContainer>
-				</NavbarContents>
-			</NavbarContainer>
-		</>
-	);
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
+  const logout = () => {
+    setIsLogin(false);
+  };
+  return (
+    <>
+      <NavbarContainer>
+        <NavbarContents>
+          <Link to="/">
+            <NavbarLogo src={logo} alt="logo" />
+          </Link>
+          <SearchBarContainer>
+            <MdSearch />
+            <SearchBarInput placeholder="Search..." />
+          </SearchBarContainer>
+          <ButtonContainer>
+            {isLogin ? (
+              <>
+                <Link to="/mypage">
+                  <MdAccountCircle />
+                </Link>
+                <Link to="/">
+                  <Button onClick={logout} text="Log Out" />
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button text="Log In" marginLeft="0px" />
+                </Link>
+                <Link to="/signup">
+                  <Button text="Sign Up" color="white" border="1px solid #4393F7" bgColor="#4393F7" hoverColor="#2D75C6" activeColor="#1859A3" />
+                </Link>
+              </>
+            )}
+          </ButtonContainer>
+        </NavbarContents>
+      </NavbarContainer>
+    </>
+  );
+
 }
 const NavbarContainer = styled.div`
 	position: sticky;
