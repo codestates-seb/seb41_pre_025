@@ -51,16 +51,13 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question updateQuestion(Question question, String userName) {
         Question findQuestion =findVerifiedQuestion(question.getQuestionId());
-        beanUtils.copyNonNullProperties(question, findQuestion);
 
         if(this.findQuestion(question.getQuestionId()).getMember().getMemberId()
                 == memberService.findMember(userName).getMemberId()){
             beanUtils.copyNonNullProperties(question, findQuestion);
+            return questionRepository.save(findQuestion);
         }
-        else{
-            throw new CustomLogicException(ExceptionCode.QUESTION_WRITER_NOT_MATCH);
-        }
-        return questionRepository.save(findQuestion);
+        throw new CustomLogicException(ExceptionCode.QUESTION_WRITER_NOT_MATCH);
     }
 
     @Override
@@ -69,21 +66,18 @@ public class QuestionServiceImpl implements QuestionService {
         Question findQ = findVerifiedQuestion(questionId);
         Optional<Question_Vote> findVote=questionVoteRepository.findByMember(member);
         if(findVote.isPresent()) {
-            if(findVote.get().isVoteUp()==voteUp){
+            if (findVote.get().isVoteUp() == voteUp) {
                 findQ.setVoteResult(findQ.getVoteResult() + (voteUp ? -1 : 1));
                 questionVoteRepository.delete(findVote.get());
+                return findQ;
             }
-            else{
-                findQ.setVoteResult(findQ.getVoteResult() + (voteUp ? 2 : -2));
-                findVote.get().setVoteUp(voteUp);
-            }
+            findQ.setVoteResult(findQ.getVoteResult() + (voteUp ? 2 : -2));
+            findVote.get().setVoteUp(voteUp);
+            return findQ;
         }
-        else{
-            findQ.setVoteResult(findQ.getVoteResult() + (voteUp ? 1 : -1));
-            Question_Vote qVote= new Question_Vote(voteUp,findQ, member);
-            questionVoteRepository.save(qVote);
-        }
-
+        findQ.setVoteResult(findQ.getVoteResult() + (voteUp ? 1 : -1));
+        Question_Vote qVote= new Question_Vote(voteUp,findQ, member);
+        questionVoteRepository.save(qVote);
         return findQ;
     }
 
@@ -103,11 +97,9 @@ public class QuestionServiceImpl implements QuestionService {
         if(this.findQuestion(question.getQuestionId()).getMember().getMemberId()
                 == memberService.findMember(userName).getMemberId()){
             questionRepository.delete(question);
+            return;
         }
-        else{
             throw new CustomLogicException(ExceptionCode.QUESTION_WRITER_NOT_MATCH);
-        }
-
     }
 
     @Override

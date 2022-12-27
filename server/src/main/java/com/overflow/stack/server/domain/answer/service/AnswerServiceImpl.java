@@ -37,17 +37,13 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public Answer updateAnswer(Answer answer, String userName) {
         Answer findAnswer = findVerifiedAnswer(answer.getAnswerId());
-        beanUtils.copyNonNullProperties(answer, findAnswer);
 
         if(this.findAnswer(answer.getAnswerId()).getMember().getMemberId()
                 == memberService.findMember(userName).getMemberId()){
             beanUtils.copyNonNullProperties(answer, findAnswer);
+            return answerRepository.save(findAnswer);
         }
-        else{
-            throw new CustomLogicException(ExceptionCode.ANSWER_WRITER_NOT_MATCH);
-        }
-
-        return answerRepository.save(findAnswer);
+        throw new CustomLogicException(ExceptionCode.ANSWER_WRITER_NOT_MATCH);
     }
 
     @Override
