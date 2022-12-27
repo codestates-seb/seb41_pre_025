@@ -43,7 +43,7 @@ public class QuestionController {
                                       @Valid @RequestBody QuestionDto.Patch questionPatchDto,
                                        @AuthenticationPrincipal User members){
       questionPatchDto.setQuestionId(questionId);
-      Question question=questionService.updateQuestion(mapper.questionPatchDtoToQuestion(questionPatchDto));
+      Question question=questionService.updateQuestion(mapper.questionPatchDtoToQuestion(questionPatchDto),members.getUsername());
       return new ResponseEntity<>(
               new SingleResponse<>(mapper.questionToQuestionResponseDto(question)),
               HttpStatus.OK);

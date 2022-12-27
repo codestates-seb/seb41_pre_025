@@ -49,9 +49,17 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question updateQuestion(Question question) {
+    public Question updateQuestion(Question question, String userName) {
         Question findQuestion =findVerifiedQuestion(question.getQuestionId());
         beanUtils.copyNonNullProperties(question, findQuestion);
+
+        if(this.findQuestion(question.getQuestionId()).getMember().getMemberId()
+                == memberService.findMember(userName).getMemberId()){
+            beanUtils.copyNonNullProperties(question, findQuestion);
+        }
+        else{
+            throw new CustomLogicException(ExceptionCode.QUESTION_WRITER_DUPLICATE);
+        }
         return questionRepository.save(findQuestion);
     }
 

@@ -154,7 +154,7 @@ public class QuestionControllerRestDocsTest {
 
         given(mapper.questionPatchDtoToQuestion(Mockito.any(QuestionDto.Patch.class))).willReturn(new Question());
 
-        given(questionService.updateQuestion(Mockito.any(Question.class))).willReturn(new Question());
+        given(questionService.updateQuestion(Mockito.any(Question.class),Mockito.anyString())).willReturn(new Question());
 
         given(mapper.questionToQuestionResponseDto(Mockito.any(Question.class))).willReturn(responseDto);
 

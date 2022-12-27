@@ -38,9 +38,11 @@ public interface QuestionMapper {
             question.setQuestionId(questionPatchDto.getQuestionId());
             question.setTitle(questionPatchDto.getTitle());
             question.setContent(questionPatchDto.getContent());
-            question.setTags(questionPatchDto.getTag().stream()
-                    .map(tag->new Question_Tag(question,new Tag(tag.toLowerCase())))
-                    .collect(Collectors.toSet()));
+            if(questionPatchDto.getTag()!=null) {
+                question.setTags(questionPatchDto.getTag().stream()
+                        .map(tag -> new Question_Tag(question, new Tag(tag.toLowerCase())))
+                        .collect(Collectors.toSet()));
+            }
             return question;
         }
     }

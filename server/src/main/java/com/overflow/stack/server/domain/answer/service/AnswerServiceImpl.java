@@ -44,7 +44,7 @@ public class AnswerServiceImpl implements AnswerService {
             beanUtils.copyNonNullProperties(answer, findAnswer);
         }
         else{
-            throw new CustomLogicException(ExceptionCode.MEMBER_NONE);
+            throw new CustomLogicException(ExceptionCode.ANSWER_WRITER_DUPLICATE);
         }
 
         return answerRepository.save(findAnswer);
