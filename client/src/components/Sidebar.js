@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { FaGlobeAmericas } from 'react-icons/fa';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import { FaGlobeAmericas } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 function Sidebar() {
   return (
@@ -9,29 +9,29 @@ function Sidebar() {
       <SidebarContainer>
         <ul>
           <li>
-            <NavLink activeClassName="active" to="/">
+            <NavLink className={({ isActive }) => (isActive ? "active" : "not")} to="/">
               Home
             </NavLink>
           </li>
           <li>PUBLIC</li>
           <li>
-            <NavLink activeClassName="active" to="/questionslist">
+            <NavLink className={({ isActive }) => (isActive ? "active" : "not")} to="/questionslist">
               <FaGlobeAmericas className="icon" />
               Questions
             </NavLink>
           </li>
           <li>
-            <NavLink activeClassName="active" to="/tags">
+            <NavLink className={({ isActive }) => (isActive ? "active" : "not")} to="/tags">
               Tags
             </NavLink>
           </li>
           <li>
-            <NavLink activeClassName="active" to="/users">
+            <NavLink className={({ isActive }) => (isActive ? "active" : "not")} to="/users">
               Users
             </NavLink>
           </li>
           <li>
-            <NavLink activeClassName="active" to="/companies">
+            <NavLink className={({ isActive }) => (isActive ? "active" : "not")} to="/companies">
               Companies
             </NavLink>
           </li>

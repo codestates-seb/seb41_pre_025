@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Button, Social } from "../components/Button";
 import { Link } from "react-router-dom";
@@ -8,12 +8,35 @@ import { VscGithub } from "react-icons/vsc";
 import { AiFillFacebook } from "react-icons/ai";
 import { useSetRecoilState } from "recoil";
 import { loginState } from "../state/atom";
+import { useNavigate } from "react-router-dom";
+import { fetchLogin, fetchMemberInfo } from "../util/fetchLogin";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const setIsLogin = useSetRecoilState(loginState);
-  const login = () => {
-    setIsLogin(true);
+
+  function emailHandler(e) {
+    setEmail(e.target.value);
+  }
+  function passwordHandler(e) {
+    setPassword(e.target.value);
+  }
+
+  const login = async () => {
+    const loginData = JSON.stringify({
+      email: email, //test1@gmail.com
+      password: password, //password
+    });
+    await fetchLogin(loginData).then((data) => {
+      if (data.status === 200) {
+        setIsLogin(true);
+        navigate("/");
+      }
+    });
   };
+
   return (
     <Content>
       <Logo src={icon} alt="logo" />
@@ -21,8 +44,8 @@ export default function Login() {
       <Button text="Log In with GitHub" color="white" border="none" bgColor="black" hoverColor="none" activeColor="hsl(210,8%,97.5%)" width="288.445px" margin="6px 0px" boxshadow="none" />
       <Button text="Log In with FaceBook" color="white" border="none" bgColor="#385499" hoverColor="#314a86" activeColor="#2a4074" width="288.445px" margin="6px 0px" boxshadow="none"></Button>
       <FormContainer>
-        <LabelTextInput id="email" text="Email" placeholder="Please enter your e-mail" />
-        <LabelTextInput id="password" text="Password" placeholder="Please enter your password" />
+        <LabelTextInput onChange={emailHandler} id="email" text="Email" placeholder="Please enter your e-mail" />
+        <LabelTextInput onChange={passwordHandler} id="password" text="Password" placeholder="Please enter your password" />
         <Button onClick={login} type="button" text="Log In" color="white" border="1px solid #4393F7" bgColor="#4393F7" hoverColor="#2D75C6" activeColor="#1859A3" width="240.45px" margin="6px 0px" />
       </FormContainer>
       <SignUpText>
@@ -102,7 +125,7 @@ const LabelTextInput = ({ id = "", text = "", placeholder = "", onChange = (e) =
   return (
     <InputContainer>
       <Label htmlFor={id}>{text}</Label>
-      <Input name={id} placeholder={placeholder} onChange={(e) => onChange(e)} />
+      <Input name={id} placeholder={placeholder} onChange={onChange} />
     </InputContainer>
   );
 };
