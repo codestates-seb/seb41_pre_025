@@ -12,7 +12,7 @@ public interface QuestionService {
     Question voteQuestion(long questionId, String userName, boolean voteUp);
     Question findQuestion(long questionId);
     List<Question> findQuestions();
-    void deleteQuestion(long questionId);
+    void deleteQuestion(long questionId,String userName);
 
     Question findVerifiedQuestion(long questionId);
 }

@@ -420,7 +420,7 @@ public class QuestionControllerRestDocsTest {
         long questionId=1L;
 
 
-        doNothing().when(questionService).deleteQuestion(Mockito.anyLong());
+        doNothing().when(questionService).deleteQuestion(Mockito.anyLong(),Mockito.anyString());
 
         ResultActions actions =
                 mockMvc.perform(

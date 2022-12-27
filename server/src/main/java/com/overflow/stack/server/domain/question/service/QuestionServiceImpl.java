@@ -58,7 +58,7 @@ public class QuestionServiceImpl implements QuestionService {
             beanUtils.copyNonNullProperties(question, findQuestion);
         }
         else{
-            throw new CustomLogicException(ExceptionCode.QUESTION_WRITER_DUPLICATE);
+            throw new CustomLogicException(ExceptionCode.QUESTION_WRITER_NOT_MATCH);
         }
         return questionRepository.save(findQuestion);
     }
@@ -98,9 +98,16 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void deleteQuestion(long questionId) {
+    public void deleteQuestion(long questionId, String userName) {
         Question question= findVerifiedQuestion(questionId);
-        questionRepository.delete(question);
+        if(this.findQuestion(question.getQuestionId()).getMember().getMemberId()
+                == memberService.findMember(userName).getMemberId()){
+            questionRepository.delete(question);
+        }
+        else{
+            throw new CustomLogicException(ExceptionCode.QUESTION_WRITER_NOT_MATCH);
+        }
+
     }
 
     @Override
