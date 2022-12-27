@@ -123,10 +123,10 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
                                         fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그"),
-                                        fieldWithPath("data.answerResponseDtos").type(JsonFieldType.ARRAY).description("답변"),
-                                        fieldWithPath("data.answerResponseDtos.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
-                                        fieldWithPath("data.answerResponseDtos.[].content").type(JsonFieldType.STRING).description("답변 내용"),
-                                        fieldWithPath("data.answerResponseDtos.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표")
+                                        fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
+                                        fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
+                                        fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
+                                        fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표")
                                 )
                         )
                 ));
@@ -201,11 +201,11 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
                                         fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그"),
-                                        fieldWithPath("data.answerResponseDtos").type(JsonFieldType.ARRAY).description("답변"),
-                                        fieldWithPath("data.answerResponseDtos").type(JsonFieldType.ARRAY).description("답변"),
-                                        fieldWithPath("data.answerResponseDtos.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
-                                        fieldWithPath("data.answerResponseDtos.[].content").type(JsonFieldType.STRING).description("답변 내용"),
-                                        fieldWithPath("data.answerResponseDtos.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표")
+                                        fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
+                                        fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
+                                        fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
+                                        fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
+                                        fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표")
                                 )
                         )
                 ));
@@ -269,11 +269,11 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
                                         fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그"),
-                                        fieldWithPath("data.answerResponseDtos").type(JsonFieldType.ARRAY).description("답변"),
-                                        fieldWithPath("data.answerResponseDtos").type(JsonFieldType.ARRAY).description("답변"),
-                                        fieldWithPath("data.answerResponseDtos.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
-                                        fieldWithPath("data.answerResponseDtos.[].content").type(JsonFieldType.STRING).description("답변 내용"),
-                                        fieldWithPath("data.answerResponseDtos.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표")
+                                        fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
+                                        fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
+                                        fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
+                                        fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
+                                        fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표")
                                 )
                         )
                 ));
@@ -328,11 +328,11 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
                                         fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그"),
-                                        fieldWithPath("data.answerResponseDtos").type(JsonFieldType.ARRAY).description("답변"),
-                                        fieldWithPath("data.answerResponseDtos").type(JsonFieldType.ARRAY).description("답변"),
-                                        fieldWithPath("data.answerResponseDtos.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
-                                        fieldWithPath("data.answerResponseDtos.[].content").type(JsonFieldType.STRING).description("답변 내용"),
-                                        fieldWithPath("data.answerResponseDtos.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표")
+                                        fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
+                                        fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
+                                        fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
+                                        fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
+                                        fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표")
                                 )
                         )
                 ));
@@ -398,11 +398,11 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.[].voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
                                         fieldWithPath("data.[].displayName").type(JsonFieldType.STRING).description("작성자"),
                                         fieldWithPath("data.[].tag").type(JsonFieldType.ARRAY).description("태그"),
-                                        fieldWithPath("data.[].answerResponseDtos").type(JsonFieldType.ARRAY).description("답변"),
-                                        fieldWithPath("data.[].answerResponseDtos").type(JsonFieldType.ARRAY).description("답변"),
-                                        fieldWithPath("data.[].answerResponseDtos.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
-                                        fieldWithPath("data.[].answerResponseDtos.[].content").type(JsonFieldType.STRING).description("답변 내용"),
-                                        fieldWithPath("data.[].answerResponseDtos.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표")
+                                        fieldWithPath("data.[].answers").type(JsonFieldType.ARRAY).description("답변"),
+                                        fieldWithPath("data.[].answers").type(JsonFieldType.ARRAY).description("답변"),
+                                        fieldWithPath("data.[].answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
+                                        fieldWithPath("data.[].answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
+                                        fieldWithPath("data.[].answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표")
                                 )
                         )
                 ));

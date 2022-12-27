@@ -46,7 +46,7 @@ public class QuestionDto {
         private Long voteResult;
         private String displayName;
         private Set<String> tag;
-        private List<AnswerDto.Response> answerResponseDtos;
+        private List<AnswerDto.Response> answers;
     }
 
 }

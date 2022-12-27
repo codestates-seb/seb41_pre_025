@@ -82,7 +82,7 @@ public interface QuestionMapper {
             while(var3.hasNext()) {
                 Question question = (Question)var3.next();
                 QuestionDto.response qDtoResponse=this.questionToQuestionResponseDto(question);
-                qDtoResponse.setAnswerResponseDtos(null);
+                qDtoResponse.setAnswers(null);
                 list.add(qDtoResponse);
             }
 
