@@ -20,7 +20,8 @@ public class Answer extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
 
-    @Column(length = 100, nullable = false)
+    @Lob
+    @Column(nullable = false)
     private String content;
 
     @Column(name = "voteResult")

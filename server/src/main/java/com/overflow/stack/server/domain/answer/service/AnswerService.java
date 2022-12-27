@@ -7,7 +7,7 @@ import java.util.List;
 public interface AnswerService {
     Answer createAnswer(Answer answer, String userName);
 
-    Answer updateAnswer(Answer answer);
+    Answer updateAnswer(Answer answer, String userName);
 
     Answer findAnswer(long answerId);
 

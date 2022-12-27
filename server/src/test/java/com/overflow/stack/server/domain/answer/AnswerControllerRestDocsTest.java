@@ -11,6 +11,7 @@ import com.overflow.stack.server.domain.answer.service.AnswerServiceImpl;
 import com.overflow.stack.server.domain.member.entity.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -125,7 +126,7 @@ public class AnswerControllerRestDocsTest {
                 new AnswerDto.Response(1L, "content", 0L,"displayName");
 
         given(answerMapper.answerPatchDtoToAnswer(Mockito.any(AnswerDto.Patch.class))).willReturn(new Answer());
-        given(answerService.updateAnswer(Mockito.any(Answer.class))).willReturn(new Answer());
+        given(answerService.updateAnswer(Mockito.any(Answer.class), Mockito.anyString())).willReturn(new Answer());
         given(answerMapper.answerToAnswerResponseDto(Mockito.any(Answer.class))).willReturn(responseDto);
 
         ResultActions actions =

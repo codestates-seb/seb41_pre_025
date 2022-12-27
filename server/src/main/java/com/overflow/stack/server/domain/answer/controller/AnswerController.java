@@ -40,9 +40,10 @@ public class AnswerController {
 
    @PatchMapping("/{answer-id}")
    public ResponseEntity patchAnswer(@PathVariable("answer-id") long answerId,
-                                     @Valid @RequestBody AnswerDto.Patch answerPatchDto) {
+                                     @Valid @RequestBody AnswerDto.Patch answerPatchDto,
+                                     @AuthenticationPrincipal User members) {
       answerPatchDto.setAnswerId(answerId);
-      Answer answer = answerService.updateAnswer(answerMapper.answerPatchDtoToAnswer(answerPatchDto));
+      Answer answer = answerService.updateAnswer(answerMapper.answerPatchDtoToAnswer(answerPatchDto),members.getUsername());
       return new ResponseEntity(new SingleResponse<>(answerMapper.answerToAnswerResponseDto(answer)), HttpStatus.OK);
    }
 

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
 
 @Getter
@@ -21,6 +22,7 @@ public class AnswerDto {
         }
 
         @NotBlank
+        @Lob
         private String content;
     }
 
@@ -30,6 +32,7 @@ public class AnswerDto {
     public static class Patch{
         private Long answerId;
         @NotBlank
+        @Lob
         private String content;
     }
 
@@ -38,6 +41,7 @@ public class AnswerDto {
     public static class Response {
         private Long answerId;
         @NotBlank
+        @Lob
         private String content;
         private Long voteResult;
         private String displayName;

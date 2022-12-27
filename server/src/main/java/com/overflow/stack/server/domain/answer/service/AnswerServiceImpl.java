@@ -31,7 +31,8 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public Answer updateAnswer(Answer answer) {
+    public Answer updateAnswer(Answer answer, String userName) {
+        answer.setMember(memberService.findMember(userName));
         Answer findAnswer = findVerifiedAnswer(answer.getAnswerId());
         beanUtils.copyNonNullProperties(answer, findAnswer);
         return answerRepository.save(findAnswer);
