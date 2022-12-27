@@ -7,11 +7,42 @@ import { HiOutlineChevronUpDown } from "react-icons/hi2";
 import { AiFillTags } from "react-icons/ai";
 import { GiAchievement } from "react-icons/gi";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { fetchSignup } from "../util/fetchSignup";
 
 export default function Login() {
-  const initialTags = ["Javascript"];
+  const navigate = useNavigate();
+  const [displayName, setDisplayName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  const initialTags = ["Javascript"];
   const [tags, setTags] = useState(initialTags);
+
+  function displayNameHandler(e) {
+    setDisplayName(e.target.value);
+  }
+  function emailHandler(e) {
+    setEmail(e.target.value);
+  }
+  function passwordHandler(e) {
+    setPassword(e.target.value);
+  }
+
+  const signup = async () => {
+    const singupData = JSON.stringify({
+      email: email,
+      password: password,
+      fullName: displayName,
+      displayName: displayName,
+      tags: tags,
+    });
+    await fetchSignup(singupData).then((data) => {
+      if (data.status === 200) {
+        navigate("/");
+      }
+    });
+  };
 
   const removeTags = (indexToRemove) => {
     setTags(tags.filter((_, index) => index !== indexToRemove));
@@ -55,9 +86,9 @@ export default function Login() {
       </TextContent>
       <FormAndSignUpContainer>
         <FormContainer>
-          <LabelTextInput id="displayname" text="Display Name" placeholder="Please enter your display name" />
-          <LabelTextInput id="email" text="Email" placeholder="Please enter your e-mail" />
-          <LabelTextInput id="password" text="Password" placeholder="Please enter your password" />
+          <LabelTextInput onChange={displayNameHandler} id="displayname" text="Display Name" placeholder="Please enter your display name" />
+          <LabelTextInput onChange={emailHandler} id="email" text="Email" placeholder="Please enter your e-mail" />
+          <LabelTextInput onChange={passwordHandler} id="password" text="Password" placeholder="Please enter your password" />
           <TagsContainer>
             <span className="tagLabel">Tags</span>
             <TagsInput>
@@ -84,7 +115,7 @@ export default function Login() {
               />
             </TagsInput>
           </TagsContainer>
-          <Button type="button" text="Log In" color="white" border="1px solid #4393F7" bgColor="#4393F7" hoverColor="#2D75C6" activeColor="#1859A3" width="240.45px" margin="6px 0px" />
+          <Button onClick={signup} type="button" text="Sing up" color="white" border="1px solid #4393F7" bgColor="#4393F7" hoverColor="#2D75C6" activeColor="#1859A3" width="240.45px" margin="6px 0px" />
         </FormContainer>
         <SignUpText>
           Already have an account?
@@ -213,7 +244,7 @@ const LabelTextInput = ({ id = "", text = "", placeholder = "", onChange = (e) =
   return (
     <InputContainer>
       <Label htmlFor={id}>{text}</Label>
-      <Input name={id} placeholder={placeholder} onChange={(e) => onChange(e)} />
+      <Input name={id} placeholder={placeholder} onChange={onChange} />
     </InputContainer>
   );
 };

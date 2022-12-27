@@ -1,5 +1,4 @@
 export const fetchLogin = async (data) => {
-  console.log(data);
   return fetch("https://server.prestack41-25.kro.kr/api/v1/auth/login", {
     method: "POST",
     headers: {
@@ -29,15 +28,14 @@ export const fetchLogin = async (data) => {
 };
 
 export const fetchMemberInfo = async () => {
-  return fetch("https://server.prestack41-25.kro.kr/api/members?_csrf=4c4cfad8-db05-4b17-afa1-f6e769563af5", {
+  return fetch("https://server.prestack41-25.kro.kr/api/v1/members", {
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
-      Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjcxNjg5Nzg4fQ.eFeEyh5F5ilhUfK28DzIxNPscqrlo5d9kNcOZYgbsUs",
+      Authorization: sessionStorage.getItem("access_token"),
     },
   })
     .then((res) => {
-      console.log(res);
       if (!res.ok) {
         throw Error("nonono");
       }

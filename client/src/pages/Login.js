@@ -19,7 +19,6 @@ export default function Login() {
 
   function emailHandler(e) {
     setEmail(e.target.value);
-    console.log(fetchMemberInfo());
   }
   function passwordHandler(e) {
     setPassword(e.target.value);
@@ -34,7 +33,6 @@ export default function Login() {
       if (data.status === 200) {
         setIsLogin(true);
         navigate("/");
-        window.location.reload();
       }
     });
   };
