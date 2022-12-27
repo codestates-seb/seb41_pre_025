@@ -32,6 +32,7 @@ public class SecurityConfig {
         http.csrf().disable()
                 .headers().frameOptions().disable()
                 .and()
+                .cors().and()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
