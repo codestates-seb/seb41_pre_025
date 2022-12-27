@@ -11,6 +11,8 @@ public enum ExceptionCode {
 
    QUESTION_NOT_FOUND(404, "Question not found"),
 
+   ANSWER_NOT_FOUND(404, "Answer not found"),
+
    TOKEN_INVALID(401 , "TOKEN_INVALID");
 
    @Getter

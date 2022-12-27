@@ -52,6 +52,48 @@ include::{snippets}/post-answer/http-response.adoc[]
 .response-fields
 include::{snippets}/post-answer/response-fields.adoc[]
 
+=== 답변 수정
+.curl-request
+include::{snippets}/patch-answer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/patch-answer/http-request.adoc[]
+
+.request-fields
+include::{snippets}/patch-answer/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-answer/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-answer/response-fields.adoc[]
+
+=== 답변 조회
+.curl-request
+include::{snippets}/get-answer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-answer/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-answer/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-answer/response-fields.adoc[]
+
+=== 모든 답변 조회
+.curl-request
+include::{snippets}/get-answers/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-answers/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-answers/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-answers/response-fields.adoc[]
+
 ***
 == QuestionController
 
