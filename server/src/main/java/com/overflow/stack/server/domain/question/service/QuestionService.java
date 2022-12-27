@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface QuestionService {
     Question createQuestion(Question question, String userName);
-    Question updateQuestion(Question question);
+    Question updateQuestion(Question question, String userName);
     Question voteQuestion(long questionId, String userName, boolean voteUp);
     Question findQuestion(long questionId);
     List<Question> findQuestions();
-    void deleteQuestion(long questionId);
+    void deleteQuestion(long questionId,String userName);
 
     Question findVerifiedQuestion(long questionId);
 }

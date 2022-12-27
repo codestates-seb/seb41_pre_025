@@ -26,6 +26,7 @@ public class Question {
     @Column(length = 100, nullable = false)
     private String title;
     @Column(nullable = false)
+    @Lob
     private String content;
     @Column
     private Long voteResult;

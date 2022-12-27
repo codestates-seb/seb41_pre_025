@@ -5,7 +5,7 @@ import com.overflow.stack.server.domain.answer.entity.Answer;
 import java.util.List;
 
 public interface AnswerService {
-    Answer createAnswer(Answer answer, String userName);
+    Answer createAnswer(Answer answer, String userName, long questionId);
 
     Answer updateAnswer(Answer answer, String userName);
 
