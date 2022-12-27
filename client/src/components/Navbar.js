@@ -9,7 +9,6 @@ import { useRecoilState } from "recoil";
 
 function Navbar() {
   const [isLogin, setIsLogin] = useRecoilState(loginState);
-  console.log(isLogin);
   const logout = () => {
     setIsLogin(false);
   };
@@ -30,7 +29,7 @@ function Navbar() {
                 <Link to="/mypage">
                   <MdAccountCircle />
                 </Link>
-                <Link to="/logout">
+                <Link to="/">
                   <Button onClick={logout} text="Log Out" />
                 </Link>
               </>
