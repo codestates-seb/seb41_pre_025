@@ -48,70 +48,71 @@ function Navbar() {
       </NavbarContainer>
     </>
   );
+
 }
 const NavbarContainer = styled.div`
-  position: sticky;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f8f9f9;
-  border-top: 3px solid #e5883e;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	position: sticky;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #f8f9f9;
+	border-top: 3px solid #e5883e;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 `;
 
 const NavbarContents = styled.div`
-  display: flex;
-  align-items: center;
-  background: #f8f9f9;
-  height: 44px;
-  width: 1264px;
+	display: flex;
+	align-items: center;
+	background: #f8f9f9;
+	height: 44px;
+	width: 1264px;
 `;
 
 const NavbarLogo = styled.img`
-  width: 157px;
-  padding: 0 8px;
+	width: 157px;
+	padding: 0 8px;
 `;
 
 const SearchBarContainer = styled.div`
-  width: 350px;
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  background: white;
-  align-items: center;
-  border-radius: 5px;
-  border: 1px solid #bbbfc3;
-  margin: 0 10px;
+	width: 350px;
+	display: flex;
+	flex: 1;
+	flex-direction: row;
+	background: white;
+	align-items: center;
+	border-radius: 5px;
+	border: 1px solid #bbbfc3;
+	margin: 0 10px;
 
-  svg {
-    font-size: 29px;
-    color: #858c94;
-    padding: 3px;
-    margin: 0 3px;
-  }
+	svg {
+		font-size: 29px;
+		color: #858c94;
+		padding: 3px;
+		margin: 0 3px;
+	}
 `;
 
 const SearchBarInput = styled.input`
-  color: #000;
-  border: 0.5px solid #ccc;
-  font-size: 16px;
-  outline: none;
-  border: none;
-  background-repeat: no-repeat;
-  background-size: 20px 20px;
-  flex: 1;
+	color: #000;
+	border: 0.5px solid #ccc;
+	font-size: 16px;
+	outline: none;
+	border: none;
+	background-repeat: no-repeat;
+	background-size: 20px 20px;
+	flex: 1;
 `;
 
 const ButtonContainer = styled.div`
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 
-  svg {
-    margin: 5px 2px 0 0;
-    font-size: 33px;
-    color: #858c94;
-  }
+	svg {
+		margin: 5px 2px 0 0;
+		font-size: 33px;
+		color: #858c94;
+	}
 `;
 
 export default Navbar;
