@@ -1,5 +1,6 @@
 package com.overflow.stack.server.domain.question.dto;
 
+import com.overflow.stack.server.domain.answer.dto.AnswerDto;
 import com.overflow.stack.server.domain.member.entity.Member;
 import com.overflow.stack.server.domain.question.entity.Question_Tag;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Set;
 
 public class QuestionDto {
@@ -34,6 +36,7 @@ public class QuestionDto {
 
     @AllArgsConstructor
     @Getter
+    @Setter
     public static class response{
         private Long questionId;
         @NotBlank
@@ -43,6 +46,7 @@ public class QuestionDto {
         private Long voteResult;
         private String displayName;
         private Set<String> tag;
+        private List<AnswerDto.Response> answerResponseDtos;
     }
 
 }
