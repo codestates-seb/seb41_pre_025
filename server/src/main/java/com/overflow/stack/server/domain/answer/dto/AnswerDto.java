@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -45,5 +46,7 @@ public class AnswerDto {
         private String content;
         private Long voteResult;
         private String displayName;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
     }
 }

@@ -9,6 +9,7 @@ import com.overflow.stack.server.domain.question.entity.Question_Tag;
 import com.overflow.stack.server.domain.tag.entity.Tag;
 import org.mapstruct.Mapper;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -56,6 +57,8 @@ public interface QuestionMapper {
             Long voteResult = null;
             String displayName=null;
             Set<String> tags = null;
+            LocalDateTime createdAt=null;
+            LocalDateTime modifiedAt=null;
             List<AnswerDto.Response> answerResponseDtos=null;
             questionId = question.getQuestionId();
             title = question.getTitle();
@@ -65,12 +68,14 @@ public interface QuestionMapper {
             answerResponseDtos=question.getAnswers().stream()
                     .map(answer -> answerMapper.answerToAnswerResponseDto(answer))
                     .collect(Collectors.toList());
+            createdAt=question.getCreatedAt();
+            modifiedAt=question.getModifiedAt();
             if(question.getTags()!=null) {
                 tags = question.getTags().stream()
                         .map(tag -> tag.getTag().getTagName())
                         .collect(Collectors.toSet());
             }
-            QuestionDto.response response = new QuestionDto.response(questionId, title, content, voteResult,displayName,tags,answerResponseDtos);
+            QuestionDto.response response = new QuestionDto.response(questionId, title, content, voteResult,displayName,createdAt,modifiedAt,tags,answerResponseDtos);
             return response;
         }
     }

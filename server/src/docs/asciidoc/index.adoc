@@ -97,7 +97,7 @@ include::{snippets}/get-answers/http-response.adoc[]
 .response-fields
 include::{snippets}/get-answers/response-fields.adoc[]
 
-=== 질문 삭제
+=== 답변 삭제
 .curl-request
 include::{snippets}/delete-answer/curl-request.adoc[]
 

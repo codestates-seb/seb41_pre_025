@@ -25,6 +25,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +65,8 @@ public class AnswerControllerRestDocsTest {
     @DisplayName("답변 생성")
     @WithMockUser
     public void createAnswerTest() throws Exception {
-
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime modifiedAt = createdAt;
         AnswerDto.Post post = new AnswerDto.Post("content");
         String content = gson.toJson(post);
 
@@ -72,7 +74,9 @@ public class AnswerControllerRestDocsTest {
                 new AnswerDto.Response(1L,
                         "content",
                         0L,
-                        "displayName");
+                        "displayName",
+                        createdAt,
+                        modifiedAt);
 
 
         given(answerMapper.answerPostDtoToAnswer(Mockito.any(AnswerDto.Post.class))).willReturn(new Answer());
@@ -113,7 +117,9 @@ public class AnswerControllerRestDocsTest {
                                         fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
-                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자")
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변 생성 일자"),
+                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")
                                 )
                         )
                 ));
@@ -124,11 +130,13 @@ public class AnswerControllerRestDocsTest {
     @WithMockUser
     public void patchAnswerTest() throws Exception {
         long answerId = 1L;
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime modifiedAt = createdAt;
         AnswerDto.Patch patch = new AnswerDto.Patch(answerId, "content");
         String content = gson.toJson(patch);
 
         AnswerDto.Response responseDto =
-                new AnswerDto.Response(1L, "content", 0L,"displayName");
+                new AnswerDto.Response(1L, "content", 0L,"displayName",createdAt,modifiedAt);
 
         given(answerMapper.answerPatchDtoToAnswer(Mockito.any(AnswerDto.Patch.class))).willReturn(new Answer());
         given(answerService.updateAnswer(Mockito.any(Answer.class), Mockito.anyString())).willReturn(new Answer());
@@ -169,7 +177,9 @@ public class AnswerControllerRestDocsTest {
                                         fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
-                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자")
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변 생성 일자"),
+                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")
                                 )
                         )
                 ));
@@ -180,8 +190,10 @@ public class AnswerControllerRestDocsTest {
     @WithMockUser
     public void getAnswerTest() throws Exception {
         long answerId = 1L;
-
-        AnswerDto.Response responseDto = new AnswerDto.Response(1L, "content1", 0L,"displayName");
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime modifiedAt = createdAt;
+        AnswerDto.Response responseDto = new AnswerDto.Response(1L,
+                "content1", 0L,"displayName",createdAt, modifiedAt);
 
         given(answerService.findAnswer(Mockito.anyLong())).willReturn(new Answer());
         given(answerMapper.answerToAnswerResponseDto(Mockito.any(Answer.class))).willReturn(responseDto);
@@ -207,7 +219,9 @@ public class AnswerControllerRestDocsTest {
                                         fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("답변"),
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
-                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자")
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변 생성 일자"),
+                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")
                                 )
                         )
                 ));
@@ -219,19 +233,25 @@ public class AnswerControllerRestDocsTest {
     public void getAnswersTest() throws Exception {
         Member member = new Member();
         member.setDisplayName("displayName1");
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime modifiedAt = createdAt;
         AnswerDto.Response responseDto1 =
                 new AnswerDto.Response(
                         1L,
                         "content1",
                         2L,
-                        "displayName1");
+                        "displayName1",
+                        createdAt,
+                        modifiedAt);
 
         AnswerDto.Response responseDto2 =
                 new AnswerDto.Response(
                         2L,
                         "content2",
                         2L,
-                        "displayName2");
+                        "displayName2",
+                        createdAt,
+                        modifiedAt);
 
         List<AnswerDto.Response> responseList = new ArrayList<>();
         responseList.add(responseDto1);
@@ -262,7 +282,9 @@ public class AnswerControllerRestDocsTest {
                                         fieldWithPath("data.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.[].content").type(JsonFieldType.STRING).description("내용"),
                                         fieldWithPath("data.[].voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
-                                        fieldWithPath("data.[].displayName").type(JsonFieldType.STRING).description("작성자")
+                                        fieldWithPath("data.[].displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("답변 생성 일자"),
+                                        fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")
 
                                 )
                         )

@@ -13,10 +13,12 @@ import { useRecoilState } from 'recoil';
 import { useLocation } from 'react-router-dom';
 
 export default function QuestionsDetail() {
+
   // 투표 수 voteResult로 바꾸고 상태관리
   const [voteCount, setVoteCount] = useState(0);
   const [questionDetail, setquestionDetail] = useRecoilState(questionDetailState);
   const [answers, setanswers] = useRecoilState(answersState);
+
   const location = useLocation();
   const pathname = location.pathname;
 
@@ -24,11 +26,13 @@ export default function QuestionsDetail() {
     fetchQuestionList(pathname.slice(16))
       .then((data) => {
         setquestionDetail(data.data);
+
       })
       .catch((err) => {
         console.log(err.message);
       });
   }, []);
+
 
   useEffect(() => {
     fetchQuestionList(pathname.slice(16))
@@ -40,6 +44,7 @@ export default function QuestionsDetail() {
         console.log(err.message);
       });
   }, []);
+
   return (
     <Contents>
       <Head>
@@ -84,6 +89,7 @@ export default function QuestionsDetail() {
         </UserInfo>
       </SubContainer>
       <AnswerContainer>
+
         <div>{answers.length} Answers</div>
         {answers.map((answer) => (
           <MainContainer>
@@ -97,6 +103,7 @@ export default function QuestionsDetail() {
             <Maintext>{answer.content}</Maintext>
           </MainContainer>
         ))}
+
         Your Answer
         <textarea />
         <Button
