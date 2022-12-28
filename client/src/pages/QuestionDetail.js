@@ -1,142 +1,131 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Button } from "../components/Button";
-import { GoTriangleUp, GoTriangleDown } from "react-icons/go";
-import { BsBookmark } from "react-icons/bs";
-import { GiBackwardTime } from "react-icons/gi";
-import { MdAccountCircle } from "react-icons/md";
-import { useEffect } from "react";
-import { fetchQuestionList } from "../util/usefetchQuestion";
-import { questionDetailState, answersState } from "../state/atom";
-import { useRecoilState } from "recoil";
-import { useLocation, Link } from "react-router-dom";
-import Loading from "../components/Loading";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Button } from '../components/Button';
+import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
+import { BsBookmark } from 'react-icons/bs';
+import { GiBackwardTime } from 'react-icons/gi';
+import { MdAccountCircle } from 'react-icons/md';
+import { useEffect } from 'react';
+import { fetchQuestionList } from '../util/usefetchQuestion';
+import { questionDetailState, answersState } from '../state/atom';
+import { useRecoilState } from 'recoil';
+import { useLocation, Link } from 'react-router-dom';
+
+import Loading from '../components/Loading';
 
 export default function QuestionsDetail() {
-	// 투표 수 voteResult로 바꾸고 상태관리
-	const [voteCount, setVoteCount] = useState(0);
-	// 로딩중 상태관리
-	const [isLoading, setLoading] = useState(true);
-	const [questionDetail, setquestionDetail] =
-		useRecoilState(questionDetailState);
-	const [answers, setAnswers] = useRecoilState(answersState);
+  // 투표 수 voteResult로 바꾸고 상태관리
+  const [voteCount, setVoteCount] = useState(0);
+  // 로딩중 상태관리
+  const [isLoading, setLoading] = useState(true);
+  const [questionDetail, setquestionDetail] = useRecoilState(questionDetailState);
+  const [answers, setAnswers] = useRecoilState(answersState);
 
-	const location = useLocation();
-	const pathname = location.pathname;
+  const location = useLocation();
+  const pathname = location.pathname;
 
-	useEffect(() => {
-		fetchQuestionList(pathname.slice(16))
-			.then((data) => {
-				setquestionDetail(data.data);
-				setLoading(false);
-			})
-			.catch((err) => {
-				console.log(err.message);
-			});
-	}, []);
+  useEffect(() => {
+    fetchQuestionList(pathname.slice(16))
+      .then((data) => {
+        setquestionDetail(data.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
 
-	useEffect(() => {
-		fetchQuestionList(pathname.slice(16))
-			.then((data) => {
-				setAnswers(data.data.answers);
-				console.log(data.data.answers);
-			})
-			.catch((err) => {
-				console.log(err.message);
-			});
-	}, []);
+  useEffect(() => {
+    fetchQuestionList(pathname.slice(16))
+      .then((data) => {
+        setAnswers(data.data.answers);
+        console.log(data.data.answers);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
 
-	if (isLoading) {
-		return <Loading />;
-	} else {
-		return (
-			<Contents>
-				<Head>
-					<Title>
-						<h1>{questionDetail.title}</h1>
-						<Link to="/askquestions">
-							<Button
-								text="Ask Question"
-								color="white"
-								border="1px solid #4393F7"
-								bgColor="#4393F7"
-								hoverColor="#2D75C6"
-								activeColor="#1859A3"
-								width="103.02px"
-								boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
-							/>
-						</Link>
-					</Title>
-					<Info>Asked today Modified today Viewed 13 times</Info>
-					<hr />
-				</Head>
-				<MainContainer>
-					<VoteContainer>
-						<GoTriangleUp
-							className="triangle"
-							onClick={() => setVoteCount(voteCount + 1)}
-						/>
-						<div>{voteCount}</div>
-						<GoTriangleDown
-							className="triangle"
-							onClick={() => setVoteCount(voteCount - 1)}
-						/>
-						<BsBookmark className="icon" />
-						<GiBackwardTime className="icon" />
-					</VoteContainer>
-					<Maintext>{questionDetail.content}</Maintext>
-				</MainContainer>
-				<SubContainer>
-					<TagBox>
-						{questionDetail.tag.map((tag) => {
-							return <Tag key={questionDetail.questionId}>{tag}</Tag>;
-						})}
-					</TagBox>
-					<UserInfo>
-						asked 59 mins ago
-						<Name>
-							<MdAccountCircle />
-							{questionDetail.displayName}
-						</Name>
-					</UserInfo>
-				</SubContainer>
-				<AnswerContainer>
-					<div>{answers.length} Answers</div>
-					{answers.map((answer) => (
-						<MainContainer>
-							<VoteContainer>
-								<GoTriangleUp
-									className="triangle"
-									onClick={() => setVoteCount(voteCount + 1)}
-								/>
-								<div>{voteCount}</div>
-								<GoTriangleDown
-									className="triangle"
-									onClick={() => setVoteCount(voteCount - 1)}
-								/>
-								<BsBookmark className="icon" />
-								<GiBackwardTime className="icon" />
-							</VoteContainer>
-							<Maintext>{answer.content}</Maintext>
-						</MainContainer>
-					))}
-					Your Answer
-					<textarea />
-					<Button
-						text="Post Your Answer"
-						color="white"
-						border="1px solid #4393F7"
-						bgColor="#4393F7"
-						hoverColor="#2D75C6"
-						activeColor="#1859A3"
-						width="119.77px"
-						height="54.77px"
-						boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
-					/>
-				</AnswerContainer>
-			</Contents>
-		);
-	}
+  if (isLoading) {
+    return <Loading />;
+  } else {
+    return (
+      <Contents>
+        <Head>
+          <Title>
+            <h1>{questionDetail.title}</h1>
+            <Link to="/askquestions">
+              <Button
+                text="Ask Question"
+                color="white"
+                border="1px solid #4393F7"
+                bgColor="#4393F7"
+                hoverColor="#2D75C6"
+                activeColor="#1859A3"
+                width="103.02px"
+                boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
+              />
+            </Link>
+          </Title>
+          <Info>Asked today Modified today Viewed 13 times</Info>
+          <hr />
+        </Head>
+        <MainContainer>
+          <VoteContainer>
+            <GoTriangleUp className="triangle" onClick={() => setVoteCount(voteCount + 1)} />
+            <div>{voteCount}</div>
+            <GoTriangleDown className="triangle" onClick={() => setVoteCount(voteCount - 1)} />
+            <BsBookmark className="icon" />
+            <GiBackwardTime className="icon" />
+          </VoteContainer>
+          <Maintext>{questionDetail.content}</Maintext>
+        </MainContainer>
+        <SubContainer>
+          <TagBox>
+            {questionDetail.tag.map((tag) => {
+              return <Tag key={questionDetail.questionId}>{tag}</Tag>;
+            })}
+          </TagBox>
+          <UserInfo>
+            asked 59 mins ago
+            <Name>
+              <MdAccountCircle />
+              {questionDetail.displayName}
+            </Name>
+          </UserInfo>
+        </SubContainer>
+        <AnswerContainer>
+          <div>{answers.length} Answers</div>
+          {answers.map((answer) => (
+            <MainContainer>
+              <VoteContainer>
+                <GoTriangleUp className="triangle" onClick={() => setVoteCount(voteCount + 1)} />
+                <div>{voteCount}</div>
+                <GoTriangleDown className="triangle" onClick={() => setVoteCount(voteCount - 1)} />
+                <BsBookmark className="icon" />
+                <GiBackwardTime className="icon" />
+              </VoteContainer>
+              <Maintext>{answer.content}</Maintext>
+            </MainContainer>
+          ))}
+          Your Answer
+          <textarea />
+          <Button
+            text="Post Your Answer"
+            color="white"
+            border="1px solid #4393F7"
+            bgColor="#4393F7"
+            hoverColor="#2D75C6"
+            activeColor="#1859A3"
+            width="119.77px"
+            height="54.77px"
+            boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
+          />
+        </AnswerContainer>
+      </Contents>
+    );
+  }
+
 }
 
 const Contents = styled.div`
@@ -232,12 +221,19 @@ const Name = styled.div`
 `;
 
 const AnswerContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
 
-	textarea {
-		margin: 20px 5px;
-		height: 200px;
-	}
+  div {
+    padding: 10px;
+  }
+  textarea {
+    margin: 20px 5px;
+    height: 200px;
+  }
+`;
+
+const AnsCount = styled.div`
+  padding: 10px;
 `;
