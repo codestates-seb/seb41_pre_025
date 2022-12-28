@@ -161,9 +161,6 @@ include::{snippets}/patch-question/http-request.adoc[]
 .path-parameters
 include::{snippets}/patch-question/path-parameters.adoc[]
 
-.request-fields
-include::{snippets}/patch-question/request-fields.adoc[]
-
 .http-response
 include::{snippets}/patch-question/http-response.adoc[]
 
@@ -218,6 +215,9 @@ include::{snippets}/vote-question/curl-request.adoc[]
 
 .http-request
 include::{snippets}/vote-question/http-request.adoc[]
+
+.request-fields
+include::{snippets}/vote-question/request-fields.adoc[]
 
 .path-parameters
 include::{snippets}/vote-question/path-parameters.adoc[]
