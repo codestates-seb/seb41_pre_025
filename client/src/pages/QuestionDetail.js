@@ -6,18 +6,20 @@ import { BsBookmark } from "react-icons/bs";
 import { GiBackwardTime } from "react-icons/gi";
 import { MdAccountCircle } from "react-icons/md";
 import { useEffect } from "react";
-
-<<<<<<< HEAD
 import { fetchQuestionList } from "../util/usefetchQuestion";
-import { questionListState, questionDetailState } from "../state/atom";
+import { questionDetailState, answersState } from "../state/atom";
 import { useRecoilState } from "recoil";
 import { useLocation } from "react-router-dom";
 
 export default function QuestionsDetail() {
+	// 투표 수 voteResult로 바꾸고 상태관리
 	const [voteCount, setVoteCount] = useState(0);
+	// 로딩중 상태관리
 	const [isLoading, setLoading] = useState(true);
 	const [questionDetail, setquestionDetail] =
 		useRecoilState(questionDetailState);
+	const [answers, setAnswers] = useRecoilState(answersState);
+
 	const location = useLocation();
 	const pathname = location.pathname;
 
@@ -26,127 +28,118 @@ export default function QuestionsDetail() {
 			.then((data) => {
 				setquestionDetail(data.data);
 				setLoading(false);
-				console.log(data.data);
 			})
 			.catch((err) => {
 				console.log(err.message);
 			});
 	}, []);
 
-import { fetchQuestionList } from '../util/usefetchQuestion';
-import { questionListState, questionDetailState } from '../state/atom';
-import { useRecoilState } from 'recoil';
-import { useLocation } from 'react-router-dom';
+	useEffect(() => {
+		fetchQuestionList(pathname.slice(16))
+			.then((data) => {
+				setAnswers(data.data.answers);
+				console.log(data.data.answers);
+			})
+			.catch((err) => {
+				console.log(err.message);
+			});
+	}, []);
 
-export default function QuestionsDetail() {
-
-  // 투표 수 voteResult로 바꾸고 상태관리
-  const [voteCount, setVoteCount] = useState(0);
-  const [questionDetail, setquestionDetail] = useRecoilState(questionDetailState);
-  const [answers, setanswers] = useRecoilState(answersState);
-
-  const location = useLocation();
-  const pathname = location.pathname;
-
-  useEffect(() => {
-    fetchQuestionList(pathname.slice(16))
-      .then((data) => {
-        setquestionDetail(data.data);
-
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
-
-
-  useEffect(() => {
-    fetchQuestionList(pathname.slice(16))
-      .then((data) => {
-        setanswers(data.data.answers);
-        console.log(data.data.answers);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
-
-  return (
-    <Contents>
-      <Head>
-        <Title>
-          <h1>{questionDetail.title}</h1>
-          <Button
-            text="Ask Question"
-            color="white"
-            border="1px solid #4393F7"
-            bgColor="#4393F7"
-            hoverColor="#2D75C6"
-            activeColor="#1859A3"
-            width="103.02px"
-            boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
-          />
-        </Title>
-        <Info>Asked today Modified today Viewed 13 times</Info>
-        <hr />
-      </Head>
-      <MainContainer>
-        <VoteContainer>
-          <GoTriangleUp className="triangle" onClick={() => setVoteCount(voteCount + 1)} />
-          <div>{voteCount}</div>
-          <GoTriangleDown className="triangle" onClick={() => setVoteCount(voteCount - 1)} />
-          <BsBookmark className="icon" />
-          <GiBackwardTime className="icon" />
-        </VoteContainer>
-        <Maintext>{questionDetail.content}</Maintext>
-      </MainContainer>
-      <SubContainer>
-        <TagBox>
-          {questionDetail.tag.map((tag) => {
-            return <Tag key={questionDetail.questionId}>{tag}</Tag>;
-          })}
-        </TagBox>
-        <UserInfo>
-          asked 59 mins ago
-          <Name>
-            <MdAccountCircle />
-            {questionDetail.displayName}
-          </Name>
-        </UserInfo>
-      </SubContainer>
-      <AnswerContainer>
-
-        <div>{answers.length} Answers</div>
-        {answers.map((answer) => (
-          <MainContainer>
-            <VoteContainer>
-              <GoTriangleUp className="triangle" onClick={() => setVoteCount(voteCount + 1)} />
-              <div>{voteCount}</div>
-              <GoTriangleDown className="triangle" onClick={() => setVoteCount(voteCount - 1)} />
-              <BsBookmark className="icon" />
-              <GiBackwardTime className="icon" />
-            </VoteContainer>
-            <Maintext>{answer.content}</Maintext>
-          </MainContainer>
-        ))}
-
-        Your Answer
-        <textarea />
-        <Button
-          text="Post Your Answer"
-          color="white"
-          border="1px solid #4393F7"
-          bgColor="#4393F7"
-          hoverColor="#2D75C6"
-          activeColor="#1859A3"
-          width="119.77px"
-          height="54.77px"
-          boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
-        />
-      </AnswerContainer>
-    </Contents>
-  );
->>>>>>> b29a8be725aed259855ccad9cebd085fcda8fff6
+	if (isLoading) {
+		return (
+			<>
+				<SpinContainer>
+					<Spin />
+				</SpinContainer>
+			</>
+		);
+	} else {
+		return (
+			<Contents>
+				<Head>
+					<Title>
+						<h1>{questionDetail.title}</h1>
+						<Button
+							text="Ask Question"
+							color="white"
+							border="1px solid #4393F7"
+							bgColor="#4393F7"
+							hoverColor="#2D75C6"
+							activeColor="#1859A3"
+							width="103.02px"
+							boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
+						/>
+					</Title>
+					<Info>Asked today Modified today Viewed 13 times</Info>
+					<hr />
+				</Head>
+				<MainContainer>
+					<VoteContainer>
+						<GoTriangleUp
+							className="triangle"
+							onClick={() => setVoteCount(voteCount + 1)}
+						/>
+						<div>{voteCount}</div>
+						<GoTriangleDown
+							className="triangle"
+							onClick={() => setVoteCount(voteCount - 1)}
+						/>
+						<BsBookmark className="icon" />
+						<GiBackwardTime className="icon" />
+					</VoteContainer>
+					<Maintext>{questionDetail.content}</Maintext>
+				</MainContainer>
+				<SubContainer>
+					<TagBox>
+						{questionDetail.tag.map((tag) => {
+							return <Tag key={questionDetail.questionId}>{tag}</Tag>;
+						})}
+					</TagBox>
+					<UserInfo>
+						asked 59 mins ago
+						<Name>
+							<MdAccountCircle />
+							{questionDetail.displayName}
+						</Name>
+					</UserInfo>
+				</SubContainer>
+				<AnswerContainer>
+					<div>{answers.length} Answers</div>
+					{answers.map((answer) => (
+						<MainContainer>
+							<VoteContainer>
+								<GoTriangleUp
+									className="triangle"
+									onClick={() => setVoteCount(voteCount + 1)}
+								/>
+								<div>{voteCount}</div>
+								<GoTriangleDown
+									className="triangle"
+									onClick={() => setVoteCount(voteCount - 1)}
+								/>
+								<BsBookmark className="icon" />
+								<GiBackwardTime className="icon" />
+							</VoteContainer>
+							<Maintext>{answer.content}</Maintext>
+						</MainContainer>
+					))}
+					Your Answer
+					<textarea />
+					<Button
+						text="Post Your Answer"
+						color="white"
+						border="1px solid #4393F7"
+						bgColor="#4393F7"
+						hoverColor="#2D75C6"
+						activeColor="#1859A3"
+						width="119.77px"
+						height="54.77px"
+						boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
+					/>
+				</AnswerContainer>
+			</Contents>
+		);
+	}
 }
 
 const SpinContainer = styled.div`
