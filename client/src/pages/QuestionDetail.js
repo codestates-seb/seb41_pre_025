@@ -8,14 +8,15 @@ import { MdAccountCircle } from 'react-icons/md';
 import { useEffect } from 'react';
 
 import { fetchQuestionList } from '../util/usefetchQuestion';
-import { questionListState, questionDetailState } from '../state/atom';
+import { questionDetailState, answersState } from '../state/atom';
 import { useRecoilState } from 'recoil';
 import { useLocation } from 'react-router-dom';
 
 export default function QuestionsDetail() {
+  // 투표 수 voteResult로 바꾸고 상태관리
   const [voteCount, setVoteCount] = useState(0);
-  const [questionList, setquestionList] = useRecoilState(questionListState);
   const [questionDetail, setquestionDetail] = useRecoilState(questionDetailState);
+  const [answers, setanswers] = useRecoilState(answersState);
   const location = useLocation();
   const pathname = location.pathname;
 
@@ -23,13 +24,22 @@ export default function QuestionsDetail() {
     fetchQuestionList(pathname.slice(16))
       .then((data) => {
         setquestionDetail(data.data);
-        console.log(data.data);
       })
       .catch((err) => {
         console.log(err.message);
       });
   }, []);
 
+  useEffect(() => {
+    fetchQuestionList(pathname.slice(16))
+      .then((data) => {
+        setanswers(data.data.answers);
+        console.log(data.data.answers);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
   return (
     <Contents>
       <Head>
@@ -74,6 +84,19 @@ export default function QuestionsDetail() {
         </UserInfo>
       </SubContainer>
       <AnswerContainer>
+        <div>{answers.length} Answers</div>
+        {answers.map((answer) => (
+          <MainContainer>
+            <VoteContainer>
+              <GoTriangleUp className="triangle" onClick={() => setVoteCount(voteCount + 1)} />
+              <div>{voteCount}</div>
+              <GoTriangleDown className="triangle" onClick={() => setVoteCount(voteCount - 1)} />
+              <BsBookmark className="icon" />
+              <GiBackwardTime className="icon" />
+            </VoteContainer>
+            <Maintext>{answer.content}</Maintext>
+          </MainContainer>
+        ))}
         Your Answer
         <textarea />
         <Button

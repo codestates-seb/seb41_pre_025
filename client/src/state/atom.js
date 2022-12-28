@@ -19,3 +19,8 @@ export const questionDetailState = atom({
   key: 'questionDetailState',
   default: {},
 });
+
+export const answersState = atom({
+  key: 'answersState',
+  default: [],
+});
