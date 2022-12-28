@@ -1,6 +1,7 @@
 package com.overflow.stack.server.domain.question.entity;
 
 import com.overflow.stack.server.domain.member.entity.Member;
+import com.overflow.stack.server.global.audit.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Question_Vote {
+public class Question_Vote extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionVoteId;

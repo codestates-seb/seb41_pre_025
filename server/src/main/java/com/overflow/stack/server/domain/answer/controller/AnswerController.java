@@ -60,4 +60,11 @@ public class AnswerController {
       return new ResponseEntity(new ListResponse<>(answerMapper.answersToAnswerResponseDtos(answers)), HttpStatus.OK);
    }
 
+   @DeleteMapping("/{answer-id}")
+   public ResponseEntity deleteAnswer(@PathVariable("answer-id") long answerId,
+                                      @AuthenticationPrincipal User members) {
+      answerService.deleteAnswer(answerId, members.getUsername());
+      return new ResponseEntity(HttpStatus.NO_CONTENT);
+   }
+
 }

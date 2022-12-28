@@ -1,5 +1,5 @@
-export const fetchQuestionList = async (id = 0) => {
-  return fetch(`https://server.prestack41-25.kro.kr/api/v1/questions${id !== 0 ? `/${id}` : ""}`, {
+export const fetchQuestionList = async (questionId = 0) => {
+  return fetch(`https://server.prestack41-25.kro.kr/api/v1/questions${questionId !== 0 ? `/${questionId}` : ""}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
