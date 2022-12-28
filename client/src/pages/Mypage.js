@@ -9,14 +9,18 @@ import { fetchMemberInfo, checkLogin } from "../util/fetchLogin";
 import { userInfoState } from "../state/atom";
 import { useRecoilState } from "recoil";
 
+import Loading from "../components/Loading";
+
 export default function Mypage() {
   const [userInfo, setuserInfo] = useRecoilState(userInfoState);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     checkLogin();
     fetchMemberInfo()
       .then((data) => {
         setuserInfo(data.data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err.message);
@@ -27,99 +31,105 @@ export default function Mypage() {
 
   return (
     <MypageContainer>
-      <InfoContainer>
-        <Profile>
-          <ProfilePic src={hyunGS25}></ProfilePic>
-          <h2>HYUNGS25</h2>
-        </Profile>
-        <SummaryContainer>
-          <h3>Summary</h3>
-          <SummaryContent>
-            <Summary>
-              <h1>2</h1>
-              <h3>Total Votes</h3>
-            </Summary>
-            <Summary>
-              <h1>0</h1>
-              <h3>Questions</h3>
-            </Summary>
-            <Summary>
-              <h1>1</h1>
-              <h3>Answers</h3>
-            </Summary>
-          </SummaryContent>
-        </SummaryContainer>
-      </InfoContainer>
-      <QuestionsContainer>
-        <h1>Questions</h1>
-        <ListBlock>
-          <ItemBlock>
-            <VoteBox done>1</VoteBox>
-            <Text>배고파</Text>
-            <Edit>
-              <MdEdit />
-            </Edit>
-            <Remove>
-              <MdDelete />
-            </Remove>
-          </ItemBlock>
-          <ItemBlock>
-            <VoteBox done>2</VoteBox>
-            <Text>살려줘</Text>
-            <Edit>
-              <MdEdit />
-            </Edit>
-            <Remove>
-              <MdDelete />
-            </Remove>
-          </ItemBlock>
-          <ItemBlock>
-            <VoteBox>5</VoteBox>
-            <Text>넹</Text>
-            <Edit>
-              <MdEdit />
-            </Edit>
-            <Remove>
-              <MdDelete />
-            </Remove>
-          </ItemBlock>
-        </ListBlock>
-      </QuestionsContainer>
-      <AnswersContainer>
-        <h1>Answers</h1>
-        <ListBlock>
-          <ItemBlock>
-            <VoteBox done>1</VoteBox>
-            <Text>배고파</Text>
-            <Edit>
-              <MdEdit />
-            </Edit>
-            <Remove>
-              <MdDelete />
-            </Remove>
-          </ItemBlock>
-          <ItemBlock>
-            <VoteBox done>2</VoteBox>
-            <Text>살려줘</Text>
-            <Edit>
-              <MdEdit />
-            </Edit>
-            <Remove>
-              <MdDelete />
-            </Remove>
-          </ItemBlock>
-          <ItemBlock>
-            <VoteBox>5</VoteBox>
-            <Text>넹</Text>
-            <Edit>
-              <MdEdit />
-            </Edit>
-            <Remove>
-              <MdDelete />
-            </Remove>
-          </ItemBlock>
-        </ListBlock>
-      </AnswersContainer>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <InfoContainer>
+            <Profile>
+              <ProfilePic src={hyunGS25}></ProfilePic>
+              <h2>{userInfo.displayName}</h2>
+            </Profile>
+            <SummaryContainer>
+              <h3>Summary</h3>
+              <SummaryContent>
+                <Summary>
+                  <h1>2</h1>
+                  <h3>Total Votes</h3>
+                </Summary>
+                <Summary>
+                  <h1>0</h1>
+                  <h3>Questions</h3>
+                </Summary>
+                <Summary>
+                  <h1>1</h1>
+                  <h3>Answers</h3>
+                </Summary>
+              </SummaryContent>
+            </SummaryContainer>
+          </InfoContainer>
+          <QuestionsContainer>
+            <h1>Questions</h1>
+            <ListBlock>
+              <ItemBlock>
+                <VoteBox done>1</VoteBox>
+                <Text>배고파</Text>
+                <Edit>
+                  <MdEdit />
+                </Edit>
+                <Remove>
+                  <MdDelete />
+                </Remove>
+              </ItemBlock>
+              <ItemBlock>
+                <VoteBox done>2</VoteBox>
+                <Text>살려줘</Text>
+                <Edit>
+                  <MdEdit />
+                </Edit>
+                <Remove>
+                  <MdDelete />
+                </Remove>
+              </ItemBlock>
+              <ItemBlock>
+                <VoteBox>5</VoteBox>
+                <Text>넹</Text>
+                <Edit>
+                  <MdEdit />
+                </Edit>
+                <Remove>
+                  <MdDelete />
+                </Remove>
+              </ItemBlock>
+            </ListBlock>
+          </QuestionsContainer>
+          <AnswersContainer>
+            <h1>Answers</h1>
+            <ListBlock>
+              <ItemBlock>
+                <VoteBox done>1</VoteBox>
+                <Text>배고파</Text>
+                <Edit>
+                  <MdEdit />
+                </Edit>
+                <Remove>
+                  <MdDelete />
+                </Remove>
+              </ItemBlock>
+              <ItemBlock>
+                <VoteBox done>2</VoteBox>
+                <Text>살려줘</Text>
+                <Edit>
+                  <MdEdit />
+                </Edit>
+                <Remove>
+                  <MdDelete />
+                </Remove>
+              </ItemBlock>
+              <ItemBlock>
+                <VoteBox>5</VoteBox>
+                <Text>넹</Text>
+                <Edit>
+                  <MdEdit />
+                </Edit>
+                <Remove>
+                  <MdDelete />
+                </Remove>
+              </ItemBlock>
+            </ListBlock>
+          </AnswersContainer>
+        </>
+      )}
     </MypageContainer>
   );
 }

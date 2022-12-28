@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { FaGlobeAmericas } from 'react-icons/fa';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import { FaGlobeAmericas } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 function Sidebar() {
   return (
@@ -9,31 +9,29 @@ function Sidebar() {
       <SidebarContainer>
         <ul>
           <li>
-            <NavLink className={({ isActive }) => (isActive ? 'active' : 'not')} to="/">
+            <NavLink className={({ isActive }) => (isActive ? "active" : "not")} to="/">
               Home
             </NavLink>
           </li>
           <li>PUBLIC</li>
           <li>
-            <NavLink
-              className={({ isActive }) => (isActive ? 'active' : 'not')}
-              to="/questionslist">
+            <NavLink className={({ isActive }) => (isActive ? "active" : "not")} to="/questionslist">
               <FaGlobeAmericas className="icon" />
               Questions
             </NavLink>
           </li>
           <li>
-            <NavLink className={({ isActive }) => (isActive ? 'active' : 'not')} to="/tags">
+            <NavLink className={({ isActive }) => (isActive ? "active" : "not")} to="/tags">
               Tags
             </NavLink>
           </li>
           <li>
-            <NavLink className={({ isActive }) => (isActive ? 'active' : 'not')} to="/users">
+            <NavLink className={({ isActive }) => (isActive ? "active" : "not")} to="/users">
               Users
             </NavLink>
           </li>
           <li>
-            <NavLink className={({ isActive }) => (isActive ? 'active' : 'not')} to="/companies">
+            <NavLink className={({ isActive }) => (isActive ? "active" : "not")} to="/companies">
               Companies
             </NavLink>
           </li>
@@ -49,9 +47,6 @@ const SidebarContainer = styled.div`
   padding-top: 20px;
   font-size: 13px;
   display: initial;
-  @media all and (max-width: 1264px) {
-    height: 100vh;
-  }
 
   ul {
     padding-left: 0px;
