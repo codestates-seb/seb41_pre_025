@@ -222,7 +222,6 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("질문 수정 일자"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그"),
                                         fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
-                                        fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
                                         fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
@@ -301,7 +300,6 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("질문 수정 일자"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그"),
                                         fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
-                                        fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
                                         fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
@@ -371,7 +369,6 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("질문 수정 일자"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그"),
                                         fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
-                                        fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
                                         fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
@@ -391,10 +388,6 @@ public class QuestionControllerRestDocsTest {
         member.setDisplayName("displayName1");
         LocalDateTime createdAt=LocalDateTime.now();
         LocalDateTime modifiedAt=createdAt;
-        List<AnswerDto.Response> AResponseDtos=List.of(new AnswerDto.Response(1L, "answer content",0L,
-                        "displayName1",createdAt,modifiedAt),
-                new AnswerDto.Response(2L, "answer content2",0L,
-                        "displayName2",createdAt,modifiedAt));
         QuestionDto.response responseDto =
                 new QuestionDto.response(1L,
                         "title1",
@@ -404,7 +397,7 @@ public class QuestionControllerRestDocsTest {
                         createdAt,
                         modifiedAt,
                         Set.of("tag1","tag2"),
-                        AResponseDtos);
+                        null);
 
         QuestionDto.response responseDto2 =
                 new QuestionDto.response(2L,
@@ -415,7 +408,7 @@ public class QuestionControllerRestDocsTest {
                         createdAt,
                         modifiedAt,
                         Set.of("tag3, tag4"),
-                        AResponseDtos);
+                        null);
         List<QuestionDto.response> responseList=new ArrayList<>();
         responseList.add(responseDto);
         responseList.add(responseDto2);
@@ -453,14 +446,8 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("질문 작성 일자"),
                                         fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("질문 수정 일자"),
                                         fieldWithPath("data.[].tag").type(JsonFieldType.ARRAY).description("태그"),
-                                        fieldWithPath("data.[].answers").type(JsonFieldType.ARRAY).description("답변"),
-                                        fieldWithPath("data.[].answers").type(JsonFieldType.ARRAY).description("답변"),
-                                        fieldWithPath("data.[].answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
-                                        fieldWithPath("data.[].answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
-                                        fieldWithPath("data.[].answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
-                                        fieldWithPath("data.[].answers.[].displayName").type(JsonFieldType.STRING).description("답변 작성자"),
-                                        fieldWithPath("data.[].answers.[].createdAt").type(JsonFieldType.STRING).description("답변 생성 일자"),
-                                        fieldWithPath("data.[].answers.[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")
+                                        fieldWithPath("data.[].answers").type(JsonFieldType.NULL).description("답변")
+
                                 )
                         )
                 ));
