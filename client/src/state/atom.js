@@ -1,26 +1,21 @@
-import { atom } from 'recoil';
+import { atom } from "recoil";
 
 export const loginState = atom({
-  key: 'loginState',
-  default: false,
+	key: "loginState",
+	default: false,
 });
 
 export const userInfoState = atom({
-  key: 'userInfoState',
-  default: {},
-});
-
-export const questionListState = atom({
-  key: 'questionListState',
-  default: [],
+	key: "userInfoState",
+	default: {},
 });
 
 export const questionDetailState = atom({
-  key: 'questionDetailState',
-  default: {},
+	key: "questionDetailState",
+	default: {},
 });
 
 export const questionListState = atom({
-  key: "questionListState",
-  default: [],
+	key: "questionListState",
+	default: [],
 });
