@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import styled from "styled-components";
 
-function TopQuestions() {
-  return <div>TopQuestions</div>
+export default function TopQuestions() {
+	return <div>Top Questions</div>;
 }
-
-export default TopQuestions;
