@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 import { MdEdit, MdDelete } from "react-icons/md";
 import hyunGS25 from "../image/ad_hyunGS25.png";
 
-import { fetchMemberInfo, checkLogin } from "../util/fetchLogin";
+import { checkLogin } from "../util/fetchLogin";
 
 import { userInfoState } from "../state/atom";
 import { useRecoilState } from "recoil";
@@ -16,18 +16,11 @@ export default function Mypage() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    checkLogin();
-    fetchMemberInfo()
-      .then((data) => {
-        setuserInfo(data.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    checkLogin().then((data) => {
+      setLoading(false);
+    });
+    console.log(userInfo);
   }, []);
-
-  console.log(userInfo);
 
   return (
     <MypageContainer>

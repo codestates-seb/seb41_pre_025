@@ -11,11 +11,15 @@ import { loginState } from "../state/atom";
 import { useNavigate } from "react-router-dom";
 import { fetchLogin, fetchMemberInfo } from "../util/fetchLogin";
 
+import { userInfoState } from "../state/atom";
+import { useRecoilState } from "recoil";
+
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const setIsLogin = useSetRecoilState(loginState);
+  const [userInfo, setuserInfo] = useRecoilState(userInfoState);
 
   function emailHandler(e) {
     setEmail(e.target.value);
@@ -32,6 +36,13 @@ export default function Login() {
     await fetchLogin(loginData).then((data) => {
       if (data.status === 200) {
         setIsLogin(true);
+        fetchMemberInfo()
+          .then((data) => {
+            setuserInfo(data.data);
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
         navigate("/");
       }
     });
