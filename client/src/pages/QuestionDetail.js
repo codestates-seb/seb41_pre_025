@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { Button } from '../components/Button';
 import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import { BsBookmark } from 'react-icons/bs';
@@ -10,6 +10,8 @@ import { fetchQuestionList } from '../util/usefetchQuestion';
 import { questionDetailState, answersState } from '../state/atom';
 import { useRecoilState } from 'recoil';
 import { useLocation, Link } from 'react-router-dom';
+
+import Loading from '../components/Loading';
 
 export default function QuestionsDetail() {
   // 투표 수 voteResult로 바꾸고 상태관리
@@ -45,13 +47,7 @@ export default function QuestionsDetail() {
   }, []);
 
   if (isLoading) {
-    return (
-      <>
-        <SpinContainer>
-          <Spin />
-        </SpinContainer>
-      </>
-    );
+    return <Loading />;
   } else {
     return (
       <Contents>
@@ -99,11 +95,7 @@ export default function QuestionsDetail() {
           </UserInfo>
         </SubContainer>
         <AnswerContainer>
-          <AnsCount>
-            {answers.length != 0
-              ? `${answers.length} Answers`
-              : 'Know someone who can answer? Share a link to this question via email, Twitter, or Facebook.'}
-          </AnsCount>
+          <div>{answers.length} Answers</div>
           {answers.map((answer) => (
             <MainContainer>
               <VoteContainer>
@@ -116,7 +108,7 @@ export default function QuestionsDetail() {
               <Maintext>{answer.content}</Maintext>
             </MainContainer>
           ))}
-          <div>Your Answer</div>
+          Your Answer
           <textarea />
           <Button
             text="Post Your Answer"
@@ -134,31 +126,6 @@ export default function QuestionsDetail() {
     );
   }
 }
-
-const SpinContainer = styled.div`
-  height: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const spinner = keyframes`
-    from {
-    transform: rotate(0deg);
-  } to {
-    transform: rotate(360deg);
-  }
-`;
-
-const Spin = styled.div`
-  margin: auto;
-  width: 60px;
-  height: 60px;
-  border: 20px solid lightgray;
-  border-top: 20px solid gray;
-  border-radius: 50%;
-  animation: ${spinner} 1s linear infinite;
-`;
 
 const Contents = styled.div`
   padding: 20px;
