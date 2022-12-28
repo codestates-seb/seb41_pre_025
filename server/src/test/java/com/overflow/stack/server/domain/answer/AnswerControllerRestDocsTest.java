@@ -31,6 +31,7 @@ import java.util.List;
 import static com.overflow.stack.server.util.ApiDocumentUtils.getRequestPreProcessor;
 import static com.overflow.stack.server.util.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -267,6 +268,33 @@ public class AnswerControllerRestDocsTest {
                         )
                 ));
 
+
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("답변 삭제")
+    public void deleteAnswerTest() throws Exception {
+        long answerId = 1L;
+        doNothing().when(answerService).deleteAnswer(Mockito.anyLong(), Mockito.anyString());
+
+        ResultActions actions = mockMvc.perform(
+                delete(BASE_URL +"/{answer-id}", answerId)
+                .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .headers(GeneratedToken.getMockHeaderToken()));
+
+        actions.andExpect(status().isNoContent())
+                .andDo(document(
+                        "delete-answer",
+                        requestHeaders(
+                                headerWithName("Authorization").description("JWT 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("answer-id").description("답변 식별자"))
+                        )
+                );
 
     }
 }

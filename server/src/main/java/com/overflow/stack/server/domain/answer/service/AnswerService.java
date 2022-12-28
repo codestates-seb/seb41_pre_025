@@ -15,5 +15,5 @@ public interface AnswerService {
 
     Answer findVerifiedAnswer(long answerId);
 
-
+    void deleteAnswer(long answerId, String userName);
 }

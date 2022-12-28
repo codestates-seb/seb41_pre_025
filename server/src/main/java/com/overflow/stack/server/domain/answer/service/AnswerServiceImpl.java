@@ -65,5 +65,15 @@ public class AnswerServiceImpl implements AnswerService {
         return findAnswer;
     }
 
+    @Override
+    public void deleteAnswer(long answerId, String userName) {
+        Answer findAnswer = findVerifiedAnswer(answerId);
+        if (this.findAnswer(findAnswer.getAnswerId()).getMember().getMemberId() == memberService.findMember(userName).getMemberId()) {
+            answerRepository.delete(findAnswer);
+            return;
+        }
+        throw new CustomLogicException(ExceptionCode.ANSWER_WRITER_NOT_MATCH);
+    }
+
 
 }
