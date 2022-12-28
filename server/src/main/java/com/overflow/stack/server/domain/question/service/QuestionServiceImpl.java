@@ -65,7 +65,7 @@ public class QuestionServiceImpl implements QuestionService {
     public Question voteQuestion(long questionId, String userName, boolean voteUp) {
         Member member = memberService.findMember(userName);
         Question findQ = findVerifiedQuestion(questionId);
-        Optional<Question_Vote> findVote=questionVoteRepository.findByMember(member);
+        Optional<Question_Vote> findVote=questionVoteRepository.findByMemberAndQuestion(member,findQ);
         if(findVote.isPresent()) {
             if (findVote.get().isVoteUp() == voteUp) {
                 findQ.setVoteResult(findQ.getVoteResult() + (voteUp ? -1 : 1));
