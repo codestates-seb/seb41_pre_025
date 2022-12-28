@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const TemplateContainer = styled.div`
   display: felx;
@@ -14,7 +14,6 @@ const TemplateBlock = styled.div`
   flex-direction: row;
   @media all and (max-width: 1264px) {
     width: 100%;
-    height: 100vh;
   }
 `;
 
