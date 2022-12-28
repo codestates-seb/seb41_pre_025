@@ -56,7 +56,6 @@ public class QuestionServiceImpl implements QuestionService {
         if(this.findQuestion(question.getQuestionId()).getMember().getMemberId()
                 == memberService.findMember(userName).getMemberId()){
             beanUtils.copyNonNullProperties(question, findQuestion);
-            findQuestion.setModifiedAt(LocalDateTime.now());
             return questionRepository.save(findQuestion);
         }
         throw new CustomLogicException(ExceptionCode.QUESTION_WRITER_NOT_MATCH);

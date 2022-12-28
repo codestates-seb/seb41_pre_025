@@ -46,7 +46,6 @@ public class AnswerServiceImpl implements AnswerService {
             beanUtils.copyNonNullProperties(answer, findAnswer);
             return answerRepository.save(findAnswer);
         }
-        findAnswer.setModifiedAt(LocalDateTime.now());
         throw new CustomLogicException(ExceptionCode.ANSWER_WRITER_NOT_MATCH);
     }
 
