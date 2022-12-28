@@ -45,3 +45,12 @@ export const fetchMemberInfo = async () => {
       console.error(err.message);
     });
 };
+
+export const checkLogin = async () => {
+  return await fetchMemberInfo().then((data) => {
+    if (!data) {
+      window.location.href = "/login";
+      console.log("Please login");
+    }
+  });
+};

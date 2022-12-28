@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import { fetchQuestionList } from '../util/usefetchQuestion';
 import { questionDetailState, answersState } from '../state/atom';
 import { useRecoilState } from 'recoil';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 export default function QuestionsDetail() {
   // 투표 수 voteResult로 바꾸고 상태관리
@@ -58,16 +58,18 @@ export default function QuestionsDetail() {
         <Head>
           <Title>
             <h1>{questionDetail.title}</h1>
-            <Button
-              text="Ask Question"
-              color="white"
-              border="1px solid #4393F7"
-              bgColor="#4393F7"
-              hoverColor="#2D75C6"
-              activeColor="#1859A3"
-              width="103.02px"
-              boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
-            />
+            <Link to="/askquestions">
+              <Button
+                text="Ask Question"
+                color="white"
+                border="1px solid #4393F7"
+                bgColor="#4393F7"
+                hoverColor="#2D75C6"
+                activeColor="#1859A3"
+                width="103.02px"
+                boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
+              />
+            </Link>
           </Title>
           <Info>Asked today Modified today Viewed 13 times</Info>
           <hr />

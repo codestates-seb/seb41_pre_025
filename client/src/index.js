@@ -7,9 +7,9 @@ import { RecoilRoot } from "recoil";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-	<RecoilRoot>
-		<Router>
-			<App />
-		</Router>
-	</RecoilRoot>
+  <Router>
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
+  </Router>
 );
