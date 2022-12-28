@@ -47,7 +47,7 @@ function App() {
 	const location = useLocation();
 	const pathname = location.pathname;
 	const sidebar = ["/login", "/signup", "/askquestions"];
-	const ad = [...sidebar, "/mypage", "/users", "/companies"];
+	const ad = [...sidebar, "/mypage", "/users", "/companies", "/tags"];
 	const footer = ["/login", "/signup"];
 	const param = useParams();
 	const [questions] = useFetch(
