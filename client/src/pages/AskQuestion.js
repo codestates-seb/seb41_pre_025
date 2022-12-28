@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Button } from "../components/Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { fetchCreateQuestion } from "../util/usefetchQuestion";
+import { checkLogin } from "../util/fetchLogin";
 
 export default function AskQuestion() {
   const [title, setTitle] = useState("");
@@ -32,8 +33,13 @@ export default function AskQuestion() {
   const postQuestion = async () => {
     await fetchCreateQuestion({ title, content, tag }).then((questionId) => {
       console.log(questionId);
+      window.location.href = "/";
     });
   };
+
+  useEffect(() => {
+    checkLogin();
+  }, []);
 
   return (
     <>

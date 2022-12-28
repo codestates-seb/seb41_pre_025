@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 import { MdEdit, MdDelete } from "react-icons/md";
 import hyunGS25 from "../image/ad_hyunGS25.png";
 
-import { fetchMemberInfo } from "../util/fetchLogin";
+import { fetchMemberInfo, checkLogin } from "../util/fetchLogin";
 
 import { userInfoState } from "../state/atom";
 import { useRecoilState } from "recoil";
@@ -13,6 +13,7 @@ export default function Mypage() {
   const [userInfo, setuserInfo] = useRecoilState(userInfoState);
 
   useEffect(() => {
+    checkLogin();
     fetchMemberInfo()
       .then((data) => {
         setuserInfo(data.data);
