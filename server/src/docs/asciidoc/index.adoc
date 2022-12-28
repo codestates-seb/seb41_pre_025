@@ -47,7 +47,7 @@ include::{snippets}/post-answer/http-request.adoc[]
 include::{snippets}/post-answer/request-fields.adoc[]
 
 .request-parameters
-include::{snippets}/post-answer/request-parameters.adoc[]S
+include::{snippets}/post-answer/request-parameters.adoc[]
 
 .http-response
 include::{snippets}/post-answer/http-response.adoc[]
