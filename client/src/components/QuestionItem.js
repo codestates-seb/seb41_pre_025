@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { MdAccountCircle } from 'react-icons/md';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { MdAccountCircle } from "react-icons/md";
 
 export default function QuestionItem({ questions }) {
   return (
@@ -9,7 +9,7 @@ export default function QuestionItem({ questions }) {
       <ContentContainer>
         <Summary>
           <Vote>{questions.voteResult} votes</Vote>
-          <Answer>2 answers</Answer>
+          <Answer>{questions.answers ? questions.answers.length : 0} answers</Answer>
           <View>10 views</View>
         </Summary>
         <ContentBox>
