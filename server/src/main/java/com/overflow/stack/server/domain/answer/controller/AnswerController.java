@@ -6,7 +6,6 @@ import com.overflow.stack.server.domain.answer.mapper.AnswerMapper;
 import com.overflow.stack.server.domain.answer.service.AnswerService;
 import com.overflow.stack.server.global.response.ListResponse;
 import com.overflow.stack.server.global.response.SingleResponse;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -33,7 +32,7 @@ public class AnswerController {
    public ResponseEntity postAnswer(@Valid @RequestBody AnswerDto.Post answerPostDto,
                                     @RequestParam long questionId,
                                     @AuthenticationPrincipal User members) {
-      Answer answer = answerService.createAnswer(answerMapper.answerPostDtoToAnswer(answerPostDto),members.getUsername(), questionId);
+      Answer answer = answerService.createAnswer(answerMapper.answerPostDtoToAnswer(answerPostDto), members.getUsername(), questionId);
       return new ResponseEntity<>(
               new SingleResponse<>(answerMapper.answerToAnswerResponseDto(answer)),
               HttpStatus.CREATED);
@@ -44,7 +43,7 @@ public class AnswerController {
                                      @Valid @RequestBody AnswerDto.Patch answerPatchDto,
                                      @AuthenticationPrincipal User members) {
       answerPatchDto.setAnswerId(answerId);
-      Answer answer = answerService.updateAnswer(answerMapper.answerPatchDtoToAnswer(answerPatchDto),members.getUsername());
+      Answer answer = answerService.updateAnswer(answerMapper.answerPatchDtoToAnswer(answerPatchDto), members.getUsername());
       return new ResponseEntity(new SingleResponse<>(answerMapper.answerToAnswerResponseDto(answer)), HttpStatus.OK);
    }
 
@@ -67,4 +66,11 @@ public class AnswerController {
       return new ResponseEntity(HttpStatus.NO_CONTENT);
    }
 
+   @PatchMapping("/votes/{answer-id}")
+   public ResponseEntity voteAnswer(@PathVariable("answer-id") long answerId,
+                                    @RequestParam boolean voteUp,
+                                    @AuthenticationPrincipal User members) {
+      Answer answer = answerService.voteAnswer(answerId, members.getUsername(), voteUp);
+      return new ResponseEntity(new SingleResponse<>(answerMapper.answerToAnswerResponseDto(answer)), HttpStatus.OK);
+   }
 }
