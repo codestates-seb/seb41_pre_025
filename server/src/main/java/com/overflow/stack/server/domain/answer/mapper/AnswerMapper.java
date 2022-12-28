@@ -4,6 +4,7 @@ import com.overflow.stack.server.domain.answer.dto.AnswerDto;
 import com.overflow.stack.server.domain.answer.entity.Answer;
 import org.mapstruct.Mapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -42,14 +43,18 @@ public interface AnswerMapper {
         String content = null;
         Long voteResult = null;
         String displayName = null;
+        LocalDateTime createdAt= null;
+        LocalDateTime modifiedAt = null;
 
         answerId = answer.getAnswerId();
         content = answer.getContent();
         voteResult = answer.getVoteResult();
         displayName = answer.getMember().getDisplayName();
+        createdAt = answer.getCreatedAt();
+        modifiedAt = answer.getModifiedAt();
 
 
-        AnswerDto.Response response = new AnswerDto.Response( answerId, content, voteResult, displayName);
+        AnswerDto.Response response = new AnswerDto.Response( answerId, content, voteResult, displayName, createdAt,modifiedAt);
 
         return response;
     }

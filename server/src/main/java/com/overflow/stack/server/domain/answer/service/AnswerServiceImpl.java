@@ -10,6 +10,7 @@ import com.overflow.stack.server.global.utils.CustomBeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,7 @@ public class AnswerServiceImpl implements AnswerService {
             beanUtils.copyNonNullProperties(answer, findAnswer);
             return answerRepository.save(findAnswer);
         }
+        findAnswer.setModifiedAt(LocalDateTime.now());
         throw new CustomLogicException(ExceptionCode.ANSWER_WRITER_NOT_MATCH);
     }
 
