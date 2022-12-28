@@ -9,11 +9,13 @@ import com.overflow.stack.server.global.exception.ExceptionCode;
 import com.overflow.stack.server.global.utils.CustomBeanUtils;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 
 @Service
+@Transactional
 public class AnswerServiceImpl implements AnswerService {
 
     private final AnswerRepository answerRepository;

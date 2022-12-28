@@ -47,7 +47,7 @@ include::{snippets}/post-answer/http-request.adoc[]
 include::{snippets}/post-answer/request-fields.adoc[]
 
 .request-parameters
-include::{snippets}/post-answer/request-parameters.adoc[]
+include::{snippets}/post-answer/request-parameters.adoc[]S
 
 .http-response
 include::{snippets}/post-answer/http-response.adoc[]
@@ -97,7 +97,7 @@ include::{snippets}/get-answers/http-response.adoc[]
 .response-fields
 include::{snippets}/get-answers/response-fields.adoc[]
 
-=== 질문 삭제
+=== 답변 삭제
 .curl-request
 include::{snippets}/delete-answer/curl-request.adoc[]
 
