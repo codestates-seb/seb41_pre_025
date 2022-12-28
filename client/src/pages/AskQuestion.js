@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Button } from "../components/Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { fetchCreateQuestion } from "../util/usefetchQuestion";
+import { checkLogin } from "../util/fetchLogin";
 
 export default function AskQuestion() {
 	const [title, setTitle] = useState("");
@@ -29,100 +30,73 @@ export default function AskQuestion() {
 		}
 	};
 
-	const postQuestion = async () => {
-		await fetchCreateQuestion({ title, content, tag }).then((questionId) => {
-			console.log(questionId);
-			window.local.href = "/questionslist";
-		});
-	};
+  const postQuestion = async () => {
+    await fetchCreateQuestion({ title, content, tag }).then((questionId) => {
+      console.log(questionId);
+      window.location.href = "/";
+    });
+  };
 
-	return (
-		<>
-			<Content>
-				<h1>Ask a public question</h1>
-				<HelpBubbleGoodQuestion>
-					<h2>Writing a good question</h2>
-					<p>
-						You’re ready to ask a programming-related question and this form
-						will help guide you through the process. Looking to ask a
-						non-programming question? See the topics here to find a relevant
-						site.
-					</p>
-					<h5>Steps</h5>
-					<ul>
-						<li>Summarize your problem in a one-line title.</li>
-						<li>Describe your problem in more detail.</li>
-						<li>Describe what you tried and what you expected to happen.</li>
-						<li>
-							Add “tags” which help surface your question to members of the
-							community.
-						</li>
-						<li>Review your question and post it to the site.</li>
-					</ul>
-				</HelpBubbleGoodQuestion>
-				<TitleInputContainer>
-					<h5>Title</h5>
-					<span>
-						Be specific and imagine you’re asking a question to another person.
-					</span>
-					<LabelTextInput
-						onChange={titleHandler}
-						id="title"
-						placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
-					/>
-				</TitleInputContainer>
-				<ContextInputContainer>
-					<h5>What are the details of your problem?</h5>
-					<p>
-						Introduce the problem and expand on what you put in the title.
-						Minimum 20 characters.
-					</p>
-					<ContextInputTextArea onChange={contentHandler} />
-				</ContextInputContainer>
-				<TagsContainer>
-					<span className="tagLabel">Tags</span>
-					<TagsInput>
-						<ul id="tags">
-							{tag.map((tag, index) => (
-								<li
-									key={index}
-									className="tag">
-									<span className="tag-title">{tag}</span>
-									<span
-										className="tag-close-icon"
-										onClick={() => removetag(index)}>
-										x
-									</span>
-								</li>
-							))}
-						</ul>
-						<input
-							className="tag-input"
-							type="text"
-							onKeyUp={(event) => {
-								if (event.key === "Enter") {
-									addtag(event);
-								}
-							}}
-							placeholder="Press enter to add tags"
-							onSubmit="return false;"
-						/>
-					</TagsInput>
-				</TagsContainer>
-				<Button
-					onClick={postQuestion}
-					margin="0"
-					text="Post your question"
-					width="130px"
-					color="white"
-					border="1px solid #4393F7"
-					bgColor="#3F96F7"
-					hoverColor="#2D75C6"
-					activeColor="#1859A3"
-				/>
-			</Content>
-		</>
-	);
+  useEffect(() => {
+    checkLogin();
+  }, []);
+
+  return (
+    <>
+      <Content>
+        <h1>Ask a public question</h1>
+        <HelpBubbleGoodQuestion>
+          <h2>Writing a good question</h2>
+          <p>You’re ready to ask a programming-related question and this form will help guide you through the process. Looking to ask a non-programming question? See the topics here to find a relevant site.</p>
+          <h5>Steps</h5>
+          <ul>
+            <li>Summarize your problem in a one-line title.</li>
+            <li>Describe your problem in more detail.</li>
+            <li>Describe what you tried and what you expected to happen.</li>
+            <li>Add “tags” which help surface your question to members of the community.</li>
+            <li>Review your question and post it to the site.</li>
+          </ul>
+        </HelpBubbleGoodQuestion>
+        <TitleInputContainer>
+          <h5>Title</h5>
+          <span>Be specific and imagine you’re asking a question to another person.</span>
+          <LabelTextInput onChange={titleHandler} id="title" placeholder="e.g. Is there an R function for finding the index of an element in a vector?" />
+        </TitleInputContainer>
+        <ContextInputContainer>
+          <h5>What are the details of your problem?</h5>
+          <p>Introduce the problem and expand on what you put in the title. Minimum 20 characters.</p>
+          <ContextInputTextArea onChange={contentHandler} />
+        </ContextInputContainer>
+        <TagsContainer>
+          <span className="tagLabel">Tags</span>
+          <TagsInput>
+            <ul id="tags">
+              {tag.map((tag, index) => (
+                <li key={index} className="tag">
+                  <span className="tag-title">{tag}</span>
+                  <span className="tag-close-icon" onClick={() => removetag(index)}>
+                    x
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <input
+              className="tag-input"
+              type="text"
+              onKeyUp={(event) => {
+                if (event.key === "Enter") {
+                  addtag(event);
+                }
+              }}
+              placeholder="Press enter to add tags"
+              onSubmit="return false;"
+            />
+          </TagsInput>
+        </TagsContainer>
+        <Button onClick={postQuestion} margin="0" text="Post your question" width="130px" color="white" border="1px solid #4393F7" bgColor="#3F96F7" hoverColor="#2D75C6" activeColor="#1859A3" />
+      </Content>
+    </>
+  );
 }
 
 const Content = styled.div`
