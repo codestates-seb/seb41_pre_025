@@ -125,98 +125,99 @@ export default function QuestionsDetail() {
       </Contents>
     );
   }
+
 }
 
 const Contents = styled.div`
-  padding: 20px;
-  height: 100%;
+	padding: 20px;
+	height: 100%;
 `;
 const Head = styled.div``;
 const Title = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 `;
 
 const Info = styled.div`
-  padding-bottom: 10px;
+	padding-bottom: 10px;
 `;
 
 const MainContainer = styled.div`
-  display: flex;
-  justify-content: row;
-  padding: 20px 0px;
+	display: flex;
+	justify-content: row;
+	padding: 20px 0px;
 `;
 
 const VoteContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-self: center;
-  align-items: flex-start;
-  color: #babfc4;
-  cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	align-self: center;
+	align-items: flex-start;
+	color: #babfc4;
+	cursor: pointer;
 
-  > div {
-    font-size: 20px;
-    /* 추후 수정사항 : text 가운데 정렬 불가 (일단 padding 사용)*/
-    padding: 5px 13px;
-    color: #6a737c;
-  }
+	> div {
+		font-size: 20px;
+		/* 추후 수정사항 : text 가운데 정렬 불가 (일단 padding 사용)*/
+		padding: 5px 13px;
+		color: #6a737c;
+	}
 
-  .triangle {
-    font-size: 40px;
-  }
+	.triangle {
+		font-size: 40px;
+	}
 
-  > .icon {
-    font-size: 20px;
-    margin: 9px;
-  }
+	> .icon {
+		font-size: 20px;
+		margin: 9px;
+	}
 `;
 
 const Maintext = styled.article`
-  background-color: red;
-  padding-left: 10px;
-  width: 100%;
+	background-color: red;
+	padding-left: 10px;
+	width: 100%;
 `;
 const SubContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 `;
 const TagBox = styled.div`
-  display: flex;
-  padding-left: 40px;
+	display: flex;
+	padding-left: 40px;
 `;
 const Tag = styled.div`
-  background-color: #e1ecf4;
-  border-radius: 3px;
-  padding: 5px;
-  margin: 5px;
-  color: #39739d;
-  font-size: 12px;
+	background-color: #e1ecf4;
+	border-radius: 3px;
+	padding: 5px;
+	margin: 5px;
+	color: #39739d;
+	font-size: 12px;
 `;
 const UserInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  font-size: 12px;
-  background-color: #e1ecf4;
-  border-radius: 3px;
-  width: 200px;
-  height: 70px;
-  align-self: end;
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+	font-size: 12px;
+	background-color: #e1ecf4;
+	border-radius: 3px;
+	width: 200px;
+	height: 70px;
+	align-self: end;
 `;
 const Name = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  color: #0074cc;
-  font-weight: bold;
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+	color: #0074cc;
+	font-weight: bold;
 
-  > svg {
-    color: black;
-    margin: 5px 10px 0px 0px;
-    font-size: 35px;
-  }
+	> svg {
+		color: black;
+		margin: 5px 10px 0px 0px;
+		font-size: 35px;
+	}
 `;
 
 const AnswerContainer = styled.div`
