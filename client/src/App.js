@@ -17,6 +17,8 @@ import Pre from "./pages/Pre";
 import QuestionDetail from "./pages/QuestionDetail";
 import useFetch from "./util/useFetch";
 import { useParams } from "react-router-dom";
+import { loginState } from "./state/atom";
+import { useRecoilState } from "recoil";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -27,8 +29,8 @@ const GlobalStyle = createGlobalStyle`
   ol, ul, li {
    list-style: none;
   }
-      body{
-      background-color:white;
+      body {
+      background-color: white;
       ${(props) =>
 				props.pathname === "/askquestions"
 					? css`
@@ -51,6 +53,7 @@ function App() {
 	const [questions] = useFetch(
 		"https://server.prestack41-25.kro.kr/api/v1/questions"
 	);
+	const [isLogin, setIsLogin] = useRecoilState(loginState);
 
 	return (
 		<>
@@ -62,7 +65,13 @@ function App() {
 					<Routes>
 						<Route
 							path="/"
-							element={<TopQuestions questions={questions} />}></Route>
+							element={
+								isLogin ? (
+									<TopQuestions questions={questions} />
+								) : (
+									<QuestionsList questions={questions} />
+								)
+							}></Route>
 						<Route
 							path="/login"
 							element={<Login />}></Route>
