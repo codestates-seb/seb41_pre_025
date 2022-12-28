@@ -12,6 +12,7 @@ export const loginState = atom({
 export const userInfoState = atom({
   key: "userInfoState",
   default: {},
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const questionListState = atom({
