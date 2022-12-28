@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Button } from "../components/Button";
-import { GoTriangleUp, GoTriangleDown } from "react-icons/go";
-import { BsBookmark } from "react-icons/bs";
-import { GiBackwardTime } from "react-icons/gi";
-import { MdAccountCircle } from "react-icons/md";
-import { useEffect } from "react";
-import { fetchQuestionList } from "../util/usefetchQuestion";
-import { questionDetailState, answersState } from "../state/atom";
-import { useRecoilState } from "recoil";
-import { useLocation, Link } from "react-router-dom";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Button } from '../components/Button';
+import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
+import { BsBookmark } from 'react-icons/bs';
+import { GiBackwardTime } from 'react-icons/gi';
+import { MdAccountCircle } from 'react-icons/md';
+import { useEffect } from 'react';
+import { fetchQuestionList } from '../util/usefetchQuestion';
+import { questionDetailState, answersState } from '../state/atom';
+import { useRecoilState } from 'recoil';
+import { useLocation, Link } from 'react-router-dom';
 
-import Loading from "../components/Loading";
+import Loading from '../components/Loading';
 
 export default function QuestionsDetail() {
   // 투표 수 voteResult로 바꾸고 상태관리
@@ -55,7 +55,16 @@ export default function QuestionsDetail() {
           <Title>
             <h1>{questionDetail.title}</h1>
             <Link to="/askquestions">
-              <Button text="Ask Question" color="white" border="1px solid #4393F7" bgColor="#4393F7" hoverColor="#2D75C6" activeColor="#1859A3" width="103.02px" boxshadow="inset 0px 1px hsl(206,90%,69.5%)" />
+              <Button
+                text="Ask Question"
+                color="white"
+                border="1px solid #4393F7"
+                bgColor="#4393F7"
+                hoverColor="#2D75C6"
+                activeColor="#1859A3"
+                width="103.02px"
+                boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
+              />
             </Link>
           </Title>
           <Info>Asked today Modified today Viewed 13 times</Info>
@@ -101,7 +110,17 @@ export default function QuestionsDetail() {
           ))}
           Your Answer
           <textarea />
-          <Button text="Post Your Answer" color="white" border="1px solid #4393F7" bgColor="#4393F7" hoverColor="#2D75C6" activeColor="#1859A3" width="119.77px" height="54.77px" boxshadow="inset 0px 1px hsl(206,90%,69.5%)" />
+          <Button
+            text="Post Your Answer"
+            color="white"
+            border="1px solid #4393F7"
+            bgColor="#4393F7"
+            hoverColor="#2D75C6"
+            activeColor="#1859A3"
+            width="119.77px"
+            height="54.77px"
+            boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
+          />
         </AnswerContainer>
       </Contents>
     );
@@ -205,8 +224,15 @@ const AnswerContainer = styled.div`
   flex-direction: column;
   font-size: 20px;
 
+  div {
+    padding: 10px;
+  }
   textarea {
     margin: 20px 5px;
     height: 200px;
   }
+`;
+
+const AnsCount = styled.div`
+  padding: 10px;
 `;
