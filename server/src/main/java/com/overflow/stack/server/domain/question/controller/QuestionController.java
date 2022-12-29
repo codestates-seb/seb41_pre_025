@@ -54,7 +54,7 @@ public class QuestionController {
               HttpStatus.OK);
    }
    @PatchMapping("/votes/{question-id}")
-   public ResponseEntity voteQeustion(@PathVariable("question-id") long questionId,
+   public ResponseEntity voteQuestion(@PathVariable("question-id") long questionId,
                                        @RequestParam boolean voteUp,
                                        @AuthenticationPrincipal User members){
       Question question=questionService.voteQuestion(questionId, members.getUsername(), voteUp);

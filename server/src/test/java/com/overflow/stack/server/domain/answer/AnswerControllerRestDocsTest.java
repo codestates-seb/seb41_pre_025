@@ -81,7 +81,7 @@ public class AnswerControllerRestDocsTest {
 
         given(answerMapper.answerPostDtoToAnswer(Mockito.any(AnswerDto.Post.class))).willReturn(new Answer());
 
-        given(answerService.createAnswer(Mockito.any(Answer.class),Mockito.anyString(),Mockito.anyLong())).willReturn(new Answer());
+        given(answerService.createAnswer(Mockito.any(Answer.class), Mockito.anyString(), Mockito.anyLong())).willReturn(new Answer());
 
         given(answerMapper.answerToAnswerResponseDto(Mockito.any(Answer.class))).willReturn(responseDto);
 
@@ -90,7 +90,7 @@ public class AnswerControllerRestDocsTest {
                         post(BASE_URL)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .param("questionId","1")
+                                .param("questionId", "1")
                                 .with(csrf())
                                 .content(content)
                                 .headers(GeneratedToken.getMockHeaderToken()));
@@ -136,7 +136,7 @@ public class AnswerControllerRestDocsTest {
         String content = gson.toJson(patch);
 
         AnswerDto.Response responseDto =
-                new AnswerDto.Response(1L, "content", 0L,"displayName",createdAt,modifiedAt);
+                new AnswerDto.Response(1L, "content", 0L, "displayName", createdAt, modifiedAt);
 
         given(answerMapper.answerPatchDtoToAnswer(Mockito.any(AnswerDto.Patch.class))).willReturn(new Answer());
         given(answerService.updateAnswer(Mockito.any(Answer.class), Mockito.anyString())).willReturn(new Answer());
@@ -167,7 +167,7 @@ public class AnswerControllerRestDocsTest {
                         ),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("질문 식별자").ignored(),
+                                        fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("답변 식별자").ignored(),
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("내용").optional()
                                 )
                         ),
@@ -193,7 +193,7 @@ public class AnswerControllerRestDocsTest {
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime modifiedAt = createdAt;
         AnswerDto.Response responseDto = new AnswerDto.Response(1L,
-                "content1", 0L,"displayName",createdAt, modifiedAt);
+                "content1", 0L, "displayName", createdAt, modifiedAt);
 
         given(answerService.findAnswer(Mockito.anyLong())).willReturn(new Answer());
         given(answerMapper.answerToAnswerResponseDto(Mockito.any(Answer.class))).willReturn(responseDto);
@@ -301,22 +301,72 @@ public class AnswerControllerRestDocsTest {
         doNothing().when(answerService).deleteAnswer(Mockito.anyLong(), Mockito.anyString());
 
         ResultActions actions = mockMvc.perform(
-                delete(BASE_URL +"/{answer-id}", answerId)
-                .accept(MediaType.APPLICATION_JSON)
+                delete(BASE_URL + "/{answer-id}", answerId)
+                        .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(csrf())
                         .headers(GeneratedToken.getMockHeaderToken()));
 
         actions.andExpect(status().isNoContent())
                 .andDo(document(
-                        "delete-answer",
-                        requestHeaders(
-                                headerWithName("Authorization").description("JWT 토큰")
-                        ),
-                        pathParameters(
-                                parameterWithName("answer-id").description("답변 식별자"))
+                                "delete-answer",
+                                requestHeaders(
+                                        headerWithName("Authorization").description("JWT 토큰")
+                                ),
+                                pathParameters(
+                                        parameterWithName("answer-id").description("답변 식별자"))
                         )
                 );
 
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("답변 투표")
+    public void voteAnswerTest() throws Exception {
+        long answerId = 1L;
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime modifiedAt = createdAt;
+        AnswerDto.Response responseDto = new AnswerDto.Response(answerId, "content", 0L, "displayName", createdAt, modifiedAt);
+        given(answerService.voteAnswer(Mockito.anyLong(), Mockito.anyString(), Mockito.anyBoolean())).willReturn(new Answer());
+        given(answerMapper.answerToAnswerResponseDto(Mockito.any(Answer.class))).willReturn(responseDto);
+
+        ResultActions actions =
+                mockMvc.perform(
+                        patch(BASE_URL + "/votes/{answer-id}", answerId)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .param("voteUp", "true")
+                                .with(csrf())
+                                .headers(GeneratedToken.getMockHeaderToken()));
+
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.answerId").value(1L))
+                .andExpect(jsonPath("$.data.content").value("content"))
+                .andDo(document("vote-answer",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Bearer Token")
+                        ),
+                        requestParameters(
+                                parameterWithName("voteUp").description("투표 종류"),
+                                parameterWithName("_csrf").description("csrf")
+                        ),
+                        pathParameters(
+                                parameterWithName("answer-id").description("답변 식별자")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
+                                        fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
+                                        fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
+                                        fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("답변 작성자"),
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변 작성 일자"),
+                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")
+                                )
+                        )));
     }
 }
