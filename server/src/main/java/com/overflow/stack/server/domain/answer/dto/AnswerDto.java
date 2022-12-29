@@ -45,6 +45,7 @@ public class AnswerDto {
         @Lob
         private String content;
         private Long voteResult;
+        private Long questionId;
         private String displayName;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;

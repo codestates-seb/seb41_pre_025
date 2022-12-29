@@ -11,11 +11,17 @@ public interface AnswerService {
 
     Answer findAnswer(long answerId);
 
+    List<Answer> findMyAnswers(String userName);
+
     List<Answer> findAnswers();
 
     Answer findVerifiedAnswer(long answerId);
 
+    List<Answer> findVerifiedAnswers(String userName);
+
     void deleteAnswer(long answerId, String userName);
 
     Answer voteAnswer(long answerId, String userName, boolean voteUp);
+
+
 }
