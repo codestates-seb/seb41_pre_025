@@ -16,4 +16,6 @@ public interface AnswerService {
     Answer findVerifiedAnswer(long answerId);
 
     void deleteAnswer(long answerId, String userName);
+
+    Answer voteAnswer(long answerId, String userName, boolean voteUp);
 }

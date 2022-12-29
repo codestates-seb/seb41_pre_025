@@ -11,14 +11,14 @@ import { useRecoilState } from 'recoil';
 import Loading from '../components/Loading';
 
 export default function QuestionsList() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
   const [questionList, setquestionList] = useRecoilState(questionListState);
 
   useEffect(() => {
     fetchQuestionList()
       .then((data) => {
+        setLoading(false);
         setquestionList(data.data);
-        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err.message);

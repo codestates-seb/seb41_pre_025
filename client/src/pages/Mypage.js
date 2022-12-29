@@ -11,6 +11,8 @@ import { useRecoilState } from 'recoil';
 
 import Loading from '../components/Loading';
 import { fetchAnswersList } from '../util/useFetchAnswer';
+import { MyQueItem } from '../components/MyQueItem';
+import { MyAnsItem } from '../components/MyAnsItem';
 
 export default function Mypage() {
   const [userInfo, setuserInfo] = useRecoilState(userInfoState);
@@ -34,8 +36,15 @@ export default function Mypage() {
       });
   }, []);
 
-  console.log(userInfo.displayName);
-  console.log(answerList);
+  useEffect(() => {
+    fetchAnswersList()
+      .then((data) => {
+        setanswerList(data.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
 
   const SummaryCount = (state) => {
     let count = 0;
@@ -43,8 +52,20 @@ export default function Mypage() {
     return count;
   };
 
-  console.log(questionList);
+  const SummaryVotes = (state) => {
+    let votecount = 0;
+    state.map((el) =>
+      el.displayName === userInfo.displayName ? (votecount += el.voteResult) : ''
+    );
+    return votecount;
+  };
 
+  const MyQnA = (state) => {
+    const qnalist = state.filter((el) => el.displayName === userInfo.displayName);
+    return qnalist;
+  };
+
+  console.log(MyQnA(questionList));
   return (
     <MypageContainer>
       {isLoading ? (
@@ -60,7 +81,7 @@ export default function Mypage() {
               <h3>Summary</h3>
               <SummaryContent>
                 <Summary>
-                  <h1>2</h1>
+                  <h1>{SummaryVotes(questionList)}</h1>
                   <h3>Total Votes</h3>
                 </Summary>
                 <Summary>
@@ -77,71 +98,24 @@ export default function Mypage() {
           <QuestionsContainer>
             <h1>Questions</h1>
             <ListBlock>
-              <ItemBlock>
-                <VoteBox done>1</VoteBox>
-                <Text>배고파</Text>
-                <Edit>
-                  <MdEdit />
-                </Edit>
-                <Remove>
-                  <MdDelete />
-                </Remove>
-              </ItemBlock>
-              <ItemBlock>
-                <VoteBox done>2</VoteBox>
-                <Text>살려줘</Text>
-                <Edit>
-                  <MdEdit />
-                </Edit>
-                <Remove>
-                  <MdDelete />
-                </Remove>
-              </ItemBlock>
-              <ItemBlock>
-                <VoteBox>5</VoteBox>
-                <Text>넹</Text>
-                <Edit>
-                  <MdEdit />
-                </Edit>
-                <Remove>
-                  <MdDelete />
-                </Remove>
-              </ItemBlock>
+              {MyQnA(questionList).map((el) => {
+                return (
+                  <MyQueItem key={el.questionId} votes={el.voteResult} title={el.title}></MyQueItem>
+                );
+              })}
             </ListBlock>
           </QuestionsContainer>
           <AnswersContainer>
             <h1>Answers</h1>
             <ListBlock>
-              <ItemBlock>
-                <VoteBox done>1</VoteBox>
-                <Text>배고파</Text>
-                <Edit>
-                  <MdEdit />
-                </Edit>
-                <Remove>
-                  <MdDelete />
-                </Remove>
-              </ItemBlock>
-              <ItemBlock>
-                <VoteBox done>2</VoteBox>
-                <Text>살려줘</Text>
-                <Edit>
-                  <MdEdit />
-                </Edit>
-                <Remove>
-                  <MdDelete />
-                </Remove>
-              </ItemBlock>
-              <ItemBlock>
-                <VoteBox>5</VoteBox>
-                <Text>넹</Text>
-                <Edit>
-                  <MdEdit />
-                </Edit>
-                <Remove>
-                  <MdDelete />
-                </Remove>
-              </ItemBlock>
+              {MyQnA(answerList).map((el) => {
+                return (
+                  <MyAnsItem
+                    key={el.questionId}
+                    votes={el.voteResult}
+                    title={el.content}></MyAnsItem>
+                );
+              })}
             </ListBlock>
           </AnswersContainer>
         </>
@@ -235,71 +209,4 @@ const ListBlock = styled.div`
   & > div:nth-child(n + 2) {
     border-top: 1px solid #bbbfc3;
   }
-`;
-const Edit = styled.div`
-  margin-right: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #dee2e6;
-  font-size: 30px;
-  cursor: pointer;
-  &:hover {
-    color: #38d9a9;
-  }
-  display: none;
-`;
-
-const Remove = styled.div`
-  margin-right: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #dee2e6;
-  font-size: 30px;
-  cursor: pointer;
-  &:hover {
-    color: #ff6b6b;
-  }
-  display: none;
-`;
-
-const ItemBlock = styled.div`
-  display: flex;
-  align-items: center;
-  padding-top: 12px;
-  padding-bottom: 12px;
-
-  &:hover {
-    ${Remove} {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    ${Edit} {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-`;
-
-const VoteBox = styled.div`
-  font-size: 21px;
-  margin: 0px 10px;
-  padding: 5px 20px;
-  border: 1px solid #838383;
-  border-radius: 5px;
-  background: #f1f2f3;
-  ${(props) =>
-    props.done &&
-    css`
-      background-color: #5eba7d;
-      color: white;
-    `}
-`;
-const Text = styled.div`
-  flex: 1;
-  font-size: 21px;
-  color: #495057;
 `;
