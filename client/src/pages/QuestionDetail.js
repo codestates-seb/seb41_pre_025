@@ -13,6 +13,7 @@ import { useLocation, Link } from "react-router-dom";
 import { fetchCreateAnswer } from "../util/useFetchAnswer";
 import Loading from "../components/Loading";
 import { fetchDeleteQuestion } from "../util/usefetchQuestion";
+import { fetchDeleteAnswer } from "../util/useFetchAnswer";
 import RelativeTime from "react-relative-time";
 
 export default function QuestionsDetail() {
@@ -53,6 +54,13 @@ export default function QuestionsDetail() {
 			window.location.href = "/";
 		});
 	};
+
+	const deleteAnswer = async (id) => {
+		await fetchDeleteAnswer(id).then((data) => {
+			window.location.href = `${questionDetail.questionId}`;
+		});
+	};
+
 	if (isLoading) {
 		return <Loading />;
 	} else {
@@ -168,7 +176,12 @@ export default function QuestionsDetail() {
 										<Link to={`/editQuestion/${questionDetail.questionId}`}>
 											<span>Edit</span>
 										</Link>
-										<span onClick={deleteQuestion}>Delete</span>
+										<span
+											onClick={() => {
+												deleteAnswer(answer.answerId);
+											}}>
+											Delete
+										</span>
 									</CRUDText>
 									<UserInfo>
 										<span>
