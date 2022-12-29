@@ -6,16 +6,17 @@ import hyunGS25 from '../image/ad_hyunGS25.png';
 
 import { checkLogin } from '../util/fetchLogin';
 
-import { userInfoState, questionListState, answersState } from '../state/atom';
+import { userInfoState, questionListState, answerListState } from '../state/atom';
 import { useRecoilState } from 'recoil';
 
 import Loading from '../components/Loading';
+import { fetchAnswersList } from '../util/useFetchAnswer';
 
 export default function Mypage() {
   const [userInfo, setuserInfo] = useRecoilState(userInfoState);
   const [isLoading, setLoading] = useState(true);
   const [questionList, setquestionList] = useRecoilState(questionListState);
-  const [answers, setAnswers] = useRecoilState(answersState);
+  const [answerList, setanswerList] = useRecoilState(answerListState);
 
   useEffect(() => {
     checkLogin().then((data) => {
@@ -23,8 +24,18 @@ export default function Mypage() {
     });
   }, []);
 
+  useEffect(() => {
+    fetchAnswersList()
+      .then((data) => {
+        setanswerList(data.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+
   console.log(userInfo.displayName);
-  console.log(answers);
+  console.log(answerList);
 
   const SummaryCount = (state) => {
     let count = 0;
@@ -57,7 +68,7 @@ export default function Mypage() {
                   <h3>Questions</h3>
                 </Summary>
                 <Summary>
-                  <h1>{SummaryCount(answers)}</h1>
+                  <h1>{SummaryCount(answerList)}</h1>
                   <h3>Answers</h3>
                 </Summary>
               </SummaryContent>
