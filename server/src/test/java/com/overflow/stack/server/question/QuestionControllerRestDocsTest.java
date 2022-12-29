@@ -82,7 +82,8 @@ public class QuestionControllerRestDocsTest {
                         createdAt,
                         modifiedAt,
                         Set.of("tag1, tag2"),
-                        AResponseDtos);
+                        AResponseDtos,
+                        0L);
 
 
         given(mapper.questionPostDtoToQuestion(Mockito.any(QuestionDto.Post.class))).willReturn(new Question());
@@ -133,6 +134,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("질문 작성자"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그"),
                                         fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
+                                        fieldWithPath("data.answerCount").type(JsonFieldType.NUMBER).description("답변 개수"),
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
                                         fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
@@ -166,7 +168,8 @@ public class QuestionControllerRestDocsTest {
                         createdAt,
                         modifiedAt,
                         Set.of("tag1, tag2"),
-                        AResponseDtos);
+                        AResponseDtos,
+                        0L);
 
 
         given(mapper.questionPatchDtoToQuestion(Mockito.any(QuestionDto.Patch.class))).willReturn(new Question());
@@ -222,6 +225,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("질문 수정 일자"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그"),
                                         fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
+                                        fieldWithPath("data.answerCount").type(JsonFieldType.NUMBER).description("답변 개수"),
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
                                         fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
@@ -252,7 +256,8 @@ public class QuestionControllerRestDocsTest {
                         createdAt,
                         modifiedAt,
                         Set.of("tag1, tag2"),
-                        AResponseDtos);
+                        AResponseDtos,
+                        0L);
 
         given(questionService.voteQuestion(Mockito.anyLong(), Mockito.anyString(), Mockito.anyBoolean())).willReturn(new Question());
 
@@ -300,6 +305,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("질문 수정 일자"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그"),
                                         fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
+                                        fieldWithPath("data.answerCount").type(JsonFieldType.NUMBER).description("답변 개수"),
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
                                         fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
@@ -331,7 +337,8 @@ public class QuestionControllerRestDocsTest {
                         createdAt,
                         modifiedAt,
                         Set.of("tag1, tag2"),
-                        AResponseDtos);
+                        AResponseDtos,
+                        0L);
 
         given(questionService.findQuestion(Mockito.anyLong())).willReturn(new Question());
 
@@ -369,6 +376,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("질문 수정 일자"),
                                         fieldWithPath("data.tag").type(JsonFieldType.ARRAY).description("태그"),
                                         fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변"),
+                                        fieldWithPath("data.answerCount").type(JsonFieldType.NUMBER).description("답변 개수"),
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
                                         fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
@@ -397,7 +405,8 @@ public class QuestionControllerRestDocsTest {
                         createdAt,
                         modifiedAt,
                         Set.of("tag1","tag2"),
-                        null);
+                        null,
+                        0L);
 
         QuestionDto.response responseDto2 =
                 new QuestionDto.response(2L,
@@ -408,7 +417,8 @@ public class QuestionControllerRestDocsTest {
                         createdAt,
                         modifiedAt,
                         Set.of("tag3, tag4"),
-                        null);
+                        null,
+                        0L);
         List<QuestionDto.response> responseList=new ArrayList<>();
         responseList.add(responseDto);
         responseList.add(responseDto2);
@@ -446,7 +456,8 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("질문 작성 일자"),
                                         fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("질문 수정 일자"),
                                         fieldWithPath("data.[].tag").type(JsonFieldType.ARRAY).description("태그"),
-                                        fieldWithPath("data.[].answers").type(JsonFieldType.NULL).description("답변")
+                                        fieldWithPath("data.[].answers").type(JsonFieldType.NULL).description("답변"),
+                                        fieldWithPath("data.[].answerCount").type(JsonFieldType.NUMBER).description("답변 개수")
 
                                 )
                         )

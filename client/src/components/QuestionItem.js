@@ -5,14 +5,13 @@ import { MdAccountCircle } from "react-icons/md";
 import RelativeTime from "react-relative-time";
 
 export default function QuestionItem({ questions }) {
+	console.log(questions);
 	return (
 		<>
 			<ContentContainer>
 				<Summary>
-					<Vote>{questions.voteResult ? questions.voteResult : 0} votes</Vote>
-					<Answer>
-						{questions.answers ? questions.answers.length : 0} answers
-					</Answer>
+					<Vote>{questions.voteResult} votes</Vote>
+					<Answer>{questions.answerCount} answers</Answer>
 					<View>10 views</View>
 				</Summary>
 				<ContentBox>
@@ -29,13 +28,6 @@ export default function QuestionItem({ questions }) {
 						<DisplayName>
 							<MdAccountCircle />
 							{questions.displayName}
-							<Text>asked</Text>
-							<Time>
-								<RelativeTime
-									value={questions.createdAt}
-									titleFormat="YYYY/MM/DD"
-								/>
-							</Time>
 						</DisplayName>
 					</ContentInfo>
 				</ContentBox>

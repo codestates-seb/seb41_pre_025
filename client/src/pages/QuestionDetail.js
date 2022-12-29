@@ -10,6 +10,7 @@ import { fetchQuestionList } from "../util/usefetchQuestion";
 import { questionDetailState, answersState } from "../state/atom";
 import { useRecoilState } from "recoil";
 import { useLocation, Link } from "react-router-dom";
+import { fetchCreateAnswer } from "../util/useFetchAnswer";
 
 import Loading from "../components/Loading";
 
@@ -18,6 +19,8 @@ export default function QuestionsDetail() {
 	const [voteCount, setVoteCount] = useState(0);
 	// 로딩중 상태관리
 	const [isLoading, setLoading] = useState(true);
+	const [content, setContent] = useState("");
+
 	const [questionDetail, setquestionDetail] =
 		useRecoilState(questionDetailState);
 	const [answers, setAnswers] = useRecoilState(answersState);
@@ -40,12 +43,19 @@ export default function QuestionsDetail() {
 		fetchQuestionList(pathname.slice(16))
 			.then((data) => {
 				setAnswers(data.data.answers);
-				console.log(data.data.answers);
 			})
 			.catch((err) => {
 				console.log(err.message);
 			});
 	}, []);
+	function contentHandler(e) {
+		setContent(e.target.value);
+	}
+	const postAnswer = async () => {
+		await fetchCreateAnswer(questionDetail.questionId, content).then((data) => {
+			window.location.href = `${questionDetail.questionId}`;
+		});
+	};
 
 	if (isLoading) {
 		return <Loading />;
@@ -68,21 +78,10 @@ export default function QuestionsDetail() {
 							/>
 						</Link>
 					</Title>
-					<Info>
-						<div>
-							<p>
-								<span>Asked</span> today
-							</p>
-							<p>
-								<span>Modified</span> today
-							</p>
-							<p>
-								<span>Viewed</span> 13 times
-							</p>
-						</div>
-					</Info>
+					<Info>Asked today Modified today Viewed 13 times</Info>
+					<hr />
 				</Head>
-				<QuestionContainer>
+				<MainContainer>
 					<VoteContainer>
 						<GoTriangleUp
 							className="triangle"
@@ -96,31 +95,22 @@ export default function QuestionsDetail() {
 						<BsBookmark className="icon" />
 						<GiBackwardTime className="icon" />
 					</VoteContainer>
-					<MainTextContainer>
-						<Maintext>{questionDetail.content}</Maintext>
-						<SubContainer>
-							<TagBox>
-								{questionDetail.tag.map((tag) => {
-									return <Tag key={questionDetail.questionId}>{tag}</Tag>;
-								})}
-							</TagBox>
-							<CRUDandUserContainer>
-								<CRUDText>
-									<span>Share</span>
-									<span>Edit</span>
-									<span>Follow</span>
-								</CRUDText>
-								<UserInfo>
-									asked 59 mins ago
-									<Name>
-										<MdAccountCircle />
-										{questionDetail.displayName}
-									</Name>
-								</UserInfo>
-							</CRUDandUserContainer>
-						</SubContainer>
-					</MainTextContainer>
-				</QuestionContainer>
+					<Maintext>{questionDetail.content}</Maintext>
+				</MainContainer>
+				<SubContainer>
+					<TagBox>
+						{questionDetail.tag.map((tag) => {
+							return <Tag key={questionDetail.questionId}>{tag}</Tag>;
+						})}
+					</TagBox>
+					<UserInfo>
+						asked 59 mins ago
+						<Name>
+							<MdAccountCircle />
+							{questionDetail.displayName}
+						</Name>
+					</UserInfo>
+				</SubContainer>
 				<AnswerContainer>
 					<div>{answers.length} Answers</div>
 					{answers.map((answer) => (
@@ -128,7 +118,7 @@ export default function QuestionsDetail() {
 							<VoteContainer>
 								<GoTriangleUp
 									className="triangle"
-									onClick={() => setVoteCount(voteCount + 1)}
+									onClick={() => setVoteCount(voteCount - 1)}
 								/>
 								<div>{voteCount}</div>
 								<GoTriangleDown
@@ -141,9 +131,10 @@ export default function QuestionsDetail() {
 							<Maintext>{answer.content}</Maintext>
 						</MainContainer>
 					))}
-					<h2>Your Answer</h2>
-					<textarea />
+					Your Answer
+					<textarea onChange={contentHandler} />
 					<Button
+						onClick={postAnswer}
 						text="Post Your Answer"
 						color="white"
 						border="1px solid #4393F7"
@@ -153,7 +144,6 @@ export default function QuestionsDetail() {
 						width="119.77px"
 						height="54.77px"
 						boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
-						margin="10px 0 15px 0"
 					/>
 				</AnswerContainer>
 			</Contents>
@@ -248,7 +238,6 @@ const Maintext = styled.article`
 const SubContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	margin: 16px 0;
 `;
 const TagBox = styled.div`
 	display: flex;
