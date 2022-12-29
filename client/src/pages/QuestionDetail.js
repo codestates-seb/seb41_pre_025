@@ -61,6 +61,7 @@ export default function QuestionsDetail() {
 		});
 	};
 
+
 	if (isLoading) {
 		return <Loading />;
 	} else {
