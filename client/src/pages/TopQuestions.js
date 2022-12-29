@@ -1,18 +1,20 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Button } from "../components/Button";
-import QuestionItem from "../components/QuestionItem";
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Button } from '../components/Button';
+import QuestionItem from '../components/QuestionItem';
+import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
-import { fetchQuestionList } from "../util/usefetchQuestion";
-import { fetchMemberInfo, checkLogin } from "../util/fetchLogin";
-import { questionListState, userInfoState } from "../state/atom";
-import { useRecoilState } from "recoil";
+import { fetchQuestionList } from '../util/usefetchQuestion';
+import { fetchMemberInfo, checkLogin } from '../util/fetchLogin';
+import { questionListState, userInfoState } from '../state/atom';
+import { useRecoilState } from 'recoil';
+import Loading from '../components/Loading';
 
 export default function QuestionsList() {
   const [questionList, setquestionList] = useRecoilState(questionListState);
   const [userInfo, setuserInfo] = useRecoilState(userInfoState);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchQuestionList()
@@ -36,28 +38,72 @@ export default function QuestionsList() {
 
   return (
     <>
-      <Head>
-        <h1>Top Questions</h1>
-        <Link to="/askquestions">
-          <Button text="Ask Question" color="white" border="1px solid #4393F7" bgColor="#4393F7" hoverColor="#2D75C6" activeColor="#1859A3" width="103.02px" />
-        </Link>
-      </Head>
-      <QueCount>{tagfilter.length} questions</QueCount>
-      <FilterContainer>
-        <Button text="Newest" color="#525960" border="1px solid #525960" bgColor="white" hoverColor=" hsl(210,8%,95%)" activeColor="none" width="103.02px" margin="0px" bdradius="0px" />
-        <Button text="Newest" color="#525960" border="1px solid #525960" bgColor="white" hoverColor=" hsl(210,8%,95%)" activeColor="none" width="103.02px" margin="0px" bdradius="0px" />
-        <Button text="Newest" color="#525960" border="1px solid #525960" bgColor="white" hoverColor=" hsl(210,8%,95%)" activeColor="none" width="103.02px" margin="0px" bdradius="0px" />
-        <Button text="Filter" marginLeft="0px" />
-      </FilterContainer>
-      <hr />
-      <QueContainer>
-        <Question>
-          {tagfilter.map((tagquetion) => {
-            return <QuestionItem questions={tagquetion} key={tagquetion.questionId} />;
-          })}
-        </Question>
-      </QueContainer>
-      <hr />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <Head>
+            <h1>Top Questions</h1>
+            <Link to="/askquestions">
+              <Button
+                text="Ask Question"
+                color="white"
+                border="1px solid #4393F7"
+                bgColor="#4393F7"
+                hoverColor="#2D75C6"
+                activeColor="#1859A3"
+                width="103.02px"
+              />
+            </Link>
+          </Head>
+          <QueCount>{tagfilter.length} questions</QueCount>
+          <FilterContainer>
+            <Button
+              text="Newest"
+              color="#525960"
+              border="1px solid #525960"
+              bgColor="white"
+              hoverColor=" hsl(210,8%,95%)"
+              activeColor="none"
+              width="103.02px"
+              margin="0px"
+              bdradius="0px"
+            />
+            <Button
+              text="Newest"
+              color="#525960"
+              border="1px solid #525960"
+              bgColor="white"
+              hoverColor=" hsl(210,8%,95%)"
+              activeColor="none"
+              width="103.02px"
+              margin="0px"
+              bdradius="0px"
+            />
+            <Button
+              text="Newest"
+              color="#525960"
+              border="1px solid #525960"
+              bgColor="white"
+              hoverColor=" hsl(210,8%,95%)"
+              activeColor="none"
+              width="103.02px"
+              margin="0px"
+              bdradius="0px"
+            />
+            <Button text="Filter" marginLeft="0px" />
+          </FilterContainer>
+          <hr />
+          <QueContainer>
+            <Question>
+              {tagfilter.map((tagquetion) => {
+                return <QuestionItem questions={tagquetion} key={tagquetion.questionId} />;
+              })}
+            </Question>
+          </QueContainer>
+          <hr />
+        </>
+      )}
     </>
   );
 }

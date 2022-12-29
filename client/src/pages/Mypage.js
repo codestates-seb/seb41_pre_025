@@ -1,27 +1,39 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
-import { MdEdit, MdDelete } from "react-icons/md";
-import hyunGS25 from "../image/ad_hyunGS25.png";
+import React from 'react';
+import { useEffect, useState } from 'react';
+import styled, { css } from 'styled-components';
+import { MdEdit, MdDelete } from 'react-icons/md';
+import hyunGS25 from '../image/ad_hyunGS25.png';
 
-import { checkLogin } from "../util/fetchLogin";
+import { checkLogin } from '../util/fetchLogin';
 
-import { userInfoState } from "../state/atom";
-import { useRecoilState } from "recoil";
+import { userInfoState, questionListState, answersState } from '../state/atom';
+import { useRecoilState } from 'recoil';
 
-import Loading from "../components/Loading";
+import Loading from '../components/Loading';
 
 export default function Mypage() {
   const [userInfo, setuserInfo] = useRecoilState(userInfoState);
   const [isLoading, setLoading] = useState(true);
+  const [questionList, setquestionList] = useRecoilState(questionListState);
+  const [answers, setAnswers] = useRecoilState(answersState);
 
   useEffect(() => {
     checkLogin().then((data) => {
       setLoading(false);
     });
-    console.log(userInfo);
   }, []);
 
+  console.log(userInfo.displayName);
+  console.log(answers);
+
+  const SummaryCount = (state) => {
+    let count = 0;
+    state.map((el) => (el.displayName === userInfo.displayName ? count++ : ''));
+    return count;
+  };
+
+  console.log(questionList);
+  /* userInfo.displayName === questionList.displayName*/
   return (
     <MypageContainer>
       {isLoading ? (
@@ -41,11 +53,11 @@ export default function Mypage() {
                   <h3>Total Votes</h3>
                 </Summary>
                 <Summary>
-                  <h1>0</h1>
+                  <h1>{SummaryCount(questionList)}</h1>
                   <h3>Questions</h3>
                 </Summary>
                 <Summary>
-                  <h1>1</h1>
+                  <h1>{SummaryCount(answers)}</h1>
                   <h3>Answers</h3>
                 </Summary>
               </SummaryContent>
