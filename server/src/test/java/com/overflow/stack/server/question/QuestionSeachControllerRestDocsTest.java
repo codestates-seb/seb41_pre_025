@@ -9,6 +9,7 @@ import com.overflow.stack.server.domain.question.mapper.QuestionMapper;
 import com.overflow.stack.server.domain.question.service.QuestionService;
 import com.overflow.stack.server.domain.question.service.QuestionServiceImpl;
 import com.overflow.stack.server.global.response.PageResponseDto;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -63,6 +66,7 @@ public class QuestionSeachControllerRestDocsTest {
 
     @Test
     @WithMockUser
+    @DisplayName("질문 검색")
     void searchQuestionTest() throws Exception {
         Member member = new Member();
         member.setDisplayName("displayName1");
@@ -98,7 +102,13 @@ public class QuestionSeachControllerRestDocsTest {
         list.add(new Question());
         list.add(new Question());
 
-        given(questionService.searchQuestion(anyString(), anyString(),any())).willReturn(new PageImpl<>(list));
+        given(questionService.searchQuestion(anyString(), anyString(), any()))
+                .willReturn(
+                        new PageImpl<>(list,
+                                PageRequest.of(0, 10,
+                                        Sort.by("questionId").descending()
+                                ), 2)
+                );
 
         given(mapper.questionsToQuestionResponseDtos(Mockito.anyList())).willReturn(responseList);
 
@@ -120,7 +130,10 @@ public class QuestionSeachControllerRestDocsTest {
                         getResponsePreProcessor(),
                         requestParameters(
                                 parameterWithName("keyword").description("검색어"),
-                                parameterWithName("kind").description("검색 종류 / title, content, tag,writer(displayName)/ null 이면 빈리스트")
+                                parameterWithName("kind").description("검색 종류 / title, content, tag,writer(displayName)/ null 이면 빈리스트"),
+                                parameterWithName("page").description("페이지 번호"),
+                                parameterWithName("size").description("페이지 사이즈"),
+                                parameterWithName("sort").description("정렬 기준 questionId,desc")
                         ),
                         // response body
                         responseFields(
@@ -135,10 +148,20 @@ public class QuestionSeachControllerRestDocsTest {
                                         fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("질문 수정 일자"),
                                         fieldWithPath("data.[].tag").type(JsonFieldType.ARRAY).description("태그"),
                                         fieldWithPath("data.[].answers").type(JsonFieldType.NULL).description("답변"),
-                                        fieldWithPath("data.[].answerCount").type(JsonFieldType.NUMBER).description("답변 개수")
+                                        fieldWithPath("data.[].answerCount").type(JsonFieldType.NUMBER).description("답변 개수"),
+                                        fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
+                                        fieldWithPath("pageInfo.currentPage").type(JsonFieldType.NUMBER).description("페이지 번호"),
+                                        fieldWithPath("pageInfo.totalPage").type(JsonFieldType.NUMBER).description("총 페이지 수"),
+                                        fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("총 데이터 수"),
+                                        fieldWithPath("pageInfo.pageSize").type(JsonFieldType.NUMBER).description("페이지 사이즈"),
+                                        fieldWithPath("pageInfo.first").type(JsonFieldType.BOOLEAN).description("첫 페이지 여부"),
+                                        fieldWithPath("pageInfo.last").type(JsonFieldType.BOOLEAN).description("마지막 페이지 여부"),
+                                        fieldWithPath("pageInfo.currentElements").type(JsonFieldType.NUMBER).description("현재 페이지 데이터 수")
 
                                 )
+
                         )
                 ));
     }
 }
+
