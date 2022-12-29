@@ -15,4 +15,6 @@ public interface QuestionService {
     void deleteQuestion(long questionId,String userName);
 
     Question findVerifiedQuestion(long questionId);
+
+    List<Question> searchQuestion(String keyword, String kind);
 }

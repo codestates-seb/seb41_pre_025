@@ -81,4 +81,11 @@ public class QuestionController {
       questionService.deleteQuestion(questionId,members.getUsername());
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
    }
+   @GetMapping("/search")
+   public ResponseEntity searchQuestion(@RequestParam String keyword , @RequestParam String kind){
+        List<Question> questions = questionService.searchQuestion(keyword, kind);
+        return new ResponseEntity<>(
+                new ListResponse<>(mapper.questionsToQuestionResponseDtos(questions)),
+                HttpStatus.OK);
+   }
 }

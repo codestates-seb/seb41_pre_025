@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -110,5 +111,21 @@ public class QuestionServiceImpl implements QuestionService {
                 optionalQuestion.orElseThrow(()->
                         new CustomLogicException(ExceptionCode.QUESTION_NOT_FOUND));
         return findQuestion;
+    }
+
+    @Override
+    public List<Question> searchQuestion(String keyword, String kind) {
+        switch (kind){
+            case "title":
+                return questionRepository.findAllByTitleContaining(keyword);
+            case "content":
+                return questionRepository.findAllByContentContaining(keyword);
+            case "tag":
+                return questionRepository.findAllByTags_Tag_TagName(keyword);
+            case "writer":
+                return questionRepository.findAllByMember_DisplayName(keyword);
+            default:
+                return Collections.emptyList();
+        }
     }
 }
