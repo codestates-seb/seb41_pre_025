@@ -31,6 +31,8 @@ public class Question extends Auditable {
     private String content;
     @Column
     private Long voteResult=0L;
+    @Column
+    private Long answerCount=0L;
     @ManyToOne
     @JoinColumn(name = "MEMEBER")
     private Member member;
