@@ -8,8 +8,10 @@ import { useEffect } from 'react';
 import { fetchQuestionList } from '../util/usefetchQuestion';
 import { questionListState } from '../state/atom';
 import { useRecoilState } from 'recoil';
+import Loading from '../components/Loading';
 
 export default function QuestionsList() {
+  const [isLoading, setLoading] = useState(true);
   const [questionList, setquestionList] = useRecoilState(questionListState);
 
   useEffect(() => {
@@ -26,88 +28,94 @@ export default function QuestionsList() {
 
   return (
     <>
-      <Head>
-        <h1>All Questions</h1>
-        <Link to="/askquestions">
-          <Button
-            text="Ask Question"
-            color="white"
-            border="1px solid #4393F7"
-            bgColor="#4393F7"
-            hoverColor="#2D75C6"
-            activeColor="#1859A3"
-            width="103.02px"
-          />
-        </Link>
-      </Head>
-      <QueCount>{questionList.length} questions</QueCount>
-      <FilterContainer>
-        <Button
-          text="Newest"
-          color="#525960"
-          border="1px solid #525960"
-          bgColor="white"
-          hoverColor=" hsl(210,8%,95%)"
-          activeColor="none"
-          width="103.02px"
-          margin="0px"
-          bdradius="3px 0px 0px 3px"
-        />
-        <Button
-          text="Active"
-          color="#525960"
-          border="1px solid #525960"
-          bgColor="white"
-          hoverColor=" hsl(210,8%,95%)"
-          activeColor="none"
-          width="103.02px"
-          margin="0px"
-          bdradius="0px"
-        />
-        <Button
-          text="Bountied"
-          color="#525960"
-          border="1px solid #525960"
-          bgColor="white"
-          hoverColor=" hsl(210,8%,95%)"
-          activeColor="none"
-          width="103.02px"
-          margin="0px"
-          bdradius="0px"
-        />
-        <Button
-          text="Unanswered"
-          color="#525960"
-          border="1px solid #525960"
-          bgColor="white"
-          hoverColor=" hsl(210,8%,95%)"
-          activeColor="none"
-          width="103.02px"
-          margin="0px"
-          bdradius="0px"
-        />
-        <Button
-          text="More"
-          color="#525960"
-          border="1px solid #525960"
-          bgColor="white"
-          hoverColor=" hsl(210,8%,95%)"
-          activeColor="none"
-          width="103.02px"
-          margin="0px"
-          bdradius="0px 3px 3px 0px"
-        />
-        <Button text="Filter" marginLeft="0px" />
-      </FilterContainer>
-      <hr />
-      <QueContainer>
-        <Question>
-          {questionList.map((questions) => {
-            return <QuestionItem questions={questions} key={questions.questionId} />;
-          })}
-        </Question>
-      </QueContainer>
-      <hr />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <Head>
+            <h1>All Questions</h1>
+            <Link to="/askquestions">
+              <Button
+                text="Ask Question"
+                color="white"
+                border="1px solid #4393F7"
+                bgColor="#4393F7"
+                hoverColor="#2D75C6"
+                activeColor="#1859A3"
+                width="103.02px"
+              />
+            </Link>
+          </Head>
+          <QueCount>{questionList.length} questions</QueCount>
+          <FilterContainer>
+            <Button
+              text="Newest"
+              color="#525960"
+              border="1px solid #525960"
+              bgColor="white"
+              hoverColor=" hsl(210,8%,95%)"
+              activeColor="none"
+              width="103.02px"
+              margin="0px"
+              bdradius="3px 0px 0px 3px"
+            />
+            <Button
+              text="Active"
+              color="#525960"
+              border="1px solid #525960"
+              bgColor="white"
+              hoverColor=" hsl(210,8%,95%)"
+              activeColor="none"
+              width="103.02px"
+              margin="0px"
+              bdradius="0px"
+            />
+            <Button
+              text="Bountied"
+              color="#525960"
+              border="1px solid #525960"
+              bgColor="white"
+              hoverColor=" hsl(210,8%,95%)"
+              activeColor="none"
+              width="103.02px"
+              margin="0px"
+              bdradius="0px"
+            />
+            <Button
+              text="Unanswered"
+              color="#525960"
+              border="1px solid #525960"
+              bgColor="white"
+              hoverColor=" hsl(210,8%,95%)"
+              activeColor="none"
+              width="103.02px"
+              margin="0px"
+              bdradius="0px"
+            />
+            <Button
+              text="More"
+              color="#525960"
+              border="1px solid #525960"
+              bgColor="white"
+              hoverColor=" hsl(210,8%,95%)"
+              activeColor="none"
+              width="103.02px"
+              margin="0px"
+              bdradius="0px 3px 3px 0px"
+            />
+            <Button text="Filter" marginLeft="0px" />
+          </FilterContainer>
+          <hr />
+          <QueContainer>
+            <Question>
+              {questionList.map((questions) => {
+                return <QuestionItem questions={questions} key={questions.questionId} />;
+              })}
+            </Question>
+          </QueContainer>
+          <hr />
+        </>
+      )}
     </>
   );
 }

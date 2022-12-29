@@ -42,7 +42,7 @@ export const fetchCreateAnswer = async (id, data) => {
 };
 
 export const fetchModifyAnswer = async (id, data) => {
-  console.log(id, data);
+  console.log(data);
   return fetch(`https://server.prestack41-25.kro.kr/api/v1/answers/${id}`, {
     method: 'PATCH',
     headers: {

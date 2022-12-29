@@ -20,6 +20,7 @@ export default function QuestionsList() {
     fetchQuestionList()
       .then((data) => {
         setquestionList(data.data);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err.message);
@@ -29,6 +30,7 @@ export default function QuestionsList() {
   useEffect(() => {
     checkLogin();
   }, []);
+  console.log(questionList, userInfo);
 
   const tagfilter = questionList.filter((questions) => {
     if (questions.tag.filter((x) => userInfo.isFollowingTags.includes(x)).length !== 0) {
