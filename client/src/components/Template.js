@@ -12,6 +12,7 @@ const TemplateBlock = styled.div`
 	width: 1264px;
 	background: white;
 	flex-direction: row;
+
 	@media all and (max-width: 1264px) {
 		width: 100%;
 	}
