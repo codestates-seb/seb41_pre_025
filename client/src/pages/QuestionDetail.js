@@ -1,131 +1,164 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Button } from '../components/Button';
-import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
-import { BsBookmark } from 'react-icons/bs';
-import { GiBackwardTime } from 'react-icons/gi';
-import { MdAccountCircle } from 'react-icons/md';
-import { useEffect } from 'react';
-import { fetchQuestionList } from '../util/usefetchQuestion';
-import { questionDetailState, answersState } from '../state/atom';
-import { useRecoilState } from 'recoil';
-import { useLocation, Link } from 'react-router-dom';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Button } from "../components/Button";
+import { GoTriangleUp, GoTriangleDown } from "react-icons/go";
+import { BsBookmark } from "react-icons/bs";
+import { GiBackwardTime } from "react-icons/gi";
+import { MdAccountCircle } from "react-icons/md";
+import { useEffect } from "react";
+import { fetchQuestionList } from "../util/usefetchQuestion";
+import { questionDetailState, answersState } from "../state/atom";
+import { useRecoilState } from "recoil";
+import { useLocation, Link } from "react-router-dom";
 
-import Loading from '../components/Loading';
+import Loading from "../components/Loading";
 
 export default function QuestionsDetail() {
-  // 투표 수 voteResult로 바꾸고 상태관리
-  const [voteCount, setVoteCount] = useState(0);
-  // 로딩중 상태관리
-  const [isLoading, setLoading] = useState(true);
-  const [questionDetail, setquestionDetail] = useRecoilState(questionDetailState);
-  const [answers, setAnswers] = useRecoilState(answersState);
+	// 투표 수 voteResult로 바꾸고 상태관리
+	const [voteCount, setVoteCount] = useState(0);
+	// 로딩중 상태관리
+	const [isLoading, setLoading] = useState(true);
+	const [questionDetail, setquestionDetail] =
+		useRecoilState(questionDetailState);
+	const [answers, setAnswers] = useRecoilState(answersState);
 
-  const location = useLocation();
-  const pathname = location.pathname;
+	const location = useLocation();
+	const pathname = location.pathname;
 
-  useEffect(() => {
-    fetchQuestionList(pathname.slice(16))
-      .then((data) => {
-        setquestionDetail(data.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
+	useEffect(() => {
+		fetchQuestionList(pathname.slice(16))
+			.then((data) => {
+				setquestionDetail(data.data);
+				setLoading(false);
+			})
+			.catch((err) => {
+				console.log(err.message);
+			});
+	}, []);
 
-  useEffect(() => {
-    fetchQuestionList(pathname.slice(16))
-      .then((data) => {
-        setAnswers(data.data.answers);
-        console.log(data.data.answers);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
+	useEffect(() => {
+		fetchQuestionList(pathname.slice(16))
+			.then((data) => {
+				setAnswers(data.data.answers);
+				console.log(data.data.answers);
+			})
+			.catch((err) => {
+				console.log(err.message);
+			});
+	}, []);
 
-  if (isLoading) {
-    return <Loading />;
-  } else {
-    return (
-      <Contents>
-        <Head>
-          <Title>
-            <h1>{questionDetail.title}</h1>
-            <Link to="/askquestions">
-              <Button
-                text="Ask Question"
-                color="white"
-                border="1px solid #4393F7"
-                bgColor="#4393F7"
-                hoverColor="#2D75C6"
-                activeColor="#1859A3"
-                width="103.02px"
-                boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
-              />
-            </Link>
-          </Title>
-          <Info>Asked today Modified today Viewed 13 times</Info>
-          <hr />
-        </Head>
-        <MainContainer>
-          <VoteContainer>
-            <GoTriangleUp className="triangle" onClick={() => setVoteCount(voteCount + 1)} />
-            <div>{voteCount}</div>
-            <GoTriangleDown className="triangle" onClick={() => setVoteCount(voteCount - 1)} />
-            <BsBookmark className="icon" />
-            <GiBackwardTime className="icon" />
-          </VoteContainer>
-          <Maintext>{questionDetail.content}</Maintext>
-        </MainContainer>
-        <SubContainer>
-          <TagBox>
-            {questionDetail.tag.map((tag) => {
-              return <Tag key={questionDetail.questionId}>{tag}</Tag>;
-            })}
-          </TagBox>
-          <UserInfo>
-            asked 59 mins ago
-            <Name>
-              <MdAccountCircle />
-              {questionDetail.displayName}
-            </Name>
-          </UserInfo>
-        </SubContainer>
-        <AnswerContainer>
-          <div>{answers.length} Answers</div>
-          {answers.map((answer) => (
-            <MainContainer>
-              <VoteContainer>
-                <GoTriangleUp className="triangle" onClick={() => setVoteCount(voteCount + 1)} />
-                <div>{voteCount}</div>
-                <GoTriangleDown className="triangle" onClick={() => setVoteCount(voteCount - 1)} />
-                <BsBookmark className="icon" />
-                <GiBackwardTime className="icon" />
-              </VoteContainer>
-              <Maintext>{answer.content}</Maintext>
-            </MainContainer>
-          ))}
-          Your Answer
-          <textarea />
-          <Button
-            text="Post Your Answer"
-            color="white"
-            border="1px solid #4393F7"
-            bgColor="#4393F7"
-            hoverColor="#2D75C6"
-            activeColor="#1859A3"
-            width="119.77px"
-            height="54.77px"
-            boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
-          />
-        </AnswerContainer>
-      </Contents>
-    );
-  }
-
+	if (isLoading) {
+		return <Loading />;
+	} else {
+		return (
+			<Contents>
+				<Head>
+					<Title>
+						<h1>{questionDetail.title}</h1>
+						<Link to="/askquestions">
+							<Button
+								text="Ask Question"
+								color="white"
+								border="1px solid #4393F7"
+								bgColor="#4393F7"
+								hoverColor="#2D75C6"
+								activeColor="#1859A3"
+								width="103.02px"
+								boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
+							/>
+						</Link>
+					</Title>
+					<Info>
+						<div>
+							<p>
+								<span>Asked</span> today
+							</p>
+							<p>
+								<span>Modified</span> today
+							</p>
+							<p>
+								<span>Viewed</span> 13 times
+							</p>
+						</div>
+					</Info>
+				</Head>
+				<QuestionContainer>
+					<VoteContainer>
+						<GoTriangleUp
+							className="triangle"
+							onClick={() => setVoteCount(voteCount + 1)}
+						/>
+						<div>{voteCount}</div>
+						<GoTriangleDown
+							className="triangle"
+							onClick={() => setVoteCount(voteCount - 1)}
+						/>
+						<BsBookmark className="icon" />
+						<GiBackwardTime className="icon" />
+					</VoteContainer>
+					<MainTextContainer>
+						<Maintext>{questionDetail.content}</Maintext>
+						<SubContainer>
+							<TagBox>
+								{questionDetail.tag.map((tag) => {
+									return <Tag key={questionDetail.questionId}>{tag}</Tag>;
+								})}
+							</TagBox>
+							<CRUDandUserContainer>
+								<CRUDText>
+									<span>Share</span>
+									<span>Edit</span>
+									<span>Follow</span>
+								</CRUDText>
+								<UserInfo>
+									asked 59 mins ago
+									<Name>
+										<MdAccountCircle />
+										{questionDetail.displayName}
+									</Name>
+								</UserInfo>
+							</CRUDandUserContainer>
+						</SubContainer>
+					</MainTextContainer>
+				</QuestionContainer>
+				<AnswerContainer>
+					<div>{answers.length} Answers</div>
+					{answers.map((answer) => (
+						<MainContainer>
+							<VoteContainer>
+								<GoTriangleUp
+									className="triangle"
+									onClick={() => setVoteCount(voteCount + 1)}
+								/>
+								<div>{voteCount}</div>
+								<GoTriangleDown
+									className="triangle"
+									onClick={() => setVoteCount(voteCount - 1)}
+								/>
+								<BsBookmark className="icon" />
+								<GiBackwardTime className="icon" />
+							</VoteContainer>
+							<Maintext>{answer.content}</Maintext>
+						</MainContainer>
+					))}
+					<h2>Your Answer</h2>
+					<textarea />
+					<Button
+						text="Post Your Answer"
+						color="white"
+						border="1px solid #4393F7"
+						bgColor="#4393F7"
+						hoverColor="#2D75C6"
+						activeColor="#1859A3"
+						width="119.77px"
+						height="54.77px"
+						boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
+						margin="10px 0 15px 0"
+					/>
+				</AnswerContainer>
+			</Contents>
+		);
+	}
 }
 
 const Contents = styled.div`
@@ -137,22 +170,45 @@ const Title = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
+	h1 {
+		color: #3c4044;
+		font-size: 27px;
+		font-weight: 400;
+	}
 `;
 
 const Info = styled.div`
 	padding-bottom: 10px;
+	margin-bottom: 16px;
+	font-size: 13px;
+	border-bottom: 1px solid #e4e6e8;
+
+	div {
+		display: flex;
+	}
+
+	p {
+		margin: 0 16px 8px 0;
+	}
+
+	span {
+		color: #6c737b;
+	}
 `;
 
 const MainContainer = styled.div`
 	display: flex;
 	justify-content: row;
 	padding: 20px 0px;
+	border-bottom: 1px solid #e4e6e8;
+	padding: 0 0 20px 0;
 `;
 
 const VoteContainer = styled.div`
+	margin-right: 16px;
 	display: flex;
 	flex-direction: column;
-	align-self: center;
 	align-items: flex-start;
 	color: #babfc4;
 	cursor: pointer;
@@ -174,27 +230,55 @@ const VoteContainer = styled.div`
 	}
 `;
 
-const Maintext = styled.article`
-	background-color: red;
-	padding-left: 10px;
+const QuestionContainer = styled.div`
+	display: flex;
+	border-bottom: 1px solid #e4e6e8;
+	padding: 0 0 20px 0;
+`;
+
+const MainTextContainer = styled.div`
 	width: 100%;
+`;
+
+const Maintext = styled.article`
+	width: 100%;
+	margin-bottom: 16px;
+	font-size: 15px;
 `;
 const SubContainer = styled.div`
 	display: flex;
 	flex-direction: column;
+	margin: 16px 0;
 `;
 const TagBox = styled.div`
 	display: flex;
-	padding-left: 40px;
+	margin-bottom: 13px;
 `;
+
 const Tag = styled.div`
 	background-color: #e1ecf4;
 	border-radius: 3px;
 	padding: 5px;
-	margin: 5px;
+	margin: 0 7px 0 0;
 	color: #39739d;
 	font-size: 12px;
 `;
+
+const CRUDandUserContainer = styled.div`
+	margin: 16px 0;
+	display: flex;
+	justify-content: space-between;
+`;
+
+const CRUDText = styled.div`
+	color: #6c737b;
+	font-size: 13px;
+
+	span {
+		margin: 0 7px 0 0;
+	}
+`;
+
 const UserInfo = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -221,19 +305,25 @@ const Name = styled.div`
 `;
 
 const AnswerContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-size: 20px;
+	display: flex;
+	flex-direction: column;
+	font-size: 20px;
+	margin-top: 10px;
 
-  div {
-    padding: 10px;
-  }
-  textarea {
-    margin: 20px 5px;
-    height: 200px;
-  }
-`;
+	h2 {
+		margin: 19px 0 19px 0;
+		font-size: 19px;
+		font-weight: 400;
+	}
 
-const AnsCount = styled.div`
-  padding: 10px;
+	textarea {
+		height: 200px;
+		border-color: #bbbfc3;
+		border-radius: 5px;
+	}
+
+	div {
+		margin: 8px 0;
+		font-size: 19px;
+	}
 `;
