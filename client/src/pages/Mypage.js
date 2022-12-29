@@ -35,7 +35,6 @@ export default function Mypage() {
       });
   }, []);
 
-
   const SummaryCount = (state) => {
     let count = 0;
     state.map((el) => (el.displayName === userInfo.displayName ? count++ : ''));
@@ -90,13 +89,11 @@ export default function Mypage() {
             <ListBlock>
               {MyQnA(questionList).map((el) => {
                 return (
-
                   <MyQueItem
                     key={el.questionId}
                     votes={el.voteResult}
                     title={el.title}
                     id={el.questionId}></MyQueItem>
-
                 );
               })}
             </ListBlock>
@@ -111,7 +108,6 @@ export default function Mypage() {
                     votes={el.voteResult}
                     title={el.content}
                     id={el.questionId}></MyAnsItem>
-
                 );
               })}
             </ListBlock>
