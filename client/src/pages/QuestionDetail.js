@@ -11,7 +11,6 @@ import { questionDetailState, answersState } from "../state/atom";
 import { useRecoilState } from "recoil";
 import { useLocation, Link } from "react-router-dom";
 import { fetchCreateAnswer } from "../util/useFetchAnswer";
-
 import Loading from "../components/Loading";
 
 export default function QuestionsDetail() {
@@ -20,11 +19,9 @@ export default function QuestionsDetail() {
 	// 로딩중 상태관리
 	const [isLoading, setLoading] = useState(true);
 	const [content, setContent] = useState("");
-
 	const [questionDetail, setquestionDetail] =
 		useRecoilState(questionDetailState);
 	const [answers, setAnswers] = useRecoilState(answersState);
-
 	const location = useLocation();
 	const pathname = location.pathname;
 
@@ -78,10 +75,21 @@ export default function QuestionsDetail() {
 							/>
 						</Link>
 					</Title>
-					<Info>Asked today Modified today Viewed 13 times</Info>
-					<hr />
+					<Info>
+						<div>
+							<p>
+								<span>Asked</span> today
+							</p>
+							<p>
+								<span>Modified</span> today
+							</p>
+							<p>
+								<span>Viewed</span> 13 times
+							</p>
+						</div>
+					</Info>
 				</Head>
-				<MainContainer>
+				<QuestionContainer>
 					<VoteContainer>
 						<GoTriangleUp
 							className="triangle"
@@ -95,22 +103,31 @@ export default function QuestionsDetail() {
 						<BsBookmark className="icon" />
 						<GiBackwardTime className="icon" />
 					</VoteContainer>
-					<Maintext>{questionDetail.content}</Maintext>
-				</MainContainer>
-				<SubContainer>
-					<TagBox>
-						{questionDetail.tag.map((tag) => {
-							return <Tag key={questionDetail.questionId}>{tag}</Tag>;
-						})}
-					</TagBox>
-					<UserInfo>
-						asked 59 mins ago
-						<Name>
-							<MdAccountCircle />
-							{questionDetail.displayName}
-						</Name>
-					</UserInfo>
-				</SubContainer>
+					<MainTextContainer>
+						<Maintext>{questionDetail.content}</Maintext>
+						<SubContainer>
+							<TagBox>
+								{questionDetail.tag.map((tag) => {
+									return <Tag key={questionDetail.questionId}>{tag}</Tag>;
+								})}
+							</TagBox>
+							<CRUDandUserContainer>
+								<CRUDText>
+									<span>Share</span>
+									<span>Edit</span>
+									<span>Follow</span>
+								</CRUDText>
+								<UserInfo>
+									asked 59 mins ago
+									<Name>
+										<MdAccountCircle />
+										{questionDetail.displayName}
+									</Name>
+								</UserInfo>
+							</CRUDandUserContainer>
+						</SubContainer>
+					</MainTextContainer>
+				</QuestionContainer>
 				<AnswerContainer>
 					<div>{answers.length} Answers</div>
 					{answers.map((answer) => (
@@ -118,7 +135,7 @@ export default function QuestionsDetail() {
 							<VoteContainer>
 								<GoTriangleUp
 									className="triangle"
-									onClick={() => setVoteCount(voteCount - 1)}
+									onClick={() => setVoteCount(voteCount + 1)}
 								/>
 								<div>{voteCount}</div>
 								<GoTriangleDown
@@ -131,10 +148,9 @@ export default function QuestionsDetail() {
 							<Maintext>{answer.content}</Maintext>
 						</MainContainer>
 					))}
-					Your Answer
-					<textarea onChange={contentHandler} />
+					<h2>Your Answer</h2>
+					<textarea />
 					<Button
-						onClick={postAnswer}
 						text="Post Your Answer"
 						color="white"
 						border="1px solid #4393F7"
@@ -144,6 +160,7 @@ export default function QuestionsDetail() {
 						width="119.77px"
 						height="54.77px"
 						boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
+						margin="10px 0 15px 0"
 					/>
 				</AnswerContainer>
 			</Contents>
@@ -189,23 +206,23 @@ const Info = styled.div`
 
 const MainContainer = styled.div`
 	display: flex;
-	justify-content: row;
-	padding: 20px 0px;
 	border-bottom: 1px solid #e4e6e8;
-	padding: 0 0 20px 0;
+
+	div {
+		padding-right: 16px;
+	}
 `;
 
 const VoteContainer = styled.div`
-	margin-right: 16px;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	color: #babfc4;
 	cursor: pointer;
+	margin-right: 16px;
 
-	> div {
+	div {
 		font-size: 20px;
-		/* 추후 수정사항 : text 가운데 정렬 불가 (일단 padding 사용)*/
 		padding: 5px 13px;
 		color: #6a737c;
 	}
@@ -238,6 +255,7 @@ const Maintext = styled.article`
 const SubContainer = styled.div`
 	display: flex;
 	flex-direction: column;
+	margin: 16px 0;
 `;
 const TagBox = styled.div`
 	display: flex;
