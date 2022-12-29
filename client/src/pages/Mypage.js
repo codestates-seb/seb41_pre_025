@@ -1,7 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
-import { MdEdit, MdDelete } from 'react-icons/md';
+import styled from 'styled-components';
 import hyunGS25 from '../image/ad_hyunGS25.png';
 
 import { checkLogin } from '../util/fetchLogin';
@@ -24,16 +23,6 @@ export default function Mypage() {
     checkLogin().then((data) => {
       setLoading(false);
     });
-  }, []);
-
-  useEffect(() => {
-    fetchAnswersList()
-      .then((data) => {
-        setanswerList(data.data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
   }, []);
 
   useEffect(() => {
@@ -100,7 +89,11 @@ export default function Mypage() {
             <ListBlock>
               {MyQnA(questionList).map((el) => {
                 return (
-                  <MyQueItem key={el.questionId} votes={el.voteResult} title={el.title}></MyQueItem>
+                  <MyQueItem
+                    key={el.questionId}
+                    votes={el.voteResult}
+                    title={el.title}
+                    id={el.questionId}></MyQueItem>
                 );
               })}
             </ListBlock>
@@ -113,7 +106,8 @@ export default function Mypage() {
                   <MyAnsItem
                     key={el.questionId}
                     votes={el.voteResult}
-                    title={el.content}></MyAnsItem>
+                    title={el.content}
+                    id={el.questionId}></MyAnsItem>
                 );
               })}
             </ListBlock>
