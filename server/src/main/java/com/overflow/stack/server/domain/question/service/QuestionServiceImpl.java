@@ -11,6 +11,7 @@ import com.overflow.stack.server.domain.tag.service.TagService;
 import com.overflow.stack.server.global.exception.CustomLogicException;
 import com.overflow.stack.server.global.exception.ExceptionCode;
 import com.overflow.stack.server.global.utils.CustomBeanUtils;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,7 +91,8 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<Question> findQuestions() {
-        return questionRepository.findAll();
+        Sort lateSort = Sort.by("createdAt").descending();
+        return questionRepository.findAll(lateSort);
     }
 
     @Override

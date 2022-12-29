@@ -50,6 +50,7 @@ public class QuestionDto {
         private LocalDateTime modifiedAt;
         private Set<String> tag;
         private List<AnswerDto.Response> answers;
+        private Long answerCount;
     }
 
 }

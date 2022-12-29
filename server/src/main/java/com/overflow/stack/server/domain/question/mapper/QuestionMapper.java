@@ -56,6 +56,7 @@ public interface QuestionMapper {
             String content = null;
             Long voteResult = null;
             String displayName=null;
+            Long answerCount=null;
             Set<String> tags = null;
             LocalDateTime createdAt=null;
             LocalDateTime modifiedAt=null;
@@ -64,6 +65,7 @@ public interface QuestionMapper {
             title = question.getTitle();
             content = question.getContent();
             voteResult = question.getVoteResult();
+            answerCount = Long.valueOf(question.getAnswers().size());
             displayName= question.getMember().getDisplayName();
             answerResponseDtos=question.getAnswers().stream()
                     .map(answer -> answerMapper.answerToAnswerResponseDto(answer))
@@ -75,7 +77,7 @@ public interface QuestionMapper {
                         .map(tag -> tag.getTag().getTagName())
                         .collect(Collectors.toSet());
             }
-            QuestionDto.response response = new QuestionDto.response(questionId, title, content, voteResult,displayName,createdAt,modifiedAt,tags,answerResponseDtos);
+            QuestionDto.response response = new QuestionDto.response(questionId, title, content, voteResult,displayName,createdAt,modifiedAt,tags,answerResponseDtos,answerCount);
             return response;
         }
     }

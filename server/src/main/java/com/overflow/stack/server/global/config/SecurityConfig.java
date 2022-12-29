@@ -45,7 +45,18 @@ public class SecurityConfig {
                                 .antMatchers("/docs/index.html").permitAll()
                                 .antMatchers(HttpMethod.POST, "/api/v1/members").permitAll()
                                 .antMatchers("/api/v1/members/**").authenticated()
-                                .antMatchers(HttpMethod.POST , "/api/v1/questions").authenticated()
+
+
+                                .antMatchers(HttpMethod.GET , "/api/v1/questions/**").permitAll()
+                                .antMatchers("/api/v1/questions").authenticated()
+                                .antMatchers("/api/v1/questions/**").authenticated()
+
+                                .antMatchers(HttpMethod.GET , "/api/v1/answers/**").permitAll()
+                                .antMatchers(HttpMethod.GET , "/api/v1/answers").permitAll()
+                                .antMatchers("/api/v1/answers/**").authenticated()
+                                .antMatchers("/api/v1/answers").authenticated()
+
+
                                 .antMatchers("/h2/**").permitAll()
                                 .anyRequest().permitAll()
                                 // 작은 것 부터 큰 순서
