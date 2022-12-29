@@ -110,6 +110,28 @@ include::{snippets}/delete-answer/path-parameters.adoc[]
 .http-response
 include::{snippets}/delete-answer/http-response.adoc[]
 
+=== 답변 투표
+.curl-request
+include::{snippets}/vote-answer/curl-request.adoc[]
+
+.http-request
+include::{snippets}/vote-answer/http-request.adoc[]
+
+.request-fields
+include::{snippets}/vote-answer/request-fields.adoc[]
+
+.path-parameters
+include::{snippets}/vote-answer/path-parameters.adoc[]
+
+.request-parameters
+include::{snippets}/vote-answer/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/vote-answer/http-response.adoc[]
+
+.response-fields
+include::{snippets}/vote-answer/response-fields.adoc[]
+
 ***
 == QuestionController
 
@@ -138,9 +160,6 @@ include::{snippets}/patch-question/http-request.adoc[]
 
 .path-parameters
 include::{snippets}/patch-question/path-parameters.adoc[]
-
-.request-fields
-include::{snippets}/patch-question/request-fields.adoc[]
 
 .http-response
 include::{snippets}/patch-question/http-response.adoc[]

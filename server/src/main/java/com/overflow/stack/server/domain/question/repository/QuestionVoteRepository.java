@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface QuestionVoteRepository extends JpaRepository<Question_Vote, Long> {
-    Optional<Question_Vote> findByMemberAndQuestion(Member member, Question quesiton);
+    Optional<Question_Vote> findByMemberAndQuestion(Member member, Question question);
 }
