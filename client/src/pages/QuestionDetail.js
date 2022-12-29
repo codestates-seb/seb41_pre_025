@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '../components/Button';
@@ -13,6 +14,7 @@ import { useLocation, Link } from 'react-router-dom';
 import { fetchCreateAnswer } from '../util/useFetchAnswer';
 import Loading from '../components/Loading';
 import { fetchDeleteQuestion } from '../util/usefetchQuestion';
+import { fetchDeleteAnswer } from "../util/useFetchAnswer";
 import RelativeTime from 'react-relative-time';
 
 export default function QuestionsDetail() {
@@ -56,6 +58,12 @@ export default function QuestionsDetail() {
   function editHandler() {
     setAnsedit(!ansedit);
   }
+
+const deleteAnswer = async (id) => {
+		await fetchDeleteAnswer(id).then((data) => {
+			window.location.href = `${questionDetail.questionId}`;
+		});
+	};
 
   if (isLoading) {
     return <Loading />;
@@ -157,7 +165,12 @@ export default function QuestionsDetail() {
                     <CRUDText>
                       <span>Share</span>
                       <span onClick={editHandler}>Edit</span>
-                      <span onClick={deleteQuestion}>Delete</span>
+                      	<span
+											onClick={() => {
+												deleteAnswer(answer.answerId);
+											}}>
+											Delete
+										</span>
                     </CRUDText>
                     <UserInfo>
                       <span>
@@ -210,6 +223,7 @@ export default function QuestionsDetail() {
       </Contents>
     );
   }
+
 }
 
 const Contents = styled.div`
