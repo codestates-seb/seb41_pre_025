@@ -27,7 +27,15 @@ export default function QuestionItem({ questions }) {
 						</TagBox>
 						<DisplayName>
 							<MdAccountCircle />
-							{questions.displayName}
+							<div>
+								<span>{questions.displayName}</span>
+								<span>
+									<RelativeTime
+										value={questions.createdAt}
+										titleFormat="YYYY/MM/DD"
+									/>
+								</span>
+							</div>
 						</DisplayName>
 					</ContentInfo>
 				</ContentBox>
@@ -144,5 +152,14 @@ const DisplayName = styled.p`
 	svg {
 		margin: 2px;
 		font-size: 15px;
+	}
+
+	div {
+		color: #6c737b;
+		font-size: 12px;
+	}
+
+	span {
+		margin: 0 3px;
 	}
 `;

@@ -61,7 +61,18 @@ export default function QuestionsList() {
           <QueCount>{tagfilter.length} questions</QueCount>
           <FilterContainer>
             <Button
-              text="Newest"
+              text="Interesting"
+              color="#525960"
+              border="1px solid #525960"
+              bgColor="white"
+              hoverColor=" hsl(210,8%,95%)"
+              activeColor="none"
+              width="103.02px"
+              margin="0px"
+              bdradius="3px 0px 0px 3px"
+            />
+            <Button
+              text="Bountied"
               color="#525960"
               border="1px solid #525960"
               bgColor="white"
@@ -72,7 +83,7 @@ export default function QuestionsList() {
               bdradius="0px"
             />
             <Button
-              text="Newest"
+              text="Hot"
               color="#525960"
               border="1px solid #525960"
               bgColor="white"
@@ -83,7 +94,7 @@ export default function QuestionsList() {
               bdradius="0px"
             />
             <Button
-              text="Newest"
+              text="Week"
               color="#525960"
               border="1px solid #525960"
               bgColor="white"
@@ -92,6 +103,17 @@ export default function QuestionsList() {
               width="103.02px"
               margin="0px"
               bdradius="0px"
+            />
+            <Button
+              text="Month"
+              color="#525960"
+              border="1px solid #525960"
+              bgColor="white"
+              hoverColor=" hsl(210,8%,95%)"
+              activeColor="none"
+              width="103.02px"
+              margin="0px"
+              bdradius="0px 3px 3px 0px"
             />
             <Button text="Filter" marginLeft="0px" />
           </FilterContainer>

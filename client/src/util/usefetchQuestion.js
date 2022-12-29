@@ -37,7 +37,7 @@ export const fetchCreateQuestion = async (data) => {
       console.error(err.message);
     });
 };
-export const fetchModifyQuestionr = async (id, data) => {
+export const fetchModifyQuestion = async (id, data) => {
   return fetch(`https://server.prestack41-25.kro.kr/api/v1/questions/${id}`, {
     method: "PATCH",
     headers: {
