@@ -149,8 +149,9 @@ export default function QuestionsDetail() {
 						</MainContainer>
 					))}
 					<h2>Your Answer</h2>
-					<textarea />
+					<textarea onChange={contentHandler} />
 					<Button
+						onClick={postAnswer}
 						text="Post Your Answer"
 						color="white"
 						border="1px solid #4393F7"
