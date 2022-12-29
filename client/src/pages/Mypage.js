@@ -44,7 +44,7 @@ export default function Mypage() {
   };
 
   console.log(questionList);
-  /* userInfo.displayName === questionList.displayName*/
+
   return (
     <MypageContainer>
       {isLoading ? (
