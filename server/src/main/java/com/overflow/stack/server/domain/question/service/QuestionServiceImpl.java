@@ -56,7 +56,17 @@ public class QuestionServiceImpl implements QuestionService {
 
         if(this.findQuestion(question.getQuestionId()).getMember().getMemberId()
                 == memberService.findMember(userName).getMemberId()){
+
+            if(question.getTags()!=null) {
+                question.getTags().stream()
+                        .forEach(qtag -> {
+                            Tag tag = tagService.findTagByTagName(qtag.getTag().getTagName()).orElseGet(() -> tagService.saveTag(qtag.getTag()));
+                            qtag.setTag(tag);
+                        });
+            }
             beanUtils.copyNonNullProperties(question, findQuestion);
+            findQuestion.getTags().removeAll(findQuestion.getTags());
+            findQuestion.getTags().addAll(question.getTags());
             return questionRepository.save(findQuestion);
         }
         throw new CustomLogicException(ExceptionCode.QUESTION_WRITER_NOT_MATCH);
