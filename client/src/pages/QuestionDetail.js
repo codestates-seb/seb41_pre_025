@@ -100,9 +100,9 @@ export default function QuestionsDetail() {
           {answers.map((answer) => (
             <MainContainer>
               <VoteContainer>
-                <GoTriangleUp className="triangle" onClick={setVoteCount(voteCount + 1)} />
+                <GoTriangleUp className="triangle" onClick={() => setVoteCount(voteCount - 1)} />
                 <div>{voteCount}</div>
-                <GoTriangleDown className="triangle" onClick={setVoteCount(voteCount - 1)} />
+                <GoTriangleDown className="triangle" onClick={() => setVoteCount(voteCount - 1)} />
                 <BsBookmark className="icon" />
                 <GiBackwardTime className="icon" />
               </VoteContainer>
