@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 import { MdAccountCircle } from "react-icons/md";
 
 export default function QuestionItem({ questions }) {
+  console.log(questions);
   return (
     <>
       <ContentContainer>
         <Summary>
           <Vote>{questions.voteResult} votes</Vote>
-          <Answer>{questions.answers ? questions.answers.length : 0} answers</Answer>
+          <Answer>{questions.answerCount} answers</Answer>
           <View>10 views</View>
         </Summary>
         <ContentBox>
