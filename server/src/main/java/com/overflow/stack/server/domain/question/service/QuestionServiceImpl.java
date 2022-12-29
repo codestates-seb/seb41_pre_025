@@ -11,6 +11,9 @@ import com.overflow.stack.server.domain.tag.service.TagService;
 import com.overflow.stack.server.global.exception.CustomLogicException;
 import com.overflow.stack.server.global.exception.ExceptionCode;
 import com.overflow.stack.server.global.utils.CustomBeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -116,18 +119,18 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> searchQuestion(String keyword, String kind) {
+    public Page<Question> searchQuestion(String keyword, String kind , Pageable pageable) {
         switch (kind){
             case "title":
-                return questionRepository.findAllByTitleContaining(keyword);
+                return questionRepository.findAllByTitleContaining(keyword , pageable);
             case "content":
-                return questionRepository.findAllByContentContaining(keyword);
+                return questionRepository.findAllByContentContaining(keyword , pageable);
             case "tag":
-                return questionRepository.findAllByTags_Tag_TagName(keyword);
+                return questionRepository.findAllByTags_Tag_TagName(keyword , pageable);
             case "writer":
-                return questionRepository.findAllByMember_DisplayName(keyword);
+                return questionRepository.findAllByMember_DisplayName(keyword , pageable);
             default:
-                return Collections.emptyList();
+                return new PageImpl<>(Collections.emptyList());
         }
     }
 }

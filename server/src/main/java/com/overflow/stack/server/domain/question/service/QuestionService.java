@@ -3,6 +3,8 @@ package com.overflow.stack.server.domain.question.service;
 import com.overflow.stack.server.domain.member.entity.Member;
 import com.overflow.stack.server.domain.question.entity.Question;
 import com.overflow.stack.server.domain.question.entity.Question_Vote;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -16,5 +18,5 @@ public interface QuestionService {
 
     Question findVerifiedQuestion(long questionId);
 
-    List<Question> searchQuestion(String keyword, String kind);
+    Page<Question> searchQuestion(String keyword, String kind , Pageable pageable);
 }

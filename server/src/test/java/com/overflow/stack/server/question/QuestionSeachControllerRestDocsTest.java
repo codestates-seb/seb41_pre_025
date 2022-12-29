@@ -8,12 +8,15 @@ import com.overflow.stack.server.domain.question.entity.Question;
 import com.overflow.stack.server.domain.question.mapper.QuestionMapper;
 import com.overflow.stack.server.domain.question.service.QuestionService;
 import com.overflow.stack.server.domain.question.service.QuestionServiceImpl;
+import com.overflow.stack.server.global.response.PageResponseDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -27,6 +30,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.overflow.stack.server.util.ApiDocumentUtils.getResponsePreProcessor;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -43,25 +47,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
 public class QuestionSeachControllerRestDocsTest {
-   @Autowired
-   private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-   @MockBean
-   private QuestionService questionService;
+    @MockBean
+    private QuestionService questionService;
 
-   @MockBean
-   private QuestionMapper mapper;
+    @MockBean
+    private QuestionMapper mapper;
 
-   @Autowired
-   private Gson gson;
-   private static final String url = "/api/v1/questions/search";
+    @Autowired
+    private Gson gson;
+    private static final String url = "/api/v1/questions/search";
+
 
     @Test
     @WithMockUser
     void searchQuestionTest() throws Exception {
         Member member = new Member();
         member.setDisplayName("displayName1");
-        LocalDateTime createdAt=LocalDateTime.now();
+        LocalDateTime createdAt = LocalDateTime.now();
         QuestionDto.response responseDto =
                 new QuestionDto.response(1L,
                         "title1",
@@ -70,7 +75,7 @@ public class QuestionSeachControllerRestDocsTest {
                         "displayName1",
                         createdAt,
                         createdAt,
-                        Set.of("tag1","tag2"),
+                        Set.of("tag1", "tag2"),
                         null,
                         0L);
 
@@ -85,23 +90,25 @@ public class QuestionSeachControllerRestDocsTest {
                         Set.of("tag3, tag4"),
                         null,
                         0L);
-        List<QuestionDto.response> responseList=new ArrayList<>();
+        List<QuestionDto.response> responseList = new ArrayList<>();
         responseList.add(responseDto);
         responseList.add(responseDto2);
 
-        List<Question> list =new ArrayList<>();
+        List<Question> list = new ArrayList<>();
         list.add(new Question());
         list.add(new Question());
 
-        given(questionService.searchQuestion(anyString() , anyString())).willReturn(list);
+        given(questionService.searchQuestion(anyString(), anyString(),any())).willReturn(new PageImpl<>(list));
 
         given(mapper.questionsToQuestionResponseDtos(Mockito.anyList())).willReturn(responseList);
 
 
-
         ResultActions actions =
                 mockMvc.perform(
-                        get(url + "?keyword=title&kind=title")
+                        get(url + "?kind=tag&keyword=python")
+                                .param("page", "5")
+                                .param("size", "10")
+                                .param("sort", "questionId,desc") // <-- no space after comma!!!
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                 );
