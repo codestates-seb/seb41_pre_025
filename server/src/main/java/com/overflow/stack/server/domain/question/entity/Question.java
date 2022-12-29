@@ -30,7 +30,7 @@ public class Question extends Auditable {
     @Lob
     private String content;
     @Column
-    private Long voteResult;
+    private Long voteResult=0L;
     @ManyToOne
     @JoinColumn(name = "MEMEBER")
     private Member member;
