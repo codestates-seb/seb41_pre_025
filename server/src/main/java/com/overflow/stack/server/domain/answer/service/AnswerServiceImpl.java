@@ -37,6 +37,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public Answer createAnswer(Answer answer, String userName, long questionId) {
+        answer.setVoteResult(0L);
         answer.setMember(memberService.findMember(userName));
         answer.setQuestion(questionService.findQuestion(questionId));
         return answerRepository.save(answer);
@@ -88,14 +89,14 @@ public class AnswerServiceImpl implements AnswerService {
         Member member = memberService.findMember(userName);
         Answer answer = findVerifiedAnswer(answerId);
         Optional<Answer_Vote> vote = answerVoteRepository.findByMemberAndAnswer(member, answer);
-        if (vote.isEmpty()) {
+        if (!vote.isPresent()) {
+            answer.setVoteResult(answer.getVoteResult() + (voteUp ? 1 : -1));
             answerVoteRepository.save(new Answer_Vote(voteUp, answer, member));
-            answer.setVoteResult((voteUp ? 1L : -1L));
             return answer;
         }
         if (vote.get().isVoteUp() != voteUp) {
             answer.setVoteResult(answer.getVoteResult() + (voteUp ? 2 : -2));
-            answerVoteRepository.delete(vote.get());
+            vote.get().setVoteUp(voteUp);
             return answer;
         }
         answer.setVoteResult(answer.getVoteResult() + (voteUp ? -1 : 1));

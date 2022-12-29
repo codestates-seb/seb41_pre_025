@@ -22,7 +22,6 @@ import java.util.List;
 public class AnswerController {
    private final AnswerService answerService;
    private final AnswerMapper answerMapper;
-
    public AnswerController(AnswerService answerService, AnswerMapper answerMapper) {
       this.answerService = answerService;
       this.answerMapper = answerMapper;
