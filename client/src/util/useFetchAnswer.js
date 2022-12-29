@@ -1,5 +1,5 @@
-export const fetchQuestionList = async (questionId = 0) => {
-  return fetch(`https://server.prestack41-25.kro.kr/api/v1/questions${questionId !== 0 ? `/${questionId}` : ""}`, {
+export const fetchAnswersList = async (answerId = 0) => {
+  return fetch(`https://server.prestack41-25.kro.kr/api/v1/answers${answerId !== 0 ? `/${answerId}` : ""}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
@@ -17,8 +17,8 @@ export const fetchQuestionList = async (questionId = 0) => {
     });
 };
 
-export const fetchCreateQuestion = async (data) => {
-  return fetch("https://server.prestack41-25.kro.kr/api/v1/questions", {
+export const fetchCreateAnswer = async (id, data) => {
+  return fetch(`https://server.prestack41-25.kro.kr/api/v1/answers?questionId=${id}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
@@ -37,8 +37,10 @@ export const fetchCreateQuestion = async (data) => {
       console.error(err.message);
     });
 };
-export const fetchModifyQuestionr = async (id, data) => {
-  return fetch(`https://server.prestack41-25.kro.kr/api/v1/questions/${id}`, {
+
+export const fetchModifyAnswer = async (id, data) => {
+  console.log(data);
+  return fetch(`https://server.prestack41-25.kro.kr/api/v1/answers/${id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
@@ -58,8 +60,8 @@ export const fetchModifyQuestionr = async (id, data) => {
     });
 };
 
-export const fetchDeleteQuestion = async (id) => {
-  return fetch(`https://server.prestack41-25.kro.kr/api/v1/questions/${id}`, {
+export const fetchDeleteAnswer = async (id) => {
+  return fetch(`https://server.prestack41-25.kro.kr/api/v1/answers/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
