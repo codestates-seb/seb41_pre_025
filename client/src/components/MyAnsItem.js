@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+
 import { Link } from 'react-router-dom';
 
 export function MyAnsItem(props) {
@@ -10,9 +11,12 @@ export function MyAnsItem(props) {
       <Link to={`/questionDetail/${id}`}>
         <Text title={title}>{title}</Text>
       </Link>
+
+
     </MyAnsItemTemplate>
   );
 }
+
 
 const MyAnsItemTemplate = styled.div`
   display: flex;
@@ -20,8 +24,10 @@ const MyAnsItemTemplate = styled.div`
   padding-top: 12px;
   padding-bottom: 12px;
 
+
   a {
     text-decoration: none;
+
   }
 `;
 const VoteBox = styled.div`
