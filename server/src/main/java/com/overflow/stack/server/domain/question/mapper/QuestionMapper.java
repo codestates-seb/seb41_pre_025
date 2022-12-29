@@ -8,6 +8,7 @@ import com.overflow.stack.server.domain.question.entity.Question;
 import com.overflow.stack.server.domain.question.entity.Question_Tag;
 import com.overflow.stack.server.domain.tag.entity.Tag;
 import org.mapstruct.Mapper;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -98,4 +99,5 @@ public interface QuestionMapper {
             return list;
         }
     }
+
 }

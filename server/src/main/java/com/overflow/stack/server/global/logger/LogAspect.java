@@ -25,7 +25,7 @@ public class LogAspect {
     @Pointcut("execution(* com.overflow.stack..*Controller.*(..))")
     public void controller() {
     }
-    @Pointcut("execution(* com.example.demo..*Service.*(..))")
+    @Pointcut("execution(* com.overflow.stack..*Service.*(..))")
     public void service(){}
     @Around("all()")
     public Object logging(ProceedingJoinPoint joinPoint) throws Throwable {
