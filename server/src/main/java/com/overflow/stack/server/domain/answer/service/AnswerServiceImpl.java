@@ -10,6 +10,7 @@ import com.overflow.stack.server.domain.question.service.QuestionService;
 import com.overflow.stack.server.global.exception.CustomLogicException;
 import com.overflow.stack.server.global.exception.ExceptionCode;
 import com.overflow.stack.server.global.utils.CustomBeanUtils;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -62,7 +63,8 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public List<Answer> findAnswers() {
-        return answerRepository.findAll();
+        Sort lateSort = Sort.by("createdAt").descending();
+        return answerRepository.findAll(lateSort);
     }
 
 
