@@ -1,29 +1,28 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Button } from "../components/Button";
-import { GoTriangleUp, GoTriangleDown } from "react-icons/go";
-import { BsBookmark } from "react-icons/bs";
-import { GiBackwardTime } from "react-icons/gi";
-import { MdAccountCircle } from "react-icons/md";
-import { useEffect } from "react";
-import { fetchQuestionList } from "../util/usefetchQuestion";
-import { questionDetailState, answersState } from "../state/atom";
-import { useRecoilState } from "recoil";
-import { useLocation, Link } from "react-router-dom";
-import { fetchCreateAnswer } from "../util/useFetchAnswer";
-import Loading from "../components/Loading";
-import { fetchDeleteQuestion } from "../util/usefetchQuestion";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Button } from '../components/Button';
+import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
+import { BsBookmark } from 'react-icons/bs';
+import { GiBackwardTime } from 'react-icons/gi';
+import { MdAccountCircle } from 'react-icons/md';
+import { useEffect } from 'react';
+import { fetchQuestionList } from '../util/usefetchQuestion';
+import { questionDetailState, answersState } from '../state/atom';
+import { useRecoilState } from 'recoil';
+import { useLocation, Link } from 'react-router-dom';
+import { fetchCreateAnswer } from '../util/useFetchAnswer';
+import Loading from '../components/Loading';
+import { fetchDeleteQuestion } from '../util/usefetchQuestion';
 
 export default function QuestionsDetail() {
-  // 투표 수 voteResult로 바꾸고 상태관리
-  const [voteCount, setVoteCount] = useState(0);
   // 로딩중 상태관리
   const [isLoading, setLoading] = useState(true);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState('');
   const [questionDetail, setquestionDetail] = useRecoilState(questionDetailState);
   const [answers, setAnswers] = useRecoilState(answersState);
   const location = useLocation();
   const pathname = location.pathname;
+  const [voteCount, setVoteCount] = useState(questionDetail.voteResult);
 
   useEffect(() => {
     fetchQuestionList(pathname.slice(16))
@@ -48,7 +47,7 @@ export default function QuestionsDetail() {
 
   const deleteQuestion = async () => {
     await fetchDeleteQuestion(questionDetail.questionId).then((data) => {
-      window.location.href = "/";
+      window.location.href = '/';
     });
   };
   if (isLoading) {
@@ -60,7 +59,16 @@ export default function QuestionsDetail() {
           <Title>
             <h1>{questionDetail.title}</h1>
             <Link to="/askquestions">
-              <Button text="Ask Question" color="white" border="1px solid #4393F7" bgColor="#4393F7" hoverColor="#2D75C6" activeColor="#1859A3" width="103.02px" boxshadow="inset 0px 1px hsl(206,90%,69.5%)" />
+              <Button
+                text="Ask Question"
+                color="white"
+                border="1px solid #4393F7"
+                bgColor="#4393F7"
+                hoverColor="#2D75C6"
+                activeColor="#1859A3"
+                width="103.02px"
+                boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
+              />
             </Link>
           </Title>
           <Info>
@@ -113,7 +121,11 @@ export default function QuestionsDetail() {
           </MainTextContainer>
         </QuestionContainer>
         <AnswerContainer>
-          <div>{answers.length} Answers</div>
+          <div>
+            {answers.length !== 0
+              ? `${answers.length} Answers`
+              : 'Know someone who can answer? Share a link to this question via email, Twitter, or Facebook.'}
+          </div>
           {answers.map((answer) => (
             <MainContainer>
               <VoteContainer>
