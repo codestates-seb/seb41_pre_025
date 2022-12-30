@@ -65,14 +65,15 @@ public class QuestionControllerRestDocsTest {
     @DisplayName("질문 등록")
     @WithMockUser
     public void postQuestionTest() throws Exception {
+        Long quesetionId = 1L;
         QuestionDto.Post post = new QuestionDto.Post("title1", "content1", Set.of("tag1, tag2"));
         String content = gson.toJson(post);
         LocalDateTime createdAt=LocalDateTime.now();
         LocalDateTime modifiedAt=createdAt;
         List<AnswerDto.Response> AResponseDtos=List.of(new AnswerDto.Response(1L, "answer content",
-                        0L,"displayName1",createdAt,modifiedAt),
+                        0L,quesetionId,"displayName1",createdAt,modifiedAt),
                 new AnswerDto.Response(2L, "answer content2",0L,
-                        "displayName2",createdAt,modifiedAt));
+                        quesetionId,"displayName2",createdAt,modifiedAt));
         QuestionDto.response responseDto =
                 new QuestionDto.response(1L,
                         "title1",
@@ -138,6 +139,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
                                         fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
+                                        fieldWithPath("data.answers.[].questionId").type(JsonFieldType.NUMBER).description("답변 내부 질문 식별자"),
                                         fieldWithPath("data.answers.[].displayName").type(JsonFieldType.STRING).description("답변 작성자"),
                                         fieldWithPath("data.answers.[].createdAt").type(JsonFieldType.STRING).description("답변 생성 일자"),
                                         fieldWithPath("data.answers.[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")
@@ -156,9 +158,9 @@ public class QuestionControllerRestDocsTest {
         LocalDateTime modifiedAt=createdAt;
         String content = gson.toJson(patch);
         List<AnswerDto.Response> AResponseDtos=List.of(new AnswerDto.Response(1L, "answer content",0L,
-                        "displayName1",createdAt,modifiedAt),
+                        questionId,"displayName1",createdAt,modifiedAt),
                 new AnswerDto.Response(2L, "answer content2",0L,
-                        "displayName2",createdAt,modifiedAt));
+                        questionId,"displayName2",createdAt,modifiedAt));
         QuestionDto.response responseDto =
                 new QuestionDto.response(1L,
                         "title1",
@@ -229,6 +231,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
                                         fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
+                                        fieldWithPath("data.answers.[].questionId").type(JsonFieldType.NUMBER).description("답변 내부 질문 식별자"),
                                         fieldWithPath("data.answers.[].displayName").type(JsonFieldType.STRING).description("답변 작성자"),
                                         fieldWithPath("data.answers.[].createdAt").type(JsonFieldType.STRING).description("답변 생성 일자"),
                                         fieldWithPath("data.answers.[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")
@@ -244,9 +247,9 @@ public class QuestionControllerRestDocsTest {
         LocalDateTime createdAt=LocalDateTime.now();
         LocalDateTime modifiedAt=createdAt;
         List<AnswerDto.Response> AResponseDtos=List.of(new AnswerDto.Response(1L, "answer content",0L,
-                        "displayName1",createdAt,modifiedAt),
+                        questionId,"displayName1",createdAt,modifiedAt),
                 new AnswerDto.Response(2L, "answer content2",0L,
-                        "displayName2",createdAt,modifiedAt));
+                        questionId,"displayName2",createdAt,modifiedAt));
         QuestionDto.response responseDto =
                 new QuestionDto.response(1L,
                         "title1",
@@ -309,6 +312,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
                                         fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
+                                        fieldWithPath("data.answers.[].questionId").type(JsonFieldType.NUMBER).description("답변 내부 질문 식별자"),
                                         fieldWithPath("data.answers.[].displayName").type(JsonFieldType.STRING).description("답변 작성자"),
                                         fieldWithPath("data.answers.[].createdAt").type(JsonFieldType.STRING).description("답변 생성 일자"),
                                         fieldWithPath("data.answers.[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")
@@ -324,10 +328,11 @@ public class QuestionControllerRestDocsTest {
         long questionId=1L;
         LocalDateTime createdAt=LocalDateTime.now();
         LocalDateTime modifiedAt=createdAt;
+
         List<AnswerDto.Response> AResponseDtos=List.of(new AnswerDto.Response(1L, "answer content",0L,
-                        "displayName1",createdAt,modifiedAt),
+                        questionId,"displayName1",createdAt,modifiedAt),
                 new AnswerDto.Response(2L, "answer content2",0L,
-                        "displayName2",createdAt,modifiedAt));
+                        questionId,"displayName2",createdAt,modifiedAt));
         QuestionDto.response responseDto =
                 new QuestionDto.response(1L,
                         "title1",
@@ -380,6 +385,7 @@ public class QuestionControllerRestDocsTest {
                                         fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 내용"),
                                         fieldWithPath("data.answers.[].voteResult").type(JsonFieldType.NUMBER).description("답변 투표"),
+                                        fieldWithPath("data.answers.[].questionId").type(JsonFieldType.NUMBER).description("답변 내부 질문 식별자"),
                                         fieldWithPath("data.answers.[].displayName").type(JsonFieldType.STRING).description("답변 작성자"),
                                         fieldWithPath("data.answers.[].createdAt").type(JsonFieldType.STRING).description("답변 생성 일자"),
                                         fieldWithPath("data.answers.[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")

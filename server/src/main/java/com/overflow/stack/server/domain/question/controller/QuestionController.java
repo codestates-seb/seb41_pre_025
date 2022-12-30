@@ -7,7 +7,12 @@ import com.overflow.stack.server.domain.question.entity.Question;
 import com.overflow.stack.server.domain.question.mapper.QuestionMapper;
 import com.overflow.stack.server.domain.question.service.QuestionService;
 import com.overflow.stack.server.global.response.ListResponse;
+import com.overflow.stack.server.global.response.PageInfo;
+import com.overflow.stack.server.global.response.PageResponseDto;
 import com.overflow.stack.server.global.response.SingleResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -80,5 +85,12 @@ public class QuestionController {
                                         @AuthenticationPrincipal User members){
       questionService.deleteQuestion(questionId,members.getUsername());
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+   }
+   @GetMapping("/search")
+   public ResponseEntity searchQuestion(@RequestParam String keyword , @RequestParam String kind, @PageableDefault Pageable pageable){
+      Page<Question> questions = questionService.searchQuestion(keyword, kind , pageable);
+      return new ResponseEntity<>(
+              new PageResponseDto<>(mapper.questionsToQuestionResponseDtos(questions.getContent()), new PageInfo(questions.getPageable(), questions.getTotalElements())),
+              HttpStatus.OK);
    }
 }

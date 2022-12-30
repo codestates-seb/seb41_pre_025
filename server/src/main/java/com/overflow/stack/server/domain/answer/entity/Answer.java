@@ -27,11 +27,18 @@ public class Answer extends Auditable {
     @Column(name = "voteResult")
     private Long voteResult = 0L;
 
+    @Column
+    private Long questionId;
+
     @ManyToOne
-    @JoinColumn(name = "QUESTION_ID")
+    @JoinColumn(name = "QUESTION")
     private Question question;
 
     @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
+    @JoinColumn(name = "MEMBER")
     private Member member;
+
+    public Answer(Question question) {
+        this.question = question;
+    }
 }
