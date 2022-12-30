@@ -58,7 +58,7 @@ public class QuestionServiceImpl implements QuestionService {
     public Question updateQuestion(Question question, String userName) {
         Question findQuestion =findVerifiedQuestion(question.getQuestionId());
 
-        if(this.findQuestion(question.getQuestionId()).getMember().getMemberId()
+        if(findQuestion.getMember().getMemberId()
                 == memberService.findMember(userName).getMemberId()){
 
             if(question.getTags()!=null) {
@@ -111,7 +111,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void deleteQuestion(long questionId, String userName) {
         Question question= findVerifiedQuestion(questionId);
-        if(this.findQuestion(question.getQuestionId()).getMember().getMemberId()
+        if(question.getMember().getMemberId()
                 == memberService.findMember(userName).getMemberId()){
             questionVoteRepository.deleteAllByQuestion(question);
             questionRepository.delete(question);

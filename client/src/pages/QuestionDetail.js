@@ -136,9 +136,9 @@ export default function QuestionsDetail() {
             <Maintext>{questionDetail.content}</Maintext>
             <SubContainer>
               <TagBox>
-                {questionDetail.tag.map((tag) => {
+                {/* {questionDetail.tag.map((tag) => {
                   return <Tag key={questionDetail.questionId}>{tag}</Tag>;
-                })}
+                })} */}
               </TagBox>
               <CRUDandUserContainer>
                 <CRUDText>

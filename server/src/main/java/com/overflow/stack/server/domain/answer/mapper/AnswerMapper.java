@@ -2,6 +2,7 @@ package com.overflow.stack.server.domain.answer.mapper;
 
 import com.overflow.stack.server.domain.answer.dto.AnswerDto;
 import com.overflow.stack.server.domain.answer.entity.Answer;
+import com.overflow.stack.server.domain.question.entity.Question;
 import org.mapstruct.Mapper;
 
 import java.time.LocalDateTime;
@@ -43,20 +44,23 @@ public interface AnswerMapper {
         String content = null;
         Long voteResult = null;
         Long questionId = null;
+        String email = null;
         String displayName = null;
         LocalDateTime createdAt= null;
         LocalDateTime modifiedAt = null;
 
+
         answerId = answer.getAnswerId();
         content = answer.getContent();
         voteResult = answer.getVoteResult();
-        questionId = answer.getQuestion().getQuestionId();
+        questionId = answer.getQuestionId();
         displayName = answer.getMember().getDisplayName();
+        email = answer.getMember().getEmail();
         createdAt = answer.getCreatedAt();
         modifiedAt = answer.getModifiedAt();
 
 
-        AnswerDto.Response response = new AnswerDto.Response( answerId, content, voteResult, questionId, displayName, createdAt,modifiedAt);
+        AnswerDto.Response response = new AnswerDto.Response( answerId, content, voteResult, questionId, displayName, email, createdAt,modifiedAt);
 
         return response;
     }

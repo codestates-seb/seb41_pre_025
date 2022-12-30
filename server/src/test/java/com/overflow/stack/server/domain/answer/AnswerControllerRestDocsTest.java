@@ -76,6 +76,7 @@ public class AnswerControllerRestDocsTest {
                         0L,
                         1L,
                         "displayName",
+                        "email",
                         createdAt,
                         modifiedAt);
 
@@ -120,6 +121,7 @@ public class AnswerControllerRestDocsTest {
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
                                         fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.email").type(JsonFieldType.STRING).description("이메일"),
                                         fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변 생성 일자"),
                                         fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")
                                 )
@@ -138,7 +140,7 @@ public class AnswerControllerRestDocsTest {
         String content = gson.toJson(patch);
 
         AnswerDto.Response responseDto =
-                new AnswerDto.Response(1L, "content", 0L, 1L,"displayName", createdAt, modifiedAt);
+                new AnswerDto.Response(1L, "content", 0L, 1L,"displayName","email", createdAt, modifiedAt);
 
         given(answerMapper.answerPatchDtoToAnswer(Mockito.any(AnswerDto.Patch.class))).willReturn(new Answer());
         given(answerService.updateAnswer(Mockito.any(Answer.class), Mockito.anyString())).willReturn(new Answer());
@@ -181,6 +183,7 @@ public class AnswerControllerRestDocsTest {
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
                                         fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.email").type(JsonFieldType.STRING).description("이메일"),
                                         fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변 생성 일자"),
                                         fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")
                                 )
@@ -198,7 +201,7 @@ public class AnswerControllerRestDocsTest {
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime modifiedAt = createdAt;
         AnswerDto.Response responseDto = new AnswerDto.Response(1L,
-                "content1", 0L, 1L,"displayName", createdAt, modifiedAt);
+                "content1", 0L, 1L,"displayName", "email", createdAt, modifiedAt);
 
         given(answerService.findAnswer(Mockito.anyLong())).willReturn(new Answer());
         given(answerMapper.answerToAnswerResponseDto(Mockito.any(Answer.class))).willReturn(responseDto);
@@ -226,6 +229,7 @@ public class AnswerControllerRestDocsTest {
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
                                         fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.email").type(JsonFieldType.STRING).description("이메일"),
                                         fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변 생성 일자"),
                                         fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")
                                 )
@@ -242,10 +246,10 @@ public class AnswerControllerRestDocsTest {
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime modifiedAt = createdAt;
         AnswerDto.Response responseDto1 =
-                new AnswerDto.Response(1L, "content1", 2L, 1L, "displayName1", createdAt, modifiedAt);
+                new AnswerDto.Response(1L, "content1", 2L, 1L, "displayName1","email", createdAt, modifiedAt);
 
         AnswerDto.Response responseDto2 =
-                new AnswerDto.Response(2L, "content2", 2L, 1L, "displayName2", createdAt, modifiedAt);
+                new AnswerDto.Response(2L, "content2", 2L, 1L, "displayName2","email", createdAt, modifiedAt);
 
         List<AnswerDto.Response> responseList = new ArrayList<>();
         responseList.add(responseDto1);
@@ -284,6 +288,7 @@ public class AnswerControllerRestDocsTest {
                                 fieldWithPath("data.[].voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
                                 fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                 fieldWithPath("data.[].displayName").type(JsonFieldType.STRING).description("작성자"),
+                                fieldWithPath("data.[].email").type(JsonFieldType.STRING).description("이메일"),
                                 fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("답변 생성 일자"),
                                 fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")
                         )
@@ -307,6 +312,7 @@ public class AnswerControllerRestDocsTest {
                         2L,
                         1L,
                         "displayName1",
+                        "email",
                         createdAt,
                         modifiedAt);
 
@@ -317,6 +323,7 @@ public class AnswerControllerRestDocsTest {
                         2L,
                         1L,
                         "displayName2",
+                        "email",
                         createdAt,
                         modifiedAt);
 
@@ -351,6 +358,7 @@ public class AnswerControllerRestDocsTest {
                                         fieldWithPath("data.[].voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
                                         fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("data.[].displayName").type(JsonFieldType.STRING).description("작성자"),
+                                        fieldWithPath("data.[].email").type(JsonFieldType.STRING).description("이메일"),
                                         fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("답변 생성 일자"),
                                         fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")
 
@@ -395,7 +403,7 @@ public class AnswerControllerRestDocsTest {
         long answerId = 1L;
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime modifiedAt = createdAt;
-        AnswerDto.Response responseDto = new AnswerDto.Response(answerId, "content", 0L, 1L,"displayName", createdAt, modifiedAt);
+        AnswerDto.Response responseDto = new AnswerDto.Response(answerId, "content", 0L, 1L,"displayName","email", createdAt, modifiedAt);
         given(answerService.voteAnswer(Mockito.anyLong(), Mockito.anyString(), Mockito.anyBoolean())).willReturn(new Answer());
         given(answerMapper.answerToAnswerResponseDto(Mockito.any(Answer.class))).willReturn(responseDto);
 
@@ -433,6 +441,7 @@ public class AnswerControllerRestDocsTest {
                                         fieldWithPath("data.voteResult").type(JsonFieldType.NUMBER).description("투표 결과"),
                                         fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("data.displayName").type(JsonFieldType.STRING).description("답변 작성자"),
+                                        fieldWithPath("data.email").type(JsonFieldType.STRING).description("이메일"),
                                         fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변 작성 일자"),
                                         fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변 수정 일자")
                                 )
