@@ -46,6 +46,7 @@ public class QuestionDto {
         private String content;
         private Long voteResult;
         private String displayName;
+        private String email;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private Set<String> tag;

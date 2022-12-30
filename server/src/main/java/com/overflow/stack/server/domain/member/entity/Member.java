@@ -23,7 +23,7 @@ public class Member extends Auditable {
     @Column(name = "member_id")
     // only for mapping
     private Long memberId;
-    @Column(nullable = false,updatable = false, unique = true, length = 20)
+    @Column(nullable = false,updatable = false, unique = true, length = 100)
     private String email;
     @Column(nullable = false, length = 100)
     private String password;
