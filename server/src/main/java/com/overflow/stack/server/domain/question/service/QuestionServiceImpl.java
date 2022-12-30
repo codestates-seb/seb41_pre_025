@@ -113,6 +113,7 @@ public class QuestionServiceImpl implements QuestionService {
         Question question= findVerifiedQuestion(questionId);
         if(this.findQuestion(question.getQuestionId()).getMember().getMemberId()
                 == memberService.findMember(userName).getMemberId()){
+            questionVoteRepository.deleteAllByQuestion(question);
             questionRepository.delete(question);
             return;
         }
@@ -143,4 +144,5 @@ public class QuestionServiceImpl implements QuestionService {
                 return new PageImpl<>(Collections.emptyList());
         }
     }
+
 }
