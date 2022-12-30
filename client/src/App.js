@@ -16,7 +16,7 @@ import Mypage from "./pages/Mypage";
 import Pre from "./pages/Pre";
 import QuestionDetail from "./pages/QuestionDetail";
 import EditQuestion from "./pages/EditQuestion";
-import { loginState } from "./state/atom";
+import { loginState, userInfoState } from "./state/atom";
 import { useRecoilState } from "recoil";
 import { fetchMemberInfo } from "./util/fetchLogin";
 import SearchQuestion from "./pages/SearchQuestion";
@@ -24,29 +24,29 @@ import SearchQuestion from "./pages/SearchQuestion";
 const GlobalStyle = createGlobalStyle`
    * {
       box-sizing: border-box;
-
+      
    }
-
+   
    ol, ul, li {
-   list-style: none;
+     list-style: none;
+    }
+    hr{
+      border:0px;
    }
-   hr{
-    border:0px;
-   }
-
+   
    body {
-   background-color: white;
-   ${(props) =>
-     props.pathname === "/askquestions" || props.pathname === `/editQuestion/${props.editPathName}`
-       ? css`
-           background-color: #f7f8f8;
-         `
-       : ["/login", "/signup"].indexOf(props.pathname) !== -1 &&
-         css`
-           background-color: #f1f2f3;
-         `}
-   }
-`;
+     background-color: white;
+     ${(props) =>
+       props.pathname === "/askquestions" || props.pathname === `/editQuestion/${props.editPathName}`
+         ? css`
+             background-color: #f7f8f8;
+           `
+         : ["/login", "/signup"].indexOf(props.pathname) !== -1 &&
+           css`
+             background-color: #f1f2f3;
+           `}
+          }
+          `;
 
 function App() {
   const location = useLocation();
@@ -56,12 +56,14 @@ function App() {
   const ad = [...sidebar, "/mypage", "/users", "/companies", "/tags"];
   const footer = ["/login", "/signup"];
 
+  const [useInfo, setuserInfo] = useRecoilState(userInfoState);
   const [isLogin, setIsLogin] = useRecoilState(loginState);
 
   useEffect(() => {
     fetchMemberInfo().then((data) => {
       if (!data) {
         sessionStorage.removeItem("access_token");
+        setuserInfo({});
         setIsLogin(false);
         //   window.location.href = "/";
       }
