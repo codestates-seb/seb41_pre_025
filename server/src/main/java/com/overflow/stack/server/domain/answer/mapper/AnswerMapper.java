@@ -44,6 +44,7 @@ public interface AnswerMapper {
         String content = null;
         Long voteResult = null;
         Long questionId = null;
+        String email = null;
         String displayName = null;
         LocalDateTime createdAt= null;
         LocalDateTime modifiedAt = null;
@@ -54,11 +55,12 @@ public interface AnswerMapper {
         voteResult = answer.getVoteResult();
         questionId = answer.getQuestionId();
         displayName = answer.getMember().getDisplayName();
+        email = answer.getMember().getEmail();
         createdAt = answer.getCreatedAt();
         modifiedAt = answer.getModifiedAt();
 
 
-        AnswerDto.Response response = new AnswerDto.Response( answerId, content, voteResult, questionId, displayName, createdAt,modifiedAt);
+        AnswerDto.Response response = new AnswerDto.Response( answerId, content, voteResult, questionId, displayName, email, createdAt,modifiedAt);
 
         return response;
     }

@@ -47,6 +47,7 @@ public class AnswerDto {
         private Long voteResult;
         private Long questionId;
         private String displayName;
+        private String email;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }
