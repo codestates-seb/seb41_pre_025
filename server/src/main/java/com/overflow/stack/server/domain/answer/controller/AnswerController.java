@@ -52,6 +52,12 @@ public class AnswerController {
       return new ResponseEntity(new SingleResponse<>(answerMapper.answerToAnswerResponseDto(answer)), HttpStatus.OK);
    }
 
+   @GetMapping("/myanswers")
+   public ResponseEntity getMyAnswers(@AuthenticationPrincipal User members) {
+      List<Answer> myAnswers = answerService.findMyAnswers(members.getUsername());
+      return new ResponseEntity(new ListResponse<>(answerMapper.answersToAnswerResponseDtos(myAnswers)), HttpStatus.OK);
+   }
+
    @GetMapping
    public ResponseEntity getAnswers() {
       List<Answer> answers = answerService.findAnswers();

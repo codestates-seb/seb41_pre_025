@@ -62,6 +62,12 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
+    public List<Answer> findMyAnswers(String userName) {
+        List<Answer> myAnswers = findVerifiedAnswers(userName);
+        return myAnswers;
+    }
+
+    @Override
     public List<Answer> findAnswers() {
         Sort lateSort = Sort.by("createdAt").descending();
         return answerRepository.findAll(lateSort);
@@ -74,6 +80,14 @@ public class AnswerServiceImpl implements AnswerService {
         Answer findAnswer = optionalAnswer.orElseThrow(() ->
                 new CustomLogicException(ExceptionCode.ANSWER_NOT_FOUND));
         return findAnswer;
+
+    }
+
+    @Override
+    public List<Answer> findVerifiedAnswers(String userName) {
+        Member member = memberService.findMember(userName);
+        List<Answer> findAnswers = answerRepository.findAllByMember(member);
+        return findAnswers;
     }
 
     @Override
