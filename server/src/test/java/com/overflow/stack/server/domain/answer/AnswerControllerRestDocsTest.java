@@ -271,7 +271,8 @@ public class AnswerControllerRestDocsTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").isArray())
                 .andDo(document("get-myanswers",
-                getRequestPreProcessor(),
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
                         requestHeaders(
                                 headerWithName("Authorization").description("Bearer Token")
                         ),
