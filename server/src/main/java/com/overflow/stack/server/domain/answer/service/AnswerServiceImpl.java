@@ -87,9 +87,6 @@ public class AnswerServiceImpl implements AnswerService {
     public List<Answer> findVerifiedAnswers(String userName) {
         Member member = memberService.findMember(userName);
         List<Answer> findAnswers = answerRepository.findAllByMember(member);
-        if (findAnswers.isEmpty()) {
-            throw new CustomLogicException(ExceptionCode.ANSWER_NOT_FOUND);
-        }
         return findAnswers;
     }
 
