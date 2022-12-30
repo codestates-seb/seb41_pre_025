@@ -2,6 +2,7 @@ package com.overflow.stack.server.domain.answer.mapper;
 
 import com.overflow.stack.server.domain.answer.dto.AnswerDto;
 import com.overflow.stack.server.domain.answer.entity.Answer;
+import com.overflow.stack.server.domain.question.entity.Question;
 import org.mapstruct.Mapper;
 
 import java.time.LocalDateTime;
@@ -47,10 +48,11 @@ public interface AnswerMapper {
         LocalDateTime createdAt= null;
         LocalDateTime modifiedAt = null;
 
+
         answerId = answer.getAnswerId();
         content = answer.getContent();
         voteResult = answer.getVoteResult();
-        questionId = answer.getQuestion().getQuestionId();
+        questionId = answer.getQuestionId();
         displayName = answer.getMember().getDisplayName();
         createdAt = answer.getCreatedAt();
         modifiedAt = answer.getModifiedAt();

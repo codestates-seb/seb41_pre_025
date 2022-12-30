@@ -41,6 +41,7 @@ public class AnswerServiceImpl implements AnswerService {
         answer.setVoteResult(0L);
         answer.setMember(memberService.findMember(userName));
         answer.setQuestion(questionService.findQuestion(questionId));
+        answer.setQuestionId(questionId);
         return answerRepository.save(answer);
     }
 
@@ -48,7 +49,7 @@ public class AnswerServiceImpl implements AnswerService {
     public Answer updateAnswer(Answer answer, String userName) {
         Answer findAnswer = findVerifiedAnswer(answer.getAnswerId());
 
-        if(this.findAnswer(answer.getAnswerId()).getMember().getMemberId()
+        if(findAnswer.getMember().getMemberId()
                 == memberService.findMember(userName).getMemberId()){
             beanUtils.copyNonNullProperties(answer, findAnswer);
             return answerRepository.save(findAnswer);
