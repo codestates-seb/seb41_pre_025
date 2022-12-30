@@ -4,12 +4,13 @@ import { Button } from "../components/Button";
 import { useState, useEffect } from "react";
 import { fetchModifyQuestion } from "../util/usefetchQuestion";
 import { checkLogin } from "../util/fetchLogin";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { questionDetailState } from "../state/atom";
 import { useRecoilValue } from "recoil";
 
 export default function AskQuestion() {
+  const navigate = useNavigate();
   const questionDetail = useRecoilValue(questionDetailState);
   const [title, setTitle] = useState(questionDetail.title);
   const [content, setContent] = useState(questionDetail.content);
@@ -41,7 +42,7 @@ export default function AskQuestion() {
   const questionId = pathname.slice(14);
   const EditQuestion = async () => {
     await fetchModifyQuestion(questionId, { questionId, title, content, tag }).then((data) => {
-      window.location.href = `/questionDetail/${questionId}`;
+      navigate(`/questionDetail/${questionId}`);
     });
   };
 
