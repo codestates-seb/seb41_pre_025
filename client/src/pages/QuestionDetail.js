@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '../components/Button';
@@ -14,7 +13,7 @@ import { useLocation, Link } from 'react-router-dom';
 import { fetchCreateAnswer } from '../util/useFetchAnswer';
 import Loading from '../components/Loading';
 import { fetchDeleteQuestion } from '../util/usefetchQuestion';
-import { fetchDeleteAnswer } from "../util/useFetchAnswer";
+import { fetchDeleteAnswer } from '../util/useFetchAnswer';
 import RelativeTime from 'react-relative-time';
 
 export default function QuestionsDetail() {
@@ -59,11 +58,11 @@ export default function QuestionsDetail() {
     setAnsedit(!ansedit);
   }
 
-const deleteAnswer = async (id) => {
-		await fetchDeleteAnswer(id).then((data) => {
-			window.location.href = `${questionDetail.questionId}`;
-		});
-	};
+  const deleteAnswer = async (id) => {
+    await fetchDeleteAnswer(id).then((data) => {
+      window.location.href = `${questionDetail.questionId}`;
+    });
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -165,12 +164,12 @@ const deleteAnswer = async (id) => {
                     <CRUDText>
                       <span>Share</span>
                       <span onClick={editHandler}>Edit</span>
-                      	<span
-											onClick={() => {
-												deleteAnswer(answer.answerId);
-											}}>
-											Delete
-										</span>
+                      <span
+                        onClick={() => {
+                          deleteAnswer(answer.answerId);
+                        }}>
+                        Delete
+                      </span>
                     </CRUDText>
                     <UserInfo>
                       <span>
@@ -179,7 +178,7 @@ const deleteAnswer = async (id) => {
                       </span>
                       <Name>
                         <MdAccountCircle />
-                        {questionDetail.displayName}
+                        {answer.displayName}
                       </Name>
                     </UserInfo>
                   </CRUDandUserContainer>
@@ -223,7 +222,6 @@ const deleteAnswer = async (id) => {
       </Contents>
     );
   }
-
 }
 
 const Contents = styled.div`
