@@ -1,31 +1,42 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Button } from '../components/Button';
-import QuestionItem from '../components/QuestionItem';
-import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Button } from "../components/Button";
+import QuestionItem from "../components/QuestionItem";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
-import { fetchQuestionList } from '../util/usefetchQuestion';
-import { questionListState } from '../state/atom';
-import { useRecoilState } from 'recoil';
-import Loading from '../components/Loading';
-
+import { fetchQuestionList } from "../util/usefetchQuestion";
+import { questionListState } from "../state/atom";
+import { useRecoilState } from "recoil";
+import Loading from "../components/Loading";
+import Pagination from "../components/Pagination";
+import { checkLogin } from "../util/fetchLogin";
 export default function QuestionsList() {
   const [isLoading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
+
   const [questionList, setquestionList] = useRecoilState(questionListState);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
 
   useEffect(() => {
-    fetchQuestionList()
-      .then((data) => {
-        setLoading(false);
-        setquestionList(data.data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    fetchQuestionList().then((data) => {
+      setLoading(false);
+      setquestionList(data.data);
+    });
   }, []);
 
-  console.log(questionList);
+  const toAskQue = () => {
+    checkLogin().then((res) => {
+      if (res) {
+        navigate("/askquestions");
+      } else {
+        navigate("/login");
+      }
+    });
+  };
 
   return (
     <>
@@ -35,84 +46,25 @@ export default function QuestionsList() {
         <>
           <Head>
             <h1>All Questions</h1>
-            <Link to="/askquestions">
-              <Button
-                text="Ask Question"
-                color="white"
-                border="1px solid #4393F7"
-                bgColor="#4393F7"
-                hoverColor="#2D75C6"
-                activeColor="#1859A3"
-                width="103.02px"
-              />
-            </Link>
+            <Button onClick={toAskQue} text="Ask Question" color="white" border="1px solid #4393F7" bgColor="#4393F7" hoverColor="#2D75C6" activeColor="#1859A3" width="103.02px" />
           </Head>
           <QueCount>{questionList.length} questions</QueCount>
           <FilterContainer>
-            <Button
-              text="Newest"
-              color="#525960"
-              border="1px solid #525960"
-              bgColor="white"
-              hoverColor=" hsl(210,8%,95%)"
-              activeColor="none"
-              width="103.02px"
-              margin="0px"
-              bdradius="3px 0px 0px 3px"
-            />
-            <Button
-              text="Active"
-              color="#525960"
-              border="1px solid #525960"
-              bgColor="white"
-              hoverColor=" hsl(210,8%,95%)"
-              activeColor="none"
-              width="103.02px"
-              margin="0px"
-              bdradius="0px"
-            />
-            <Button
-              text="Bountied"
-              color="#525960"
-              border="1px solid #525960"
-              bgColor="white"
-              hoverColor=" hsl(210,8%,95%)"
-              activeColor="none"
-              width="103.02px"
-              margin="0px"
-              bdradius="0px"
-            />
-            <Button
-              text="Unanswered"
-              color="#525960"
-              border="1px solid #525960"
-              bgColor="white"
-              hoverColor=" hsl(210,8%,95%)"
-              activeColor="none"
-              width="103.02px"
-              margin="0px"
-              bdradius="0px"
-            />
-            <Button
-              text="More"
-              color="#525960"
-              border="1px solid #525960"
-              bgColor="white"
-              hoverColor=" hsl(210,8%,95%)"
-              activeColor="none"
-              width="103.02px"
-              margin="0px"
-              bdradius="0px 3px 3px 0px"
-            />
+            <Button text="Newest" color="#525960" border="1px solid #525960" bgColor="white" hoverColor=" hsl(210,8%,95%)" activeColor="none" width="103.02px" margin="0px" bdradius="3px 0px 0px 3px" />
+            <Button text="Active" color="#525960" border="1px solid #525960" bgColor="white" hoverColor=" hsl(210,8%,95%)" activeColor="none" width="103.02px" margin="0px" bdradius="0px" />
+            <Button text="Bountied" color="#525960" border="1px solid #525960" bgColor="white" hoverColor=" hsl(210,8%,95%)" activeColor="none" width="103.02px" margin="0px" bdradius="0px" />
+            <Button text="Unanswered" color="#525960" border="1px solid #525960" bgColor="white" hoverColor=" hsl(210,8%,95%)" activeColor="none" width="103.02px" margin="0px" bdradius="0px" />
+            <Button text="More" color="#525960" border="1px solid #525960" bgColor="white" hoverColor=" hsl(210,8%,95%)" activeColor="none" width="103.02px" margin="0px" bdradius="0px 3px 3px 0px" />
             <Button text="Filter" marginLeft="0px" />
           </FilterContainer>
           <hr />
           <QueContainer>
             <Question>
-              {questionList.map((questions) => {
+              {questionList.slice(offset, offset + limit).map((questions) => {
                 return <QuestionItem questions={questions} key={questions.questionId} />;
               })}
             </Question>
+            <Pagination total={questionList.length} limit={limit} page={page} setPage={setPage} />
           </QueContainer>
           <hr />
         </>

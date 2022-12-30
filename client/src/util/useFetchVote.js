@@ -9,6 +9,9 @@ export const fetchVoteQuestion = async (id, vote) => {
   })
     .then((res) => {
       if (!res.ok) {
+        if (res.status === 401) {
+          alert("로그인이 필요합니다");
+        }
         throw Error("잘못된 요청");
       }
       return res.json();
@@ -29,6 +32,9 @@ export const fetchVoteAnswer = async (id, vote) => {
   })
     .then((res) => {
       if (!res.ok) {
+        if (res.status === 401) {
+          alert("로그인이 필요합니다");
+        }
         throw Error("잘못된 요청");
       }
       return res.json();

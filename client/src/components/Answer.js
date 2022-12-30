@@ -8,14 +8,21 @@ import { Button } from "./Button";
 import { fetchDeleteAnswer, fetchModifyAnswer } from "../util/useFetchAnswer";
 import { fetchVoteAnswer } from "../util/useFetchVote";
 import moment from "moment";
+import { userInfoState } from "../state/atom";
+import { useRecoilValue } from "recoil";
 
 export default function Answer({ answer, setUpdate }) {
-  const { answerId, voteResult, content, createdAt, displayName } = answer;
+  const { answerId, voteResult, content, createdAt, displayName, email } = answer;
   const [ansedit, setAnsedit] = useState(true);
   const [answerContent, setAnswerContent] = useState("");
+  const userInfo = useRecoilValue(userInfoState);
 
   function editHandler() {
-    setAnsedit(!ansedit);
+    if (email === userInfo.email) {
+      setAnsedit(!ansedit);
+    } else {
+      alert("권한이 없습니다");
+    }
   }
   function contentHandler(e) {
     setAnswerContent(e.target.value);
@@ -83,7 +90,7 @@ export default function Answer({ answer, setUpdate }) {
     </MainContainer>
   ) : (
     <>
-      <textarea onChange={contentHandler}>{content}</textarea>
+      <textarea defaultValue={content} onChange={contentHandler} />
       <Button
         onClick={() => editAnswer(answerId, answerContent)}
         text="Edit Your Answer"

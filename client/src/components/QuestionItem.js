@@ -5,7 +5,6 @@ import moment from "moment-timezone";
 import { MdAccountCircle } from "react-icons/md";
 
 export default function QuestionItem({ questions }) {
-  console.log(questions);
   return (
     <>
       <ContentContainer>
@@ -66,9 +65,11 @@ const View = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  &:not(:last-child) {
-    border-bottom: 1px solid #d7d9dc;
+  &:first-child {
+    border-top: 1px solid #d7d9dc;
   }
+  border-bottom: 1px solid #d7d9dc;
+
   display: flex;
   flex-direction: row;
   padding: 16px;
