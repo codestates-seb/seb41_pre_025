@@ -6,14 +6,15 @@ import { GiBackwardTime } from "react-icons/gi";
 import { MdAccountCircle } from "react-icons/md";
 import { Button } from "../components/Button";
 import { fetchQuestionList, fetchDeleteQuestion } from "../util/usefetchQuestion";
-import { questionDetailState, answersState } from "../state/atom";
-import { useRecoilState } from "recoil";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import { questionDetailState, answersState, userInfoState } from "../state/atom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { useLocation, useNavigate } from "react-router-dom";
 import { fetchCreateAnswer } from "../util/useFetchAnswer";
 import Loading from "../components/Loading";
 import moment from "moment-timezone";
 import Answer from "../components/Answer";
 import { fetchVoteQuestion } from "../util/useFetchVote";
+import { checkLogin } from "../util/fetchLogin";
 
 export default function QuestionsDetail() {
   // 로딩중 상태관리
@@ -22,6 +23,7 @@ export default function QuestionsDetail() {
   const [content, setContent] = useState("");
   const [questionDetail, setquestionDetail] = useRecoilState(questionDetailState);
   const [answers, setAnswers] = useRecoilState(answersState);
+  const userInfo = useRecoilValue(userInfoState);
   const location = useLocation();
   const pathname = location.pathname;
   const [update, setUpdate] = useState(true);
@@ -30,11 +32,31 @@ export default function QuestionsDetail() {
     fetchQuestionList(id).then((res) => {
       setquestionDetail(res.data);
       setAnswers(res.data.answers);
+      setLoading(false);
     });
   };
   function contentHandler(e) {
     setContent(e.target.value);
   }
+
+  const toEditQue = () => {
+    if (userInfo.email === questionDetail.email) {
+      navigate(`/editQuestion/${questionDetail.questionId}`);
+    } else {
+      alert("권한이 없습니다");
+    }
+  };
+
+  const toAskQue = () => {
+    checkLogin().then((res) => {
+      if (res) {
+        navigate("/askquestions");
+      } else {
+        navigate("/login");
+      }
+    });
+  };
+
   const postAnswer = async () => {
     await fetchCreateAnswer(questionDetail.questionId, content).then((data) => {
       if (data) {
@@ -44,8 +66,10 @@ export default function QuestionsDetail() {
   };
 
   const deleteQuestion = async () => {
-    await fetchDeleteQuestion(questionDetail.questionId).then((data) => {
-      navigate("/");
+    await fetchDeleteQuestion(questionDetail.questionId).then((res) => {
+      if (res) {
+        navigate("/");
+      }
     });
   };
 
@@ -70,7 +94,6 @@ export default function QuestionsDetail() {
       getQuestion(pathname.slice(16));
       setContent("");
       setUpdate(false);
-      setLoading(false);
       moment.tz.setDefault("Asia/Seoul");
     }
   }, [update]);
@@ -83,9 +106,7 @@ export default function QuestionsDetail() {
         <Head>
           <Title>
             <h1>{questionDetail.title}</h1>
-            <Link to="/askquestions">
-              <Button text="Ask Question" color="white" border="1px solid #4393F7" bgColor="#4393F7" hoverColor="#2D75C6" activeColor="#1859A3" width="103.02px" boxshadow="inset 0px 1px hsl(206,90%,69.5%)" />
-            </Link>
+            <Button onClick={toAskQue} text="Ask Question" color="white" border="1px solid #4393F7" bgColor="#4393F7" hoverColor="#2D75C6" activeColor="#1859A3" width="103.02px" boxshadow="inset 0px 1px hsl(206,90%,69.5%)" />
           </Title>
           <Info>
             <div>
@@ -115,16 +136,14 @@ export default function QuestionsDetail() {
             <Maintext>{questionDetail.content}</Maintext>
             <SubContainer>
               <TagBox>
-                {/* {questionDetail.tag.map((tag) => {
+                {questionDetail.tag.map((tag) => {
                   return <Tag key={questionDetail.questionId}>{tag}</Tag>;
-                })} */}
+                })}
               </TagBox>
               <CRUDandUserContainer>
                 <CRUDText>
                   <span>Share</span>
-                  <Link to={`/editQuestion/${questionDetail.questionId}`}>
-                    <span>Edit</span>
-                  </Link>
+                  <span onClick={toEditQue}>Edit</span>
                   <span onClick={deleteQuestion}>Delete</span>
                 </CRUDText>
                 <UserInfo>

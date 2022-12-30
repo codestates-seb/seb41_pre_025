@@ -2,16 +2,14 @@ import React from "react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import hyunGS25 from "../image/ad_hyunGS25.png";
-
 import { checkLogin } from "../util/fetchLogin";
-
 import { userInfoState, questionListState, answerListState } from "../state/atom";
 import { useRecoilState } from "recoil";
-
 import Loading from "../components/Loading";
-import { fetchAnswersList, fetchMyAnswersList } from "../util/useFetchAnswer";
+import { fetchMyAnswersList } from "../util/useFetchAnswer";
 import { MyQueItem } from "../components/MyQueItem";
 import { MyAnsItem } from "../components/MyAnsItem";
+import { fetchQuestionList } from "../util/usefetchQuestion";
 
 export default function Mypage() {
   const [userInfo, setuserInfo] = useRecoilState(userInfoState);
@@ -21,39 +19,33 @@ export default function Mypage() {
 
   useEffect(() => {
     checkLogin().then((data) => {
-      setLoading(false);
-    });
-  }, []);
-
-  useEffect(() => {
-    fetchMyAnswersList()
-      .then((data) => {
-        console.log(data.data);
-        setanswerList(data.data);
-      })
-      .catch((err) => {
-        console.log(err.message);
+      fetchQuestionList().then((res) => {
+        setquestionList(res.data);
+        fetchMyAnswersList().then((data) => {
+          setanswerList(data.data);
+          setLoading(false);
+        });
       });
+    });
   }, []);
 
   const SummaryCount = (state) => {
     let count = 0;
-    state.map((el) => (el.displayName === userInfo.displayName ? count++ : ""));
+    state.map((el) => (el.email === userInfo.email ? count++ : ""));
     return count;
   };
 
   const SummaryVotes = (state) => {
     let votecount = 0;
-    state.map((el) => (el.displayName === userInfo.displayName ? (votecount += el.voteResult) : ""));
+    state.map((el) => (el.email === userInfo.email ? (votecount += el.voteResult) : ""));
     return votecount;
   };
 
   const MyQnA = (state) => {
-    const qnalist = state.filter((el) => el.displayName === userInfo.displayName);
+    const qnalist = state.filter((el) => el.email === userInfo.email);
     return qnalist;
   };
 
-  console.log(MyQnA(questionList));
   return (
     <MypageContainer>
       {isLoading ? (

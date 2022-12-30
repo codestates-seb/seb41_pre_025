@@ -49,6 +49,11 @@ export const fetchCreateAnswer = async (id, data) => {
   })
     .then((res) => {
       if (!res.ok) {
+        if (res.status === 401) {
+          alert("로그인이 필요합니다");
+        } else if (res.status === 409) {
+          alert("권한이 없습니다");
+        }
         throw Error("잘못된 요청");
       }
       return res.json();
@@ -69,10 +74,14 @@ export const fetchModifyAnswer = async (id, data) => {
     body: JSON.stringify(data),
   })
     .then((res) => {
-      if (res.status === 409) {
-        console.log("니가 쓴 댓글 아님");
-      }
       if (!res.ok) {
+        if (res.status === 401) {
+          alert("로그인이 필요합니다");
+        } else if (res.status === 403) {
+          alert("권한이 없습니다");
+        } else if (res.status === 409) {
+          alert("권한이 없습니다");
+        }
         throw Error("잘못된 요청");
       }
       return res.json();
@@ -93,6 +102,13 @@ export const fetchDeleteAnswer = async (id) => {
   })
     .then((res) => {
       if (!res.ok) {
+        if (res.status === 401) {
+          alert("로그인이 필요합니다");
+        } else if (res.status === 403) {
+          alert("권한이 없습니다");
+        } else if (res.status === 409) {
+          alert("권한이 없습니다");
+        }
         throw Error("잘못된 요청");
       }
       return res;

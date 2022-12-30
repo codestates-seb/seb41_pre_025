@@ -9,8 +9,8 @@ export const fetchSignup = async (data) => {
   })
     .then((res) => {
       if (!res.ok) {
-        if (res.status === 400) console.log("실패");
-        if (res.status === 409) console.log("이미 존재하는 email 입니다.");
+        if (res.status === 400) alert("email 형식을 확인해주세요");
+        if (res.status === 409) alert("이미 존재하는 email 입니다.");
         throw Error("could not fetch the data for that resource");
       }
 
