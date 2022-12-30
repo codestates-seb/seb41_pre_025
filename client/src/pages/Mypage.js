@@ -1,17 +1,17 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import hyunGS25 from '../image/ad_hyunGS25.png';
+import React from "react";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import hyunGS25 from "../image/ad_hyunGS25.png";
 
-import { checkLogin } from '../util/fetchLogin';
+import { checkLogin } from "../util/fetchLogin";
 
-import { userInfoState, questionListState, answerListState } from '../state/atom';
-import { useRecoilState } from 'recoil';
+import { userInfoState, questionListState, answerListState } from "../state/atom";
+import { useRecoilState } from "recoil";
 
-import Loading from '../components/Loading';
-import { fetchAnswersList } from '../util/useFetchAnswer';
-import { MyQueItem } from '../components/MyQueItem';
-import { MyAnsItem } from '../components/MyAnsItem';
+import Loading from "../components/Loading";
+import { fetchAnswersList, fetchMyAnswersList } from "../util/useFetchAnswer";
+import { MyQueItem } from "../components/MyQueItem";
+import { MyAnsItem } from "../components/MyAnsItem";
 
 export default function Mypage() {
   const [userInfo, setuserInfo] = useRecoilState(userInfoState);
@@ -26,8 +26,9 @@ export default function Mypage() {
   }, []);
 
   useEffect(() => {
-    fetchAnswersList()
+    fetchMyAnswersList()
       .then((data) => {
+        console.log(data.data);
         setanswerList(data.data);
       })
       .catch((err) => {
@@ -37,15 +38,13 @@ export default function Mypage() {
 
   const SummaryCount = (state) => {
     let count = 0;
-    state.map((el) => (el.displayName === userInfo.displayName ? count++ : ''));
+    state.map((el) => (el.displayName === userInfo.displayName ? count++ : ""));
     return count;
   };
 
   const SummaryVotes = (state) => {
     let votecount = 0;
-    state.map((el) =>
-      el.displayName === userInfo.displayName ? (votecount += el.voteResult) : ''
-    );
+    state.map((el) => (el.displayName === userInfo.displayName ? (votecount += el.voteResult) : ""));
     return votecount;
   };
 
@@ -88,27 +87,15 @@ export default function Mypage() {
             <h1>Questions</h1>
             <ListBlock>
               {MyQnA(questionList).map((el) => {
-                return (
-                  <MyQueItem
-                    key={el.questionId}
-                    votes={el.voteResult}
-                    title={el.title}
-                    id={el.questionId}></MyQueItem>
-                );
+                return <MyQueItem key={el.questionId} votes={el.voteResult} title={el.title} id={el.questionId}></MyQueItem>;
               })}
             </ListBlock>
           </QuestionsContainer>
           <AnswersContainer>
             <h1>Answers</h1>
             <ListBlock>
-              {MyQnA(answerList).map((el) => {
-                return (
-                  <MyAnsItem
-                    key={el.questionId}
-                    votes={el.voteResult}
-                    title={el.content}
-                    id={el.questionId}></MyAnsItem>
-                );
+              {answerList.map((el) => {
+                return <MyAnsItem key={el.questionId} votes={el.voteResult} title={el.content} id={el.questionId}></MyAnsItem>;
               })}
             </ListBlock>
           </AnswersContainer>

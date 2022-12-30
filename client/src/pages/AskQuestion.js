@@ -4,8 +4,10 @@ import { Button } from "../components/Button";
 import { useState, useEffect } from "react";
 import { fetchCreateQuestion } from "../util/usefetchQuestion";
 import { checkLogin } from "../util/fetchLogin";
+import { useNavigate } from "react-router-dom";
 
 export default function AskQuestion() {
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const initialtag = ["Javascript"];
@@ -32,8 +34,7 @@ export default function AskQuestion() {
 
   const postQuestion = async () => {
     await fetchCreateQuestion({ title, content, tag }).then((data) => {
-      console.log(data.data.questionId);
-      window.location.href = `questionDetail/${data.data.questionId}`;
+      navigate(`/questionDetail/${data.data.questionId}`);
     });
   };
 

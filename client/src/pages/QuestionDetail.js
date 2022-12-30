@@ -1,68 +1,79 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Button } from '../components/Button';
-import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
-import { BsBookmark } from 'react-icons/bs';
-import { GiBackwardTime } from 'react-icons/gi';
-import { MdAccountCircle } from 'react-icons/md';
-import { useEffect } from 'react';
-import { fetchQuestionList } from '../util/usefetchQuestion';
-import { questionDetailState, answersState } from '../state/atom';
-import { useRecoilState } from 'recoil';
-import { useLocation, Link } from 'react-router-dom';
-import { fetchCreateAnswer } from '../util/useFetchAnswer';
-import Loading from '../components/Loading';
-import { fetchDeleteQuestion } from '../util/usefetchQuestion';
-import { fetchDeleteAnswer } from '../util/useFetchAnswer';
-import RelativeTime from 'react-relative-time';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { GoTriangleUp, GoTriangleDown } from "react-icons/go";
+import { BsBookmark } from "react-icons/bs";
+import { GiBackwardTime } from "react-icons/gi";
+import { MdAccountCircle } from "react-icons/md";
+import { Button } from "../components/Button";
+import { fetchQuestionList, fetchDeleteQuestion } from "../util/usefetchQuestion";
+import { questionDetailState, answersState } from "../state/atom";
+import { useRecoilState } from "recoil";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import { fetchCreateAnswer } from "../util/useFetchAnswer";
+import Loading from "../components/Loading";
+import moment from "moment-timezone";
+import Answer from "../components/Answer";
+import { fetchVoteQuestion } from "../util/useFetchVote";
 
 export default function QuestionsDetail() {
   // 로딩중 상태관리
+  const navigate = useNavigate();
   const [isLoading, setLoading] = useState(true);
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   const [questionDetail, setquestionDetail] = useRecoilState(questionDetailState);
   const [answers, setAnswers] = useRecoilState(answersState);
   const location = useLocation();
   const pathname = location.pathname;
-  const [voteCount, setVoteCount] = useState(questionDetail.voteResult);
-  const [ansedit, setAnsedit] = useState(true);
+  const [update, setUpdate] = useState(true);
 
-  useEffect(() => {
-    fetchQuestionList(pathname.slice(16))
-      .then((data) => {
-        setquestionDetail(data.data);
-        setAnswers(data.data.answers);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
-
+  const getQuestion = (id) => {
+    fetchQuestionList(id).then((res) => {
+      setquestionDetail(res.data);
+      setAnswers(res.data.answers);
+    });
+  };
   function contentHandler(e) {
     setContent(e.target.value);
   }
   const postAnswer = async () => {
     await fetchCreateAnswer(questionDetail.questionId, content).then((data) => {
-      window.location.href = `${questionDetail.questionId}`;
+      if (data) {
+        setUpdate(true);
+      }
     });
   };
 
   const deleteQuestion = async () => {
     await fetchDeleteQuestion(questionDetail.questionId).then((data) => {
-      window.location.href = '/';
+      navigate("/");
     });
   };
 
-  function editHandler() {
-    setAnsedit(!ansedit);
-  }
-
-  const deleteAnswer = async (id) => {
-    await fetchDeleteAnswer(id).then((data) => {
-      window.location.href = `${questionDetail.questionId}`;
+  const QUpVote = () => {
+    fetchVoteQuestion(questionDetail.questionId, true).then((data) => {
+      if (data) {
+        setUpdate(true);
+      }
     });
   };
+
+  const QDownVote = () => {
+    fetchVoteQuestion(questionDetail.questionId, false).then((data) => {
+      if (data) {
+        setUpdate(true);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (update) {
+      getQuestion(pathname.slice(16));
+      setContent("");
+      setUpdate(false);
+      setLoading(false);
+      moment.tz.setDefault("Asia/Seoul");
+    }
+  }, [update]);
 
   if (isLoading) {
     return <Loading />;
@@ -73,27 +84,18 @@ export default function QuestionsDetail() {
           <Title>
             <h1>{questionDetail.title}</h1>
             <Link to="/askquestions">
-              <Button
-                text="Ask Question"
-                color="white"
-                border="1px solid #4393F7"
-                bgColor="#4393F7"
-                hoverColor="#2D75C6"
-                activeColor="#1859A3"
-                width="103.02px"
-                boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
-              />
+              <Button text="Ask Question" color="white" border="1px solid #4393F7" bgColor="#4393F7" hoverColor="#2D75C6" activeColor="#1859A3" width="103.02px" boxshadow="inset 0px 1px hsl(206,90%,69.5%)" />
             </Link>
           </Title>
           <Info>
             <div>
               <p>
                 <span>Asked</span>
-                <RelativeTime value={questionDetail.createdAt} titleFormat="YYYY/MM/DD" />
+                {moment(questionDetail.createdAt).add(9, "hours").fromNow()}
               </p>
               <p>
                 <span>Modified</span>
-                <RelativeTime value={questionDetail.modifiedAt} titleFormat="YYYY/MM/DD" />
+                {moment(questionDetail.modifiedAt).add(9, "hours").fromNow()}
               </p>
               <p>
                 <span>Viewed</span>10 times
@@ -103,9 +105,9 @@ export default function QuestionsDetail() {
         </Head>
         <QuestionContainer>
           <VoteContainer>
-            <GoTriangleUp className="triangle" onClick={() => setVoteCount(voteCount + 1)} />
-            <div>{voteCount}</div>
-            <GoTriangleDown className="triangle" onClick={() => setVoteCount(voteCount - 1)} />
+            <GoTriangleUp className="triangle" onClick={QUpVote} />
+            <div>{questionDetail.voteResult}</div>
+            <GoTriangleDown className="triangle" onClick={QDownVote} />
             <BsBookmark className="icon" />
             <GiBackwardTime className="icon" />
           </VoteContainer>
@@ -113,9 +115,9 @@ export default function QuestionsDetail() {
             <Maintext>{questionDetail.content}</Maintext>
             <SubContainer>
               <TagBox>
-                {questionDetail.tag.map((tag) => {
+                {/* {questionDetail.tag.map((tag) => {
                   return <Tag key={questionDetail.questionId}>{tag}</Tag>;
-                })}
+                })} */}
               </TagBox>
               <CRUDandUserContainer>
                 <CRUDText>
@@ -128,7 +130,7 @@ export default function QuestionsDetail() {
                 <UserInfo>
                   <span>
                     asked&nbsp;
-                    <RelativeTime value={questionDetail.createdAt} titleFormat="YYYY/MM/DD" />
+                    {moment(questionDetail.createdAt).add(9, "hours").fromNow()}
                   </span>
                   <Name>
                     <MdAccountCircle />
@@ -140,71 +142,12 @@ export default function QuestionsDetail() {
           </MainTextContainer>
         </QuestionContainer>
         <AnswerContainer>
-          <TotalAnswersText>
-            {answers.length !== 0
-              ? `${answers.length} Answers`
-              : 'Know someone who can answer? Share a link to this question via email, Twitter, or Facebook.'}
-          </TotalAnswersText>
-          {answers.map((answer) =>
-            ansedit ? (
-              <MainContainer>
-                <VoteContainer>
-                  <GoTriangleUp className="triangle" onClick={() => setVoteCount(voteCount + 1)} />
-                  <div>{voteCount}</div>
-                  <GoTriangleDown
-                    className="triangle"
-                    onClick={() => setVoteCount(voteCount - 1)}
-                  />
-                  <BsBookmark className="icon" />
-                  <GiBackwardTime className="icon" />
-                </VoteContainer>
-                <MainTextContainer>
-                  <Maintext>{answer.content}</Maintext>
-                  <CRUDandUserContainer>
-                    <CRUDText>
-                      <span>Share</span>
-                      <span onClick={editHandler}>Edit</span>
-                      <span
-                        onClick={() => {
-                          deleteAnswer(answer.answerId);
-                        }}>
-                        Delete
-                      </span>
-                    </CRUDText>
-                    <UserInfo>
-                      <span>
-                        answered&nbsp;
-                        <RelativeTime value={questionDetail.createdAt} titleFormat="YYYY/MM/DD" />
-                      </span>
-                      <Name>
-                        <MdAccountCircle />
-                        {answer.displayName}
-                      </Name>
-                    </UserInfo>
-                  </CRUDandUserContainer>
-                </MainTextContainer>
-              </MainContainer>
-            ) : (
-              <>
-                <textarea>{answer.content}</textarea>
-                <Button
-                  onClick={postAnswer}
-                  text="Post Your Answer"
-                  color="white"
-                  border="1px solid #4393F7"
-                  bgColor="#4393F7"
-                  hoverColor="#2D75C6"
-                  activeColor="#1859A3"
-                  width="119.77px"
-                  height="54.77px"
-                  boxshadow="inset 0px 1px hsl(206,90%,69.5%)"
-                  margin="10px 0 15px 0"
-                />
-              </>
-            )
-          )}
+          <TotalAnswersText>{answers.length !== 0 ? `${answers.length} Answers` : "Know someone who can answer? Share a link to this question via email, Twitter, or Facebook."}</TotalAnswersText>
+          {answers.map((answer) => (
+            <Answer answer={answer} setUpdate={setUpdate} />
+          ))}
           <h2>Your Answer</h2>
-          <textarea onChange={contentHandler} />
+          <textarea value={content} onChange={contentHandler} />
           <Button
             onClick={postAnswer}
             text="Post Your Answer"
