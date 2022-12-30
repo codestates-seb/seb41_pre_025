@@ -4,7 +4,7 @@ import logo from "../image/logo.svg";
 import { MdSearch, MdAccountCircle } from "react-icons/md";
 import { Button } from "./Button";
 import { Link, useNavigate } from "react-router-dom";
-import { loginState, searchListState, searchState } from "../state/atom";
+import { loginState, searchListState, searchState, userInfoState } from "../state/atom";
 import { useRecoilState } from "recoil";
 import { fetchSearchQuestion } from "../util/useFetchSearch";
 
@@ -13,6 +13,7 @@ function Navbar() {
   const [isLogin, setIsLogin] = useRecoilState(loginState);
   const [search, setSearch] = useRecoilState(searchState);
   const [searchQueList, setSearchQueList] = useRecoilState(searchListState);
+  const [useInfo, setuserInfo] = useRecoilState(userInfoState);
 
   function searchHandler(e) {
     setSearch(e.target.value);
@@ -22,6 +23,7 @@ function Navbar() {
     sessionStorage.removeItem("access_token");
     setIsLogin(false);
     navigate("/");
+    setuserInfo({});
   };
   return (
     <>
